@@ -43,7 +43,7 @@ def login_page():
     return render_template('login.html')
 
 
-@home_.route('/')
+@home_.route('/Codechamber/feed/')
 @login_required
 def home_page():
     # Use current_user.username para exibir o nome do usuário logado

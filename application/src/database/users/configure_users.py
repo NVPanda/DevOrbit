@@ -18,6 +18,7 @@ def my_db():
     banco = sqlite3.connect('usuarios.db')
     return banco, banco.cursor()
 
+
 def create_datebase():
     banco, cursor = my_db()
     cursor.execute(

@@ -1,11 +1,15 @@
-from flask import Flask
+from flask import Flask, url_for
 from application.src.database.users.configure_users import create_datebase
+from flask_caching import Cache
 from flask_login import LoginManager, UserMixin
 import os
 import sqlite3
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv() # Carregando as variaves de ambiente
+cache = Cache() # Instacia da class cache
+
+
 
 # Função para obter a conexão com o banco de dados
 def get_db_connection():
@@ -29,16 +33,17 @@ class User(UserMixin):
             return User(user[0], user[1])
         return None
 
-# Função para criar o aplicativo Flask
+
 def create_app():
     app = Flask(__name__)
     app.config['DEBUG'] = os.getenv('DEBUG')
     app.config['SECRET_KEY'] = os.getenv('KEY')
+    app.config['CACHE_TYPE'] = os.getenv('CACHE')
 
     # Registrar blueprints
     from application.src.routes.login import login_, logout_, home_
     from application.src.routes.register import register_
-    from .routes.perfil import profile
+    from application.src.routes.perfil import profile
 
 
     app.register_blueprint(home_)
@@ -47,6 +52,8 @@ def create_app():
     app.register_blueprint(logout_)
     app.register_blueprint(profile)
 
+    
+
 
     # Banco de dados
     create_datebase()
@@ -54,16 +61,29 @@ def create_app():
     # Configuração do Flask-Login
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = 'login.login_page'  # Corrige a referência à página de login
+    # Corrige a referência à página de login
+    login_manager.login_view = 'login.login_page'
 
     @login_manager.user_loader
     def load_user(user_id):
         # Usar o método estático `get` para buscar o usuário
         return User.get(user_id)
 
-    # Registrar rota da API
+    '''Registrar rota da API'''
     from application.src.routes.api_docs.route_api import api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')
+
+    '''Abaixo temos a função que ira fazer cache das rotas home, perfil'''
+    cache.init_app(app)
+
+
+    CONFIG={
+            "DEBUG:": True,
+            "CACHE_DEFAULT_TIMEOUT": 300,
+            "CACHE_NO_NULL_WARNING":True
+        }
+
+    app.config.update(CONFIG)
 
     return app
 
