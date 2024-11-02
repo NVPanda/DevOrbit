@@ -1,4 +1,4 @@
-from aplication.src.__main__ import create_app
+from application.src.__main__ import create_app  # Corrigido
 
 app = create_app()
 
