@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeChamber</title>
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+   
+<button data-drawer-target="cta-button-sidebar" data-drawer-toggle="cta-button-sidebar" aria-controls="cta-button-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+    <span class="sr-only">Open sidebar</span>
+    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+    </svg>
+ </button>
+ 
+ <aside id="cta-button-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+       <ul class="space-y-2 font-medium">
+         <li>
+            <a href="{{url_for('perfil.profile_page')}}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <i class="fas fa-user w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                <span class="ms-3">{{username}}</span>
+            </a>
+        </li>
+        
+          <li>
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                   <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Desafios do Mês</span>
+                <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Beta</span>
+             </a>
+          </li>
+          <li>
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                   <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Mensagens</span>
+                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">0</span>
+             </a>
+          </li>
+          <li>
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Criadores</span>
+             </a>
+          </li>
+          <li>
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                   <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z"/>
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Galeria de Ideias</span>
+             </a>
+          </li>
+          <li>
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
+                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Entra</span>
+             </a>
+          </li>
+          
+            <a href="{{ url_for('logout.logout') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <i class="fas fa-sign-out-alt flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+               <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
+           </a>
+           
+       </ul>
+       <div id="dropdown-cta" class="p-4 mt-6 rounded-lg bg-blue-50 dark:bg-blue-900" role="alert">
+          <div class="flex items-center mb-3">
+             <span class="bg-orange-100 text-orange-800 text-sm font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">Beta</span>
+             <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-blue-50 inline-flex justify-center items-center w-6 h-6 text-blue-900 rounded-lg focus:ring-2 focus:ring-blue-400 p-1 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-400 dark:hover:bg-blue-800" data-dismiss-target="#dropdown-cta" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+             </button>
+          </div>
+          <p class="mb-3 text-sm text-blue-800 dark:text-blue-400">
+            Bem-vindo à versão beta do nosso site! Explore, participe e ajude-nos a melhorar essa comunidade criativa.
+          </p>
+          <a class="text-sm text-blue-800 underline font-medium hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300" href="#">Turn new navigation off</a>
+       </div>
+    </div>
+ </aside>
+ <!-- wallpape.jpg -->
+ <div class="p-4 sm:ml-64">
+    <!-- component -->
+    <div class="flex flex-col items-center">
+      <div class="flex justify-between items-center w-full">
+          <span class="font-light text-gray-600">mar 10, 2019</span>
+          <a class="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500" href="#">Design</a>
+      </div>
+      <div class="mt-2 text-center p-4 ">
+          <a class="text-2xl text-gray-700 font-bold hover:text-gray-600 pl-4" href="#">A Revolução das Inteligências Artificiais Generativas</a>
+          <p class="mt-2 text-gray-600 text-center ml-4">Recentemente, a tecnologia de inteligência artificial generativa tem ganhado destaque, transformando a maneira como criamos e consumimos conteúdo. Um especialista em IA, Dr. Ana Luiza Ribeiro, comentou: "Estamos apenas arranhando a superfície do potencial dessas tecnologias. Com modelos como o GPT-4 e o DALL-E, a criatividade humana pode ser ampliada de maneiras que nunca imaginamos."</p>
+      </div>
+      <div class="flex justify-between items-center w-full mt-4">
+          <a class="text-blue-600 hover:underline" href="#">Read more</a>
+          <div>
+              <a class="flex items-center" href="#">
+                  <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar">
+                  <h1 class="text-gray-700 font-bold">Khatab wedaa</h1>
+              </a>
+          </div>
+      </div>
+  </div>
+  
+  
+</div>
+         <!-- pricipal -->
+       </div>
+<!-- component -->
+<div class="bg-gray-100 h-screen flex items-center justify-center ml-4 ">
+   <div class="bg-white p-4 rounded-lg shadow-md max-w-md w-full md:w-1/2 lg:w-1/3 ">
+       <!-- User Info with Three-Dot Menu -->
+       <div class="flex items-center justify-between mb-4 ">
+           <div class="flex items-center space-x-2">
+               <img src="data:image/jpeg;base64,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" alt="User Avatar" class="w-8 h-8 rounded-full">
+               <div>
+                   <p class="text-gray-800 font-semibold">John Doe</p>
+                   <p class="text-gray-500 text-sm">Posted 2 hours ago</p>
+               </div>
+           </div>
+           <div class="text-gray-500 cursor-pointer">
+               <!-- Three-dot menu icon -->
+               <button class="hover:bg-gray-50 rounded-full p-1">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                       <circle cx="12" cy="7" r="1" />
+                       <circle cx="12" cy="12" r="1" />
+                       <circle cx="12" cy="17" r="1" />
+                   </svg>
+               </button>
+           </div>
+       </div>
+       <!-- Message -->
+       <div class="mb-2">
+           <p class="text-gray-800">O mercado de programação está em constante evolução! 🚀 Com o aumento da digitalização. 🐱 <a href="" class="text-blue-600">#CuteKitten</a>
+               <a href="" class="text-blue-600">#AdventureCat</a>
+           </p>
+       </div>
+       <!-- Image -->
+       <div class="mb-4">
+           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRWy21b-5L9MEJfG6cpe8K8TrqkZbBk33RxA&s" alt="Post Image" class="w-full h-48 object-cover rounded-md">
+       </div>
+       <!-- Like and Comment Section -->
+       <div class="flex items-center justify-between text-gray-500">
+           <div class="flex items-center space-x-2">
+               <button class="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
+                   <svg class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                       <path d="M12 21.35l-1.45-1.32C6.11 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-4.11 6.86-8.55 11.54L12 21.35z" />
+                   </svg>
+                   <span>42 Likes</span>
+               </button>
+           </div>
+           <button class="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
+               <svg width="22px" height="22px" viewBox="0 0 24 24" class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                   <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                   <g id="SVGRepo_iconCarrier">
+                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22ZM8 13.25C7.58579 13.25 7.25 13.5858 7.25 14C7.25 14.4142 7.58579 14.75 8 14.75H13.5C13.9142 14.75 14.25 14.4142 14.25 14C14.25 13.5858 13.9142 13.25 13.5 13.25H8ZM7.25 10.5C7.25 10.0858 7.58579 9.75 8 9.75H16C16.4142 9.75 16.75 10.0858 16.75 10.5C16.75 10.9142 16.4142 11.25 16 11.25H8C7.58579 11.25 7.25 10.9142 7.25 10.5Z"></path>
+                   </g>
+               </svg>
+               <span>3 Comment</span>
+           </button>
+       </div>
+       <hr class="mt-2 mb-2">
+       <p class="text-gray-800 font-semibold">Comment</p>
+       <hr class="mt-2 mb-2">
+       <div class="mt-4">
+           <!-- Comments Section -->
+           <div class="flex items-center space-x-2 mb-2">
+               <img src="https://placekitten.com/32/32" alt="User Avatar" class="w-6 h-6 rounded-full">
+               <div>
+                   <p class="text-gray-800 font-semibold">Jane Smith</p>
+                   <p class="text-gray-500 text-sm">Lovely shot! 📸</p>
+               </div>
+           </div>
+           <div class="flex items-center space-x-2 mb-2">
+               <img src="https://placekitten.com/32/32" alt="User Avatar" class="w-6 h-6 rounded-full">
+               <div>
+                   <p class="text-gray-800 font-semibold">Bob Johnson</p>
+                   <p class="text-gray-500 text-sm">I can't handle the cuteness! Where can I get one?</p>
+               </div>
+           </div>
+           <div class="flex items-center space-x-2 mt-2 ml-6">
+               <img src="https://placekitten.com/40/40" alt="User Avatar" class="w-6 h-6 rounded-full">
+               <div>
+                   <p class="text-gray-800 font-semibold">John Doe</p>
+                   <p class="text-gray-500 text-sm">That little furball is from a local shelter. You should check it out! 🏠😺</p>
+               </div>
+           </div>
+           <!-- Add more comments and replies as needed -->
+       </div>
+   </div>
+</div>
+
+     
+   
+     
+ 
+</body>
+</html>

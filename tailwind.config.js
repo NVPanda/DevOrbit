@@ -1,7 +1,7 @@
 module.exports = {
   content: [
-    './aplication/src/templates/**/*.{html,js}',  // Apontar para seus templates HTML e JS
-    './aplication/src/static/**/*.{js,css}' // Encontrar classes em arquivos JS e CSS na pasta static
+    './application/src/templates/**/*.{html,js}',  // Apontar para seus templates HTML e JS
+    './application/src/static/**/*.{js,css}' // Encontrar classes em arquivos JS e CSS na pasta static
   ],
   theme: {
     extend: {
