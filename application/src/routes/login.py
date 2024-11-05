@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template, url_for, request, redirect, session, flash
 from flask_login import login_user, logout_user, login_required, current_user, UserMixin
 from application.src.database.users.configure_users import Login, check_user_login, User
+import requests
+import time
 
 login_ = Blueprint('login', __name__, template_folder='templates')
 logout_ = Blueprint('logout', __name__, template_folder='templates')
 home_ = Blueprint('home', __name__, template_folder='templates')
 
+
+API_REDE = "http://localhost:5000/allpost"
 
 class User(UserMixin):
     def __init__(self, user_id: str, username: str):
@@ -46,8 +50,21 @@ def login_page():
 @home_.route('/Codechamber/feed/')
 @login_required
 def home_page():
+
+    response = requests.get(API_REDE)
+    response.raise_for_status()  # Verifica se houve um erro na requisição
+
+   
+   # Mandado os posts da api para o front end
+    view_posts = response.json() 
+    if view_posts:
+        time.sleep(1)
+    view_posts.sort(key=lambda x: x["data"], reverse=True)
+
+
+
     # Use current_user.username para exibir o nome do usuário logado
-    return render_template('home.html', username=current_user.username)
+    return render_template('home.html', username=current_user.username, posts=view_posts)
 
 
 @logout_.route('/logout')
