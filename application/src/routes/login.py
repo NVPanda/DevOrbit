@@ -7,16 +7,21 @@ import time
 login_ = Blueprint('login', __name__, template_folder='templates')
 logout_ = Blueprint('logout', __name__, template_folder='templates')
 home_ = Blueprint('home', __name__, template_folder='templates')
+erro_http_ = Blueprint('errorHttp', __name__, template_folder='templates')
+
 
 
 API_REDE = "http://localhost:5000/allpost"
+
+
+
 
 class User(UserMixin):
     def __init__(self, user_id: str, username: str):
         self.id = user_id
         self.username = username
 
-    # Flask-Login needs this method for the current_user object
+   # Função que busca usuario pelo id 
     def get_id(self):
         return str(self.id)
 
@@ -50,19 +55,30 @@ def login_page():
 @home_.route('/Codechamber/feed/')
 @login_required
 def home_page():
+    
+    try:
 
-    response = requests.get(API_REDE)
-    response.raise_for_status()  # Verifica se houve um erro na requisição
+        response = requests.get(API_REDE, timeout=5)
+        status_requests = f'{response.status_code} requisição feita com sucesso: ' if response.ok else f'{response.status_code}  Não foi porsivel completa a requisição :('
+        
+        view_posts = response.json() 
+        if view_posts:
+            view_posts.sort(key=lambda x: x["data"], reverse=True)
 
-   
-   # Mandado os posts da api para o front end
-    view_posts = response.json() 
-    if view_posts:
-        time.sleep(1)
-    view_posts.sort(key=lambda x: x["data"], reverse=True)
+    except requests.exceptions.InvalidSchema as ErrorHttp:
 
+        flash(f"Erro HTTP ou HTTPS: Você precisa incluir métodos válidos. {ErrorHttp.args[0]} Você está sendo redirecionado.")
+        return redirect(url_for('errorHttp.page_erro'))  # Redirecionamento após erro
 
+    except requests.exceptions.ReadTimeout as ErroTimeaut:
+        flash(f'Erro de Timeout, verifique sua conexão à internet. {ErroTimeaut.args[0]}')
+        return redirect(url_for('perfil.profile_page'))  # Redirecionamento para erro de timeout
 
+    except requests.exceptions.JSONDecodeError as ErroJson:
+        flash("Erro no servidor, estamos passando por problemas internos. Por favor, tente acessar outras rotas em breve.")
+        return redirect(url_for('errorHttp.page_erro'))  # Redirecionamento para erro de JSON
+
+    
     # Use current_user.username para exibir o nome do usuário logado
     return render_template('home.html', username=current_user.username, posts=view_posts)
 
@@ -73,3 +89,22 @@ def logout():
     logout_user()  # Desloga o usuário
     flash('Você foi desconectado')
     return redirect(url_for('login.login_page'))
+
+
+@erro_http_.route('/erro_http')
+def page_erro():
+
+    try:
+        response = requests.get(API_REDE, timeout=1)
+        status = response.status_code
+        if status == 200:
+            time.sleep(3)
+            return redirect(url_for('home.home_page'))
+        
+    
+    except requests.exceptions as e:
+        return redirect(url_for('errorHttp.page_erro'))
+
+
+
+    return 'Erro HTTP ou HTTPS: Você precisa incluir métodos válidos. Você está sendo redirecionado'
