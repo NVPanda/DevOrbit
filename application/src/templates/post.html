@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+  
+
+    <form id="post-form" method="POST" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label for="post-content" class="block text-gray-700 font-semibold mb-2">Write your post:</label>
+            <textarea id="post-content" name="post-content" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required></textarea>
+        </div>
+    
+        <div class="mb-4">
+            <label for="post-image" class="block text-gray-700 font-semibold mb-2">Attach an image:</label>
+            <input type="file" id="post-image" name="post-image" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+    
+        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Post
+        </button>
+    </form>
+    
+
+<script src="{{url_for('static', filename='js/menu.js')}}"></script>

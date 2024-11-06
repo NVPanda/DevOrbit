@@ -41,9 +41,10 @@ def create_app():
     app.config['CACHE_TYPE'] = os.getenv('CACHE')
 
     # Registrar blueprints
-    from application.src.routes.login import login_, logout_, home_
+    from application.src.routes.login import login_, logout_, home_, erro_http_
     from application.src.routes.register import register_
     from application.src.routes.perfil import profile
+    from application.src.routes.page_post import posts
 
 
     app.register_blueprint(home_)
@@ -51,6 +52,12 @@ def create_app():
     app.register_blueprint(register_)
     app.register_blueprint(logout_)
     app.register_blueprint(profile)
+    app.register_blueprint(erro_http_)
+    app.register_blueprint(posts)
+
+
+    
+
 
     
 
