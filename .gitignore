@@ -1,7 +1,7 @@
+# Ignora as pastas e arquivos específicos
 teste_requestr_and_try
 /teste_requestr_and_try
 .teste_requestr_and_try
 
-.__main__.py
 usuarios.db
 .usuarios.db
