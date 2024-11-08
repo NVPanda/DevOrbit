@@ -3,6 +3,9 @@ from flask_login import login_user, logout_user, login_required, current_user, U
 from application.src.database.users.configure_users import Login, check_user_login, User
 import requests
 import time
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 login_ = Blueprint('login', __name__, template_folder='templates')
 logout_ = Blueprint('logout', __name__, template_folder='templates')
@@ -58,13 +61,40 @@ def home_page():
     
     try:
 
-        response = requests.get(API_REDE, timeout=5)
+        response = requests.get(API_REDE, timeout=10)
         status_requests = f'{response.status_code} requisição feita com sucesso: ' if response.ok else f'{response.status_code}  Não foi porsivel completa a requisição :('
-        
+        print(status_requests)
         view_posts = response.json() 
         if view_posts:
             view_posts.sort(key=lambda x: x["data"], reverse=True)
 
+        melhor_post = response.json()
+        
+        lista_do_melhor_post = []
+        for postlike in melhor_post:
+            lista_do_melhor_post.append({
+                        'nome': postlike['nome'],
+                        'data': postlike['data'],
+                        'post': postlike['post'],
+                        'likes': postlike['likes']
+                    }
+                    )
+        for post_do_momento in lista_do_melhor_post:
+            if post_do_momento['likes'] > 100 or  post_do_momento['likes'] > 300:
+                post_titulo = post_do_momento['post'][0:30]
+                post = post_do_momento['post']
+                post_nome = post_do_momento['nome']
+            
+            elif not post_do_momento['likes']:
+                post_titulo = post_do_momento['post'] = os.getenv('MENSAGEN')
+                post = post_do_momento['post'] = os.getenv('MENSAGEN_POST')
+                post_nome = post_do_momento['nome'] = os.getenv('CODECHAMBER')
+                
+
+             
+           
+       
+                    
     except requests.exceptions.InvalidSchema as ErrorHttp:
 
         flash(f"Erro HTTP ou HTTPS: Você precisa incluir métodos válidos. {ErrorHttp.args[0]} Você está sendo redirecionado.")
@@ -80,7 +110,7 @@ def home_page():
 
     
     # Use current_user.username para exibir o nome do usuário logado
-    return render_template('home.html', username=current_user.username, posts=view_posts)
+    return render_template('home.html', username=current_user.username, posts=view_posts, postig=post, post_titulo=post_titulo, post_nome=post_nome)
 
 
 @logout_.route('/logout')
@@ -107,4 +137,4 @@ def page_erro():
 
 
 
-    return 'Erro HTTP ou HTTPS: Você precisa incluir métodos válidos. Você está sendo redirecionado'
+    return 'Erro HTTP ou HTTPS: Você precisa incluir métodos válidos. Você está sendo redirecionado', redirect(url_for('/Codechamber/feed/'))
