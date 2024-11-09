@@ -6,4 +6,3 @@ Este projeto nasceu como um desafio pessoal, um meio de aprender e explorar nova
 
 Esperamos que você aproveite a experiência de fazer parte dessa comunidade! E não se esqueça de entrar no nosso Discord para interagir ainda mais com outros membros.
 
-Dessa forma, o texto passa uma visão clara e acolhedora do CodeChamber, destacando a comunidade e a motivação por trás do projeto.
