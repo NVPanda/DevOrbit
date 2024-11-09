@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, url_for, request, redirect, sessio
 from flask_login import login_user, logout_user, login_required, current_user, UserMixin
 from application.src.database.users.configure_users import Login, check_user_login, User
 import requests
+from dotenv import load_dotenv
 import time
 import os
-from dotenv import load_dotenv
 load_dotenv()
 
 login_ = Blueprint('login', __name__, template_folder='templates')
@@ -64,36 +64,39 @@ def home_page():
         response = requests.get(API_REDE, timeout=10)
         status_requests = f'{response.status_code} requisição feita com sucesso: ' if response.ok else f'{response.status_code}  Não foi porsivel completa a requisição :('
         print(status_requests)
+        melhor_post = response.json()
         view_posts = response.json() 
         if view_posts:
             view_posts.sort(key=lambda x: x["data"], reverse=True)
 
-        melhor_post = response.json()
         
-        lista_do_melhor_post = []
-        for postlike in melhor_post:
-            lista_do_melhor_post.append({
-                        'nome': postlike['nome'],
-                        'data': postlike['data'],
-                        'post': postlike['post'],
-                        'likes': postlike['likes']
-                    }
-                    )
+        lista_do_melhor_post = [{
+
+            'nome': postlike['nome'],
+            'data': postlike['data'],
+            'post': postlike['post'],
+            'likes': postlike['likes']
+            }
+                for postlike in melhor_post
+        ]
+        
+                  
         for post_do_momento in lista_do_melhor_post:
-            if post_do_momento['likes'] > 100 or  post_do_momento['likes'] > 300:
+            likes = int(post_do_momento['likes'])
+                
+            if likes >= 120:
+               
                 post_titulo = post_do_momento['post'][0:30]
                 post = post_do_momento['post']
                 post_nome = post_do_momento['nome']
-            
-            elif not post_do_momento['likes']:
-                post_titulo = post_do_momento['post'] = os.getenv('MENSAGEN')
-                post = post_do_momento['post'] = os.getenv('MENSAGEN_POST')
-                post_nome = post_do_momento['nome'] = os.getenv('CODECHAMBER')
-                
+                break
 
-             
-           
-       
+            elif likes <= 120:
+                
+                post_titulo = os.getenv('MENSAGEN')
+                post = os.getenv('MENSAGEN_POST')
+                post_nome = os.getenv('CODECHAMBER')
+                
                     
     except requests.exceptions.InvalidSchema as ErrorHttp:
 
@@ -116,6 +119,7 @@ def home_page():
 @logout_.route('/logout')
 @login_required
 def logout():
+
     logout_user()  # Desloga o usuário
     flash('Você foi desconectado')
     return redirect(url_for('login.login_page'))
