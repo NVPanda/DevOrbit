@@ -9,6 +9,9 @@ module.exports = {
       space: ['hover', 'focus'],
       alignItems: ['hover', 'focus'],
       overflow: ['hover', 'focus'],
+      whitespace: ['hover', 'focus'],
+      textAlign: ['hover', 'focus'],
+      wordBreak: ['hover', 'focus'],
       inset: {
         left:{
           left: 10,

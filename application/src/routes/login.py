@@ -58,6 +58,9 @@ def login_page():
 @home_.route('/Codechamber/feed/')
 @login_required
 def home_page():
+    post = None
+    post_titulo = None
+    post_nome = None
     
     try:
 
@@ -73,6 +76,7 @@ def home_page():
         lista_do_melhor_post = [{
 
             'nome': postlike['nome'],
+            'titulo': postlike['titulo'],
             'data': postlike['data'],
             'post': postlike['post'],
             'likes': postlike['likes']
@@ -84,18 +88,22 @@ def home_page():
         for post_do_momento in lista_do_melhor_post:
             likes = int(post_do_momento['likes'])
                 
-            if likes >= 120:
+            if likes >= 30:
                
-                post_titulo = post_do_momento['post'][0:30]
+                post_titulo = post_do_momento['titulo']
                 post = post_do_momento['post']
+               
+
                 post_nome = post_do_momento['nome']
                 break
 
-            elif likes <= 120:
+            elif likes <= 10:
                 
                 post_titulo = os.getenv('MENSAGEN')
                 post = os.getenv('MENSAGEN_POST')
                 post_nome = os.getenv('CODECHAMBER')
+                
+                
                 
                     
     except requests.exceptions.InvalidSchema as ErrorHttp:
@@ -126,6 +134,7 @@ def logout():
 
 
 @erro_http_.route('/erro_http')
+@login_required
 def page_erro():
 
     try:

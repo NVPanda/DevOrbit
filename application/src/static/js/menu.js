@@ -49,3 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+const meubtn = document.getElementByid('meubtn')
+
+meubtn.addEventListener('click',function(){
+    console.log('BTN foi clicado!');
+})

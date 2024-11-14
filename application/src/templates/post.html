@@ -9,12 +9,13 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
 
-  
-
     <form id="post-form" method="POST" enctype="multipart/form-data">
         <div class="mb-4">
+
+            <label for="post-titulo" class="block text-gray-700 font-semibold mb-2">Title</label>
+            <textarea id="post-titulo" name="post-titulo" rows="2" class="w-full px-4 py-2 border rounded-lg focus:outline-none" required maxlength="100"></textarea>
             <label for="post-content" class="block text-gray-700 font-semibold mb-2">Write your post:</label>
-            <textarea id="post-content" name="post-content" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required></textarea>
+            <textarea id="post-content" name="post-content" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required maxlength="500"></textarea>
         </div>
     
         <div class="mb-4">
@@ -27,5 +28,6 @@
         </button>
     </form>
     
-
 <script src="{{url_for('static', filename='js/menu.js')}}"></script>
+</body>
+</html>

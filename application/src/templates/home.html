@@ -99,8 +99,8 @@
       </div>
      
       <div class="mt-2 text-center p-4 ">
-          <a class="text-2xl text-gray-700 font-bold hover:text-gray-600 pl-4" href="#">{{post_titulo}}...</a>
-          <p class="mt-2 text-gray-600 text-center ml-4">{{postig}} </p>
+          <a class="text-2xl text-gray-700 font-bold hover:text-gray-600 pl-4" href="#">{{post_titulo}}</a>
+          <p class="mt-2 text-gray-600 text-center ml-4">{{postig | safe}} </p>
       </div>
       
         <a class="flex items-center" href="{{ url_for('perfil.profile_page', usuario=post_nome) }}">{{post_nome}}</a>
@@ -116,20 +116,16 @@
 </div>
 
 
-
 <div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl">
-    {% for post in posts  %}  <!-- Limite de 4 posts -->
-    <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4">  <!-- Reduzir largura -->
+    {% for post in posts %}
+    <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4">
         <!-- Cabeçalho do Post -->
         <div class="flex items-center p-4 border-b border-gray-200 m-10">
             <img src="https://via.placeholder.com/50" alt="Foto do usuário" class="w-12 h-12 rounded-full">
             <div class="ml-3">
-
-                <a href="{{ url_for('perfil.profile_page', usuario=post.nome) }}">
-
+                <a href="{{ url_for('perfil.profile_page', usuario=username) }}">
                     <h3 class="text-sm font-semibold text-gray-800">{{ post.nome }}</h3>
                 </a>
-
                 <span class="text-xs text-gray-500">{{ post.data }}</span>
             </div>
             <!-- Menu de Opções -->
@@ -139,7 +135,6 @@
                         <path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 4a2 2 0 110-4 2 2 0 010 4zm0 4a2 2 0 110-4 2 2 0 010 4z" />
                     </svg>
                 </button>
-                <!-- Opções do Menu -->
                 <div class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg z-10">
                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Denunciar</a>
                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Compartilhar</a>
@@ -148,10 +143,14 @@
             </div>
         </div>
 
-         <!-- Conteúdo do Post -->
-         <div class="p-4">
-            <p class="text-gray-700 text-sm">{{ post.post }}</p>
+        <!-- Conteúdo do Post -->
+        <div class="p-4 max-w-full">
+            <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.titulo }}</span>
+            <p class="text-gray-700 text-sm whitespace-pre-line text-justify break-words overflow-auto">
+                {{ post.post | safe }}
+            </p>
         </div>
+        
 
         <!-- Ações do Post -->
         <div class="flex items-center justify-between p-4 border-t border-gray-200">
