@@ -14,6 +14,7 @@ posts = Blueprint('page_posts', __name__, template_folder='templates')
 def create_post():
     if request.method == 'POST':
         post_content = request.form.get('post-content')  # Obtendo conteúdo do post
+        titulo = request.form.get('post-titulo')
         post_image = request.files.get('post-image')  # Se precisar enviar uma imagem
         username = current_user.username  # Obtendo o nome do usuário logado
 
@@ -25,6 +26,7 @@ def create_post():
         # Preparando os dados para enviar para a API
         post_data = {
             'nome': username,
+            'titulo': titulo,
             'post': post_content
         }
 
