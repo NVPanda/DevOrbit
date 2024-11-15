@@ -89,9 +89,13 @@
     </div>
  </aside>
  <!-- wallpape.jpg -->
+ 
  <div class="p-4 sm:ml-64">
-    <!-- component -->
-  
+     <!-- component -->
+    {% set interromper = False %}
+    {% for post in post_banner %}
+    {% if not interromper %}
+
     <div class="flex flex-col items-center">
       <div class="flex justify-between items-center w-full">
           <span class="font-light text-gray-600">Melhor CodePost</span>
@@ -99,21 +103,21 @@
       </div>
      
       <div class="mt-2 text-center p-4 ">
-          <a class="text-2xl text-gray-700 font-bold hover:text-gray-600 pl-4" href="#">{{post_titulo}}</a>
-          <p class="mt-2 text-gray-600 text-center ml-4">{{postig | safe}} </p>
+          <a class="text-2xl text-gray-700 font-bold hover:text-gray-600 pl-4" href="#">{{post.post_titulo}}</a>
+          <p class="mt-2 text-gray-600 text-center ml-4">{{post.post | safe}} </p>
       </div>
       
-        <a class="flex items-center" href="{{ url_for('perfil.profile_page', usuario=post_nome) }}">{{post_nome}}</a>
+        <a class="flex items-center" href="{{ url_for('perfil.profile_page', usuario=post.post_nome) }}">{{post.post_nome}}</a>
             <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar">
             </a>
         </div>
-      </div>
-  </div>
-
-
-  
+    </div>
+</div>
+{% set interromper = True %}
 </div>
 </div>
+{% endif %}
+{% endfor %}
 
 
 <div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl">
@@ -124,9 +128,9 @@
             <img src="https://via.placeholder.com/50" alt="Foto do usuário" class="w-12 h-12 rounded-full">
             <div class="ml-3">
                 <a href="{{ url_for('perfil.profile_page', usuario=username) }}">
-                    <h3 class="text-sm font-semibold text-gray-800">{{ post.nome }}</h3>
+                    <h3 class="text-sm font-semibold text-gray-800">{{ post.post_nome }}</h3>
                 </a>
-                <span class="text-xs text-gray-500">{{ post.data }}</span>
+                <span class="text-xs text-gray-500">{{ post.data_post }}</span>
             </div>
             <!-- Menu de Opções -->
             <div class="ml-auto relative">
@@ -145,7 +149,7 @@
 
         <!-- Conteúdo do Post -->
         <div class="p-4 max-w-full">
-            <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.titulo }}</span>
+            <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.post_titulo }}</span>
             <p class="text-gray-700 text-sm whitespace-pre-line text-justify break-words overflow-auto">
                 {{ post.post | safe }}
             </p>
