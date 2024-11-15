@@ -1,21 +1,17 @@
 from flask import Blueprint, render_template, url_for, request, redirect, session, flash
 from flask_login import login_user, logout_user, login_required, current_user, UserMixin
 from application.src.database.users.configure_users import Login, check_user_login, User
-import requests
 from dotenv import load_dotenv
-import time
+import requests
+from time import sleep
 import os
+
 load_dotenv()
 
 login_ = Blueprint('login', __name__, template_folder='templates')
 logout_ = Blueprint('logout', __name__, template_folder='templates')
 home_ = Blueprint('home', __name__, template_folder='templates')
 erro_http_ = Blueprint('errorHttp', __name__, template_folder='templates')
-
-
-
-API_REDE = "http://localhost:5000/allpost"
-
 
 
 
@@ -58,54 +54,70 @@ def login_page():
 @home_.route('/Codechamber/feed/')
 @login_required
 def home_page():
-    post = None
-    post_titulo = None
-    post_nome = None
-    
+
+    """
+    (pt-br)
+    A função home mostra todos os posts dos usuários,
+    como quem postou, data, quantidade de likes em geral e nossa rota principal.
+
+    (en)
+    The home function shows all user posts, such as who posted, date, number of likes in general and our main route.
+    """
+
     try:
 
-        response = requests.get(API_REDE, timeout=10)
-        status_requests = f'{response.status_code} requisição feita com sucesso: ' if response.ok else f'{response.status_code}  Não foi porsivel completa a requisição :('
-        print(status_requests)
-        melhor_post = response.json()
-        view_posts = response.json() 
-        if view_posts:
-            view_posts.sort(key=lambda x: x["data"], reverse=True)
+        response = requests.get(os.getenv('API_REDE'), timeout=10)
+        requesting_all_posts = response.json()
+        
+
+        if requesting_all_posts:
+            requesting_all_posts.sort(key=lambda post: (post["likes"], post["data"]), reverse=True)
 
         
         lista_do_melhor_post = [{
 
-            'nome': postlike['nome'],
-            'titulo': postlike['titulo'],
-            'data': postlike['data'],
-            'post': postlike['post'],
-            'likes': postlike['likes']
+            'nome': column['nome'],
+            'titulo': column['titulo'],
+            'data': column['data'][10:16],
+            'post': column['post'],
+            'likes': column['likes']
             }
-                for postlike in melhor_post
+                for column in requesting_all_posts
         ]
+  
         
-                  
+        print(lista_do_melhor_post[0]['data'][10:16], '<------ data reve')
+
+        
+        posts_filter = []
         for post_do_momento in lista_do_melhor_post:
             likes = int(post_do_momento['likes'])
                 
             if likes >= 30:
-               
-                post_titulo = post_do_momento['titulo']
-                post = post_do_momento['post']
-               
-
-                post_nome = post_do_momento['nome']
+                posts_filter.append({
+                'post_titulo': post_do_momento['titulo'],
+                'post': post_do_momento['post'],
+                'post_nome': post_do_momento['nome'],
+                'data_post': post_do_momento['data']
+                })
+                
+                
+            elif likes <= 10 and len(posts_filter) == 0:
+                """
+                (pt-br)
+                Caso não tenha post em alta, esse elif retorna a mensagem padrão no campo de melhores posts.
+                (en)
+                If there is no trending post, this elfie returns the default message.
+                """ 
+                posts_filter.append({
+                'post_titulo': os.getenv('MENSAGEN'),
+                'post': os.getenv('MENSAGEN_POST'),
+                'post_nome': os.getenv('CODECHAMBER'),
+                'data_post': 'N/A'
+        })
                 break
 
-            elif likes <= 10:
-                
-                post_titulo = os.getenv('MENSAGEN')
-                post = os.getenv('MENSAGEN_POST')
-                post_nome = os.getenv('CODECHAMBER')
-                
-                
-                
-                    
+
     except requests.exceptions.InvalidSchema as ErrorHttp:
 
         flash(f"Erro HTTP ou HTTPS: Você precisa incluir métodos válidos. {ErrorHttp.args[0]} Você está sendo redirecionado.")
@@ -121,7 +133,7 @@ def home_page():
 
     
     # Use current_user.username para exibir o nome do usuário logado
-    return render_template('home.html', username=current_user.username, posts=view_posts, postig=post, post_titulo=post_titulo, post_nome=post_nome)
+    return render_template('home.html', username=current_user.username, posts=requesting_all_posts, post_banner=posts_filter)
 
 
 @logout_.route('/logout')
@@ -138,10 +150,10 @@ def logout():
 def page_erro():
 
     try:
-        response = requests.get(API_REDE, timeout=1)
+        response = requests.get(os.getenv('API_REDE'), timeout=1)
         status = response.status_code
         if status == 200:
-            time.sleep(3)
+            yield sleep(3)
             return redirect(url_for('home.home_page'))
         
     
