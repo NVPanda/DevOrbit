@@ -54,3 +54,13 @@ const meubtn = document.getElementByid('meubtn')
 meubtn.addEventListener('click',function(){
     console.log('BTN foi clicado!');
 })
+
+function mybar() {
+    var x = document.getElementById("cta-button-sidebar");
+    if (x.classList.contains("-translate-x-full")) {
+      x.classList.remove("-translate-x-full");
+    } else {
+      x.classList.add("-translate-x-full");
+    }
+  }
+  

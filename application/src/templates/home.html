@@ -3,22 +3,29 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CodeChamber</title>
+        <title>DevOrbit</title>
         <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         
 </head>
-<body>
+<body >
    
-<button data-drawer-target="cta-button-sidebar" data-drawer-toggle="cta-button-sidebar" aria-controls="cta-button-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+<button data-drawer-target="cta-button-sidebar" data-drawer-toggle="cta-button-sidebar" aria-controls="cta-button-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-800 dark:text-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" onclick="mybar()">
     <span class="sr-only">Open sidebar</span>
     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
     </svg>
  </button>
  
- <aside id="cta-button-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+ <aside id="cta-button-sidebar" class="topnav fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar" onclick="mybar()">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"onclick="mybar()" >
+        <button
+    class="flex close-sidebar-btn  ml-4 p-1"
+    onclick="mybar()">
+    &times; <!-- Ícone de fechar -->
+  </button>
        <ul class="space-y-2 font-medium">
          <li>
             <a href="{{url_for('perfil.profile_page', usuario=username)}}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -32,7 +39,7 @@
                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                    <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Desafios do Mês</span>
+                <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Desafios do Mês</span>
                 <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Beta</span>
              </a>
           </li>
@@ -40,8 +47,8 @@
              <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                    <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z"/>
-                </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Mensagens</span>
+                </svg> 
+                <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Mensagens</span>
                 <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">0</span>
              </a>
           </li>
@@ -50,7 +57,7 @@
                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                    <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Criadores</span>
+                <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Criadores</span>
              </a>
           </li>
           <li>
@@ -58,7 +65,7 @@
                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                    <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z"/>
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Galeria de Ideias</span>
+                <span class="link-cumunidade  flex-1 ms-3 whitespace-nowrap text-gray-900">Galeria de Ideias</span>
              </a>
           </li>
           <li>
@@ -66,13 +73,13 @@
                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Entra</span>
+                <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Entra</span>
              </a>
           </li>
           
             <a href="{{ url_for('logout.logout') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <i class="fas fa-sign-out-alt flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-               <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
+               <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Logout</span>
            </a>
            
        </ul>
@@ -89,6 +96,8 @@
     </div>
  </aside>
  <!-- wallpape.jpg -->
+
+
  
  <div class="p-4 sm:ml-64">
      <!-- component -->
@@ -97,18 +106,31 @@
     {% if not interromper %}
 
     <div class="flex flex-col items-center">
-      <div class="flex justify-between items-center w-full">
-          <span class="font-light text-gray-600">Melhor CodePost</span>
-          <a class="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500" href="#">Denucia</a>
-      </div>
-     
-      <div class="mt-2 text-center p-4 ">
-          <a class="text-2xl text-gray-700 font-bold hover:text-gray-600 pl-4" href="#">{{post.post_titulo}}</a>
-          <p class="mt-2 text-gray-600 text-center ml-4">{{post.post | safe}} </p>
+        <div class="flex justify-between items-center w-full">
+          <!-- Bolinha animada -->
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping-lento absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+          </span>
+          <!-- Texto fixo -->
+          <span class="ml-2 text-gray-100 font-medium">Melhor CodePost</span>
+          <!-- Botão de denúncia -->
+          <a class="ml-auto px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-200 hover:text-gray-800 transition"
+             href="{{ url_for('denucia.page_denucia') }}">
+            Denúncia
+          </a>
+        </div>
       </div>
       
-        <a class="flex items-center" href="{{ url_for('perfil.profile_page', usuario=post.post_nome) }}">{{post.post_nome}}</a>
-            <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar">
+  
+     
+      <div class="mt-2 text-center p-4 ">
+          <a class="post-cumunity-community  text-2xl text-blue-300 font-bold pl-4" href="#">{{post.post_titulo}}</a>
+          <p class="community-post mt-2 text-gray-100 text-center ml-4">{{post.post | safe}} </p>
+      </div>
+      
+        <a class="flex justify-center mx-4 text-gray-100" href="{{ url_for('perfil.profile_page', usuario=post.post_nome) }}"><p class="text-blue-500 mx-2">Author:</p> {{post.post_nome}}</a>
+            <img class=" mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar">
             </a>
         </div>
     </div>
@@ -120,17 +142,17 @@
 {% endfor %}
 
 
-<div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl">
+<div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl aling-items:center min-h-screen">
     {% for post in posts %}
-    <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4">
+    <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center">
         <!-- Cabeçalho do Post -->
-        <div class="flex items-center p-4 border-b border-gray-200 m-10">
+        <div class="flex items-center p-4 border-b border-gray-200 m-10 justify-center ">
             <img src="https://via.placeholder.com/50" alt="Foto do usuário" class="w-12 h-12 rounded-full">
             <div class="ml-3">
                 <a href="{{ url_for('perfil.profile_page', usuario=username) }}">
-                    <h3 class="text-sm font-semibold text-gray-800">{{ post.post_nome }}</h3>
+                    <h3 class="user-name text-sm font-semibold text-gray-100">{{ post.nome }}</h3>
                 </a>
-                <span class="text-xs text-gray-500">{{ post.data_post }}</span>
+                <span class="data text-xs text-gray-500 aling-items:center">{{ post.data[10:16] }}</span>
             </div>
             <!-- Menu de Opções -->
             <div class="ml-auto relative">
@@ -148,9 +170,9 @@
         </div>
 
         <!-- Conteúdo do Post -->
-        <div class="p-4 max-w-full">
-            <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.post_titulo }}</span>
-            <p class="text-gray-700 text-sm whitespace-pre-line text-justify break-words overflow-auto">
+        <div class="p-4 max-w-full justify-center flex-wrap rounded-lg items-center">
+            <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.titulo }}</span>
+            <p class="community-pos text-gray-100 text-sm whitespace-pre-line text-justify break-words overflow-auto">
                 {{ post.post | safe }}
             </p>
         </div>
@@ -181,6 +203,9 @@
     {% endfor %}
 </div>
 
+
+
+
 <div class="fixed flex bottom-6 end-6 group">
     <!-- Botão de Ação Único -->
     <a href="{{ url_for('page_posts.create_post') }}" class="flex items-center justify-center w-14 h-14 text-white bg-blue-700 rounded-full hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
@@ -191,6 +216,87 @@
         <span class="sr-only">Create New Post</span>
     </a>
 </div>
+<style>
+    /* Estilo padrão para o body */
+    body {
+      background-color: #121212; /* Fundo claro */
+      color: black; /* Texto escuro */
+    }
+    h1 {
+      color: black; /* Título padrão */
+    }
+    p {
+      color: gray; /* Texto do parágrafo padrão */
+    }
+    data {
+      color: black;
+    }
+    user-name {
+      color: black;
+    }
+    community-post {
+      color: black;
+    }
+    CodePost{
+        color: azure;
+    } 
+       
+  
+    /* Botão de fechar (oculto por padrão) */
+    .close-sidebar-btn {
+      display: none; /* Não aparece em telas grandes */
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 50;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  
+    /* Media query para dispositivos móveis */
+    @media (max-width: 768px) {
+      body {
+        background-color: #121212; /* Fundo escuro */
+        color: white; /* Texto claro */
+      }
+      h1 {
+        color: white; /* Título branco */
+      }
+      p {
+        color: white; /* Texto dos parágrafos em chartreuse */
+      }
+      .data {
+        color: white;
+      }
+      .user-name {
+        color: white;
+      }
+      .community-post {
+        color: white;
+      }
+      .post-cumunity-community {
+        color: #B3D9FF;
+      }
+      .flex {
+        justify-content: center !important;
+      }
+      .CodePost {
+        color: azure;
+      }
+  
+      /* Botão de fechar visível em telas menores */
+      .close-sidebar-btn {
+        display: block; /* Botão visível em dispositivos móveis */
+      }
+      .link-cumunidade{
+        color: #B3D9FF;
+      }
+    }
+  </style>
+  
 
 <script src="{{url_for('static', filename='js/menu.js')}}"></script>
 

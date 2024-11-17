@@ -45,6 +45,7 @@ def create_app():
     from application.src.routes.register import register_
     from application.src.routes.perfil import profile
     from application.src.routes.page_post import posts
+    from application.src.routes.denucia import denucia
 
 
     app.register_blueprint(home_)
@@ -54,6 +55,8 @@ def create_app():
     app.register_blueprint(profile)
     app.register_blueprint(erro_http_)
     app.register_blueprint(posts)
+    app.register_blueprint(denucia)
+
 
 
     
