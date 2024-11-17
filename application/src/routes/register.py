@@ -4,7 +4,7 @@ from application.src.database.users.configure_users import Cadastro, add_user
 
 register_ = Blueprint('register', __name__, template_folder='templates')
 
-@register_.route('/register', methods=['POST', 'GET'])
+@register_.route('/devorbit/register/', methods=['POST', 'GET'])
 def page_register():
     if request.method == 'POST':
         name = request.form['name']

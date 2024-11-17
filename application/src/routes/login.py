@@ -25,7 +25,7 @@ class User(UserMixin):
         return str(self.id)
 
 
-@login_.route('/login/', methods=['POST', 'GET'])
+@login_.route('/devorbit/login/', methods=['POST', 'GET'])
 def login_page():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -51,7 +51,7 @@ def login_page():
     return render_template('login.html')
 
 
-@home_.route('/Codechamber/feed/')
+@home_.route('/devorbit/feed/')
 @login_required
 def home_page():
 
@@ -136,7 +136,7 @@ def home_page():
     return render_template('home.html', username=current_user.username, posts=requesting_all_posts, post_banner=posts_filter)
 
 
-@logout_.route('/logout')
+@logout_.route('/devorbit/logout')
 @login_required
 def logout():
 
@@ -145,7 +145,7 @@ def logout():
     return redirect(url_for('login.login_page'))
 
 
-@erro_http_.route('/erro_http')
+@erro_http_.route('/devorbit/erro_http/')
 @login_required
 def page_erro():
 

@@ -10,7 +10,7 @@ from io import StringIO
 API_REDE = "http://localhost:5000/allpost"
 profile = Blueprint('perfil', __name__, template_folder='templates')
 
-@profile.route('/CodeChamber/perfil/<usuario>/')
+@profile.route('/devorbit/perfil/<usuario>/')
 @login_required
 @cache.cached(timeout=100)
 def profile_page(usuario):

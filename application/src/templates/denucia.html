@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOrbit Denucia</title>
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center h-screen">
+
+    <form id="post-form" method="POST" enctype="multipart/form-data">
+        <div class="mb-4 align-items:center">
+
+            <h1 class="community-dev-orbit text-center text-gray-900 uppercase font-sans md:font-serif">DevOrbit</h1>
+
+            <label for="opcao-denucia" class="block  font-semibold mb-2">Descreva</label>
+            <input type="text" id="post-titulo" name="post-titulo" placeholder="Digite sua descrição aqui..." class="block  border border-gray-300 p-2 rounded w-full" />
+
+            <label class="opcao-denucia text-gray-700 font-semibold mb-2 m-5 text-center">Razão</label>
+            <select id="denuncia" class="m-4">
+                <optgroup label="Discurso de ódio">
+                  <option value="discurso_odio">Discurso de ódio</option>
+                  <option value="assedio_bullying">Assédio e bullying</option>
+                </optgroup>
+                <optgroup label="Conteúdo Impróprio">
+                  <option value="conteudo_explicito">Conteúdo explícito ou impróprio</option>
+                  <option value="informacoes_pessoais">Compartilhamento de informações pessoais</option>
+                </optgroup>
+                <optgroup label="Comportamento Indevido">
+                  <option value="spam">Spam ou anúncios não solicitados</option>
+                  <option value="impersonificacao">Imitação de outro usuário (impersonificação)</option>
+                  <option value="comportamento_toxico">Comportamento tóxico ou agressivo</option>
+                </optgroup>
+                <optgroup label="Outros">
+                  <option value="violacao_propriedade_intelectual">Violação de propriedade intelectual (ex.: plágio)</option>
+                  <option value="conteudo_discriminatorio">Conteúdo discriminatório (racismo, sexismo, etc.)</option>
+                  <option value="fraude_engano">Fraude ou engano (ex.: golpes, promessas falsas)</option>
+                </optgroup>
+              </select>
+              
+
+
+        </div>
+    
+        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans md:font-serif">
+            Finalizar
+        </button>
+    </form>
+    
+<!-- Devo arrumar depois -->
+
+<style>
+    /* Estilo padrão para o body */
+    body {
+      background-color: white; /* Fundo claro */
+      color: black; /* Texto escuro */
+    }
+    h1 {
+      color: black; /* Título padrão */
+    }
+    p {
+      color: gray; /* Texto do parágrafo padrão */
+    }
+    post-denucia{
+        color: black;
+    }
+    user-opcao-denucia{
+        color: black;
+    }
+    community-post{
+        color:black;
+    }
+    block{
+        color: black;
+    }
+    /* Media query para dispositivos móveis */
+    @media (max-width: 768px) {
+      body {
+        background-color: #121212; /* Fundo escuro */
+        color: white; /* Texto claro */
+      }
+      community-dev-orbit {
+        color: black; /* Título branco */
+      }
+      .post-denucia {
+        color: white; 
+      }
+      .data{
+        color: white;
+      }
+      .opcao-denucia{
+        color: white;
+      }
+      .community-dev-orbit{
+        color: white;
+      }
+      .post-cumunity-denucia{
+        color: #B3D9FF;
+      }
+      .block{
+        color: black;
+      }
+    }
+  </style>
+
+
+<!-- Cria um js apenas para essa tela -->
+<script src="{{url_for('static', filename='js/menu.js')}}"></script>
+</body>
+</html>

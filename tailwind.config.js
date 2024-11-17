@@ -5,6 +5,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        'ping-lento': 'ping-lento 5s cubic-bezier(0.0, 0.1, 0.3, 1) infinite',
+      },
+      keyframes: {
+        'ping-lento': {
+          '0%': { transform: 'scale(1)', opacity: '1' },
+          '75%, 100%': { transform: 'scale(2)', opacity: '0' },
+        },
+      },
       position: ['hover', 'focus'],
       space: ['hover', 'focus'],
       alignItems: ['hover', 'focus'],
@@ -13,14 +22,12 @@ module.exports = {
       textAlign: ['hover', 'focus'],
       wordBreak: ['hover', 'focus'],
       inset: {
-        left:{
+        left: {
           left: 10,
           left: 35,
           left: 40,
-
-
           right: 10,
-        }
+        },
       },
       colors: {
         purple: {
@@ -38,8 +45,8 @@ module.exports = {
           800: '#fff',
         },
         gray: {
-          900: '#111827'
-        }
+          900: '#111827',
+        },
       },
       fontFamily: {
         sans: ['ui-sans-serif', 'system-ui'],
@@ -60,70 +67,49 @@ module.exports = {
         none: 'none',
       },
       width: {
-
         '1/7': '14.2857143%',
-
         '2/7': '28.5714286%',
-
         '3/7': '42.8571429%',
-
         '4/7': '57.1428571%',
-
         '5/7': '71.4285714%',
-
         '6/7': '85.7142857%',
-
       },
       spacing: {
-
         sm: '8px',
- 
         md: '16px',
- 
         lg: '24px',
- 
         xl: '48px',
-       },
-       top:{
+      },
+      top: {
         top: 12,
         top: 35,
         top: 45,
         top: 40,
-        top: 50
-
+        top: 50,
       },
       fontSize: {
-
-        'xs': '.75rem',
- 
-        'sm': '.875rem',
- 
-        'tiny': '.875rem',
-         'base': '1rem',
-         'lg': '1.125rem',
-         'xl': '1.25rem',
-         '2xl': '1.5rem',
- 
+        xs: '.75rem',
+        sm: '.875rem',
+        tiny: '.875rem',
+        base: '1rem',
+        lg: '1.125rem',
+        xl: '1.25rem',
+        '2xl': '1.5rem',
         '3xl': '1.875rem',
- 
         '4xl': '2.25rem',
-         '5xl': '3rem',
-         '6xl': '4rem',
- 
+        '5xl': '3rem',
+        '6xl': '4rem',
         '7xl': '5rem',
-       },
-       flex: {
+      },
+      flex: {
         '1': '1 1 0%',
         auto: '1 1 auto',
-
-       initial: '0 1 auto',
-
-       inherit: 'inherit',
+        initial: '0 1 auto',
+        inherit: 'inherit',
         none: 'none',
-
-       '2': '2 2 0%',
+        '2': '2 2 0%',
       },
     },
   },
   plugins: [],
-}
+};

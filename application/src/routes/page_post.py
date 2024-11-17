@@ -9,7 +9,7 @@ posts = Blueprint('page_posts', __name__, template_folder='templates')
 
 
 # Exibir a página de criação de posts
-@posts.route('/Codechamber/feed/posts', methods=['POST', 'GET'])
+@posts.route('/devorbit/feed/posts/', methods=['POST', 'GET'])
 @login_required
 def create_post():
     if request.method == 'POST':
