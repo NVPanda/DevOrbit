@@ -2,53 +2,41 @@ from flask import Blueprint, render_template, url_for, request, redirect, sessio
 from flask_login import login_user, logout_user, login_required, current_user, UserMixin
 import requests, json
 from application.src.database.users.configure_users import my_db
-
+import base64
 
 posts = Blueprint('page_posts', __name__, template_folder='templates')
-
-
-
-# Exibir a página de criação de posts
 @posts.route('/devorbit/feed/posts/', methods=['POST', 'GET'])
 @login_required
 def create_post():
     if request.method == 'POST':
-        post_content = request.form.get('post-content')  # Obtendo conteúdo do post
         titulo = request.form.get('post-titulo')
-        post_image = request.files.get('post-image')  # Se precisar enviar uma imagem
-        username = current_user.username  # Obtendo o nome do usuário logado
+        post_content = request.form.get('post-content')
+        post_image = request.files.get('post-image')  # Imagem enviada pelo formulário
+        username = current_user.username  # Nome do usuário logado
 
-        # Verificar se o conteúdo do post foi preenchido
         if not post_content:
             flash('O conteúdo do post não pode estar vazio.', 'error')
             return redirect(request.url)
 
-        # Preparando os dados para enviar para a API
-        post_data = {
-            'nome': username,
-            'titulo': titulo,
-            'post': post_content
-        }
-
         try:
-            # Enviar o post para a API
-            response = requests.post("http://localhost:5000/posts", json=post_data, timeout=30)
+            # Preparar dados e arquivo para enviar à API
+            data = {
+                'nome': username,
+                'titulo': titulo,
+                'post': post_content,
+            }
+            files = {'file': (post_image.filename, post_image.stream, post_image.mimetype)} if post_image else None
 
-            if response.status_code == 201:
-                flash('Post criado com sucesso!')
-                return redirect(url_for('home.home_page'))  # Redirecionar para a página inicial
+            # Enviar para a API
+            response = requests.post("http://127.0.0.1:8000/post/", data=data, files=files)
+
+            if response.status_code == 200:
+                flash('Post criado com sucesso!', 'success')
             else:
-                flash('Erro ao criar o post. Tente novamente.', 'error')
-        except requests.exceptions.RequestException as e:
-            flash(f"Erro de requisição: {e}", 'error')
-            
-        except requests.exceptions.ReadTimeout as ErroTimeaut:
-            flash(f'Erro de Timeout, verifique sua conexão à internet. {ErroTimeaut.args[0]}')
-            return redirect(url_for('perfil.profile_page'))  # Redirecionamento para erro de timeout
+                flash('Erro ao criar o post.', 'error')
 
-        except requests.exceptions.JSONDecodeError as ErroJson:
-            flash("Erro no servidor, estamos passando por problemas internos. Por favor, tente acessar outras rotas em breve.")
-            return redirect(url_for('errorHttp.page_erro'))  # Redirecionamento para erro de JSON
+        except Exception as e:
+            flash(f"Erro: {e}", 'error')
 
-
-    return render_template('post.html', usuario_nome=current_user.username)
+        return redirect(url_for('home.home_page'))
+    return render_template('post.html')
