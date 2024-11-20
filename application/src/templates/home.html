@@ -147,7 +147,7 @@
     <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center">
         <!-- Cabeçalho do Post -->
         <div class="flex items-center p-4 border-b border-gray-200 m-10 justify-center ">
-            <img src="https://via.placeholder.com/50" alt="Foto do usuário" class="w-12 h-12 rounded-full">
+            <img src={{post.img}}" alt="Foto do usuário" class="w-12 h-12 rounded-full">
             <div class="ml-3">
                 <a href="{{ url_for('perfil.profile_page', usuario=username) }}">
                     <h3 class="user-name text-sm font-semibold text-gray-100">{{ post.nome }}</h3>
@@ -171,6 +171,11 @@
 
         <!-- Conteúdo do Post -->
         <div class="p-4 max-w-full justify-center flex-wrap rounded-lg items-center">
+          {% if post.img_url %}
+          <img src="http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}" alt="Foto do Perfil" class="w-16 h-16 object-cover mb-4">
+
+            
+          {% endif %}
             <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.titulo }}</span>
             <p class="community-pos text-gray-100 text-sm whitespace-pre-line text-justify break-words overflow-auto">
                 {{ post.post | safe }}

@@ -13,6 +13,7 @@ logout_ = Blueprint('logout', __name__, template_folder='templates')
 home_ = Blueprint('home', __name__, template_folder='templates')
 erro_http_ = Blueprint('errorHttp', __name__, template_folder='templates')
 
+routes_img = 'localhost:5000/files'
 
 
 class User(UserMixin):
@@ -54,6 +55,7 @@ def login_page():
 @home_.route('/devorbit/feed/')
 @login_required
 def home_page():
+    
 
     """
     (pt-br)
@@ -75,18 +77,16 @@ def home_page():
 
         
         lista_do_melhor_post = [{
+        'nome': column['nome'],
+        'titulo': column['titulo'],
+        'data': column['data'][10:16],
+        'post': column['post'],
+        'likes': column['likes'],
+        'img_url': column.get('img_url', 'default_image.png')  # Defina uma imagem padrão caso não exista
+            }for column in requesting_all_posts]
 
-            'nome': column['nome'],
-            'titulo': column['titulo'],
-            'data': column['data'][10:16],
-            'post': column['post'],
-            'likes': column['likes']
-            }
-                for column in requesting_all_posts
-        ]
-  
-        
-        print(lista_do_melhor_post[0]['data'][10:16], '<------ data reve')
+        print(requesting_all_posts)  # Verifique o conteúdo dos dados retornados
+
 
         
         posts_filter = []
@@ -98,8 +98,13 @@ def home_page():
                 'post_titulo': post_do_momento['titulo'],
                 'post': post_do_momento['post'],
                 'post_nome': post_do_momento['nome'],
-                'data_post': post_do_momento['data']
+                'data_post': post_do_momento['data'],
+                'img_url': post_do_momento['img_url']
+
+                
                 })
+
+                print(post_do_momento['img_url'])
                 
                 
             elif likes <= 10 and len(posts_filter) == 0:
@@ -118,10 +123,10 @@ def home_page():
                 break
 
 
-    except requests.exceptions.InvalidSchema as ErrorHttp:
-
-        flash(f"Erro HTTP ou HTTPS: Você precisa incluir métodos válidos. {ErrorHttp.args[0]} Você está sendo redirecionado.")
-        return redirect(url_for('errorHttp.page_erro'))  # Redirecionamento após erro
+    # except requests.exceptions.InvalidSchema as ErrorHttp:
+# 
+        # flash(f"Erro HTTP ou HTTPS: Você precisa incluir métodos válidos. {ErrorHttp.args[0]} Você está sendo redirecionado.")
+        # return redirect(url_for('errorHttp.page_erro'))  # Redirecionamento após erro
 
     except requests.exceptions.ReadTimeout as ErroTimeaut:
         flash(f'Erro de Timeout, verifique sua conexão à internet. {ErroTimeaut.args[0]}')
@@ -153,7 +158,7 @@ def page_erro():
         response = requests.get(os.getenv('API_REDE'), timeout=1)
         status = response.status_code
         if status == 200:
-            yield sleep(3)
+        
             return redirect(url_for('home.home_page'))
         
     
