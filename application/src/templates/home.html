@@ -81,8 +81,15 @@
                <i class="fas fa-sign-out-alt flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Logout</span>
            </a>
-           
+
+          <li>
+          
+          <a href="{{ url_for('config.config_account', usuario=usuario) }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+             <i class="fas fa-cogs flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+             <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Configuração</span>
+         </a>
        </ul>
+
        <div id="dropdown-cta" class="p-4 mt-6 rounded-lg bg-blue-50 dark:bg-blue-900" role="alert">
           <div class="flex items-center mb-3">
              <span class="bg-orange-100 text-orange-800 text-sm font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">Beta</span>
@@ -147,12 +154,14 @@
     <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center">
         <!-- Cabeçalho do Post -->
         <div class="flex items-center p-4 border-b border-gray-200 m-10 justify-center ">
-            <img src={{post.img}}" alt="Foto do usuário" class="w-12 h-12 rounded-full">
+          <img class="w-32 h-32 rounded-full mx-auto" 
+         src="{{ url_for('static', filename=post.user_photo) }}" 
+         alt="Profile picture">
             <div class="ml-3">
-                <a href="{{ url_for('perfil.profile_page', usuario=username) }}">
+                <a href="{{ url_for('perfil.profile_page', usuario=post.nome) }}">
                     <h3 class="user-name text-sm font-semibold text-gray-100">{{ post.nome }}</h3>
                 </a>
-                <span class="data text-xs text-gray-500 aling-items:center">{{ post.data[10:16] }}</span>
+                <span class="data text-xs text-gray-500 aling-items:center">{{ post.data }}</span>
             </div>
             <!-- Menu de Opções -->
             <div class="ml-auto relative">
@@ -171,26 +180,37 @@
 
         <!-- Conteúdo do Post -->
         <div class="p-4 max-w-full justify-center flex-wrap rounded-lg items-center">
-          {% if post.img_url %}
-          <img src="http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}" alt="Foto do Perfil" class="w-16 h-16 object-cover mb-4">
-
-            
+        {% if post.img_url %}
+        <img 
+    src="http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}" 
+    alt="Foto do Perfil" 
+    class="w-full h-auto object-cover mb-4 cursor-pointer" 
+    onclick="handleImageClick('http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}')" 
+    loading="lazy"
+      
+     
+             <div class="ml-3">
+        
           {% endif %}
-            <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.titulo }}</span>
-            <p class="community-pos text-gray-100 text-sm whitespace-pre-line text-justify break-words overflow-auto">
-                {{ post.post | safe }}
-            </p>
-        </div>
+          <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.titulo }}</span>
+          <p class="community-pos text-gray-100 text-sm whitespace-pre-line text-justify break-words overflow-auto">
+              {{ post.post | safe }}
+          </p>
+      </div>
+      
         
 
         <!-- Ações do Post -->
-        <div class="flex items-center justify-between p-4 border-t border-gray-200">
-            <button class="flex items-center text-gray-600 hover:text-gray-800">
-                <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M3 8a5 5 0 0110 0v5a5 5 0 01-10 0V8z" />
-                </svg>
-                <span class="text-sm">Curtir|{{post.likes}}</span>
+        <div class="post-container flex">
+          <div class="flex items-center justify-between p-4 border-t border-gray-200">
+            <button class="flex items-center text-gray-600 hover:text-gray-800 like-button" 
+              data-id="{{ post.id }}" data-user-id="{{ id }}">
+              <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 8a5 5 0 0110 0v5a5 5 0 01-10 0V8z" />
+              </svg>
+              <span class="text-sm">Curtir | <span id="like-count-{{ post.id }}">{{ post.likes }}</span></span>
             </button>
+          </div>
             <button class="flex items-center text-gray-600 hover:text-gray-800">
                 <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 3a1 1 0 00-1 1v3H6a1 1 0 100 2h3v3a1 1 0 102 0V9h3a1 1 0 100-2h-3V4a1 1 0 00-1-1z" />
@@ -213,7 +233,7 @@
 
 <div class="fixed flex bottom-6 end-6 group">
     <!-- Botão de Ação Único -->
-    <a href="{{ url_for('page_posts.create_post') }}" class="flex items-center justify-center w-14 h-14 text-white bg-blue-700 rounded-full hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
+    <a href="{{ url_for('page_posts.create_post_route') }}" class="flex items-center justify-center w-14 h-14 text-white bg-blue-700 rounded-full hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
         <!-- Ícone de Avião -->
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M2.5 19.83l6.72-2.69 2.68 6.72c.14.37.66.36.77-.01l9-21c.14-.32-.23-.68-.56-.54l-21 9c-.37.14-.38.63-.01.77l6.72 2.68L2.5 19.83Z"/>
@@ -301,10 +321,51 @@
       }
     }
   </style>
+<script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.like-button').on('click', function () {
+      const button = $(this);
+      const postId = button.data('id');
+      const userId = button.data('user-id');
+      const likeCountElement = $(`#like-count-${postId}`);
+
+      if (!likeCountElement.length) {
+        console.error('Elemento de contagem não encontrado!');
+        return;
+      }
+
+      // Faz a requisição AJAX para o backend
+      $.ajax({
+        url: `http://localhost:8000/user/${userId}/likes/${postId}`,
+        type: 'PUT',
+        headers: { Accept: 'application/json' },
+        success: function (response) {
+          if (response.likes !== undefined) {
+            // Atualiza o número de likes no frontend
+            likeCountElement.text(response.likes);
+
+            // Alterna as classes de estilo do botão
+            if (button.hasClass('text-blue-500')) {
+              // Se o botão já está no estado "curtido", remova a cor azul
+              button.removeClass('text-blue-500').addClass('text-gray-600');
+            } else {
+              // Se o botão não está curtido, adicione a cor azul
+              button.removeClass('text-gray-600').addClass('text-blue-500');
+            }
+          } else {
+            console.error('Resposta inesperada da API:', response);
+          }
+        },
+        error: function () {
+          alert('Erro ao curtir o post.');
+        },
+      });
+    });
+  });
+</script>
+
   
-
-<script src="{{url_for('static', filename='js/menu.js')}}"></script>
-
-
 </body>
 </html>

@@ -6,6 +6,7 @@
     <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
+    
     <title>DevOrbit</title>
 </head>
 <body ">
@@ -95,7 +96,11 @@
  </aside>
 
         <div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
-          <img class="w-32 h-32 rounded-full mx-auto" src="https://picsum.photos/200" alt="Profile picture">
+          <img class="w-32 h-32 rounded-full mx-auto" 
+          src="{{ url_for('static', filename=user_photo) }}" 
+          alt="Profile picture">
+
+
           <h2 class="user-name text-center text-2xl font-semibold mt-3">{{usuario}}</h2>
 
           <p class="text-center text-gray-100 mt-1">Software Engineer</p>
@@ -117,7 +122,9 @@
     <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4">  <!-- Reduzir largura -->
         <!-- Cabeçalho do Post -->
         <div class="flex items-center p-4 border-b border-gray-200 m-10">
-            <img src="https://via.placeholder.com/50" alt="Foto do usuário" class="w-12 h-12 rounded-full">
+          <img class="w-32 h-32 rounded-full mx-auto" 
+          src="{{ url_for('static', filename=user_photo) }}" 
+          alt="Profile picture">
             <div class="ml-3">
 
                 
@@ -143,17 +150,31 @@
 
          <!-- Conteúdo do Post -->
          <div class="p-4">
+          {% if post.img_url %}
+          <img 
+              src="http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}" 
+              alt="Foto do Perfil" 
+              class="w-64 h-64 object-cover mb-4 cursor-pointer" 
+              onclick="handleImageClick('http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}')" 
+          
+          {% endif %}
             <p class="post-cumunity-communit text-sm">{{post.posts}}</p>
         </div>
 
         <!-- Ações do Post -->
-        <div class="flex items-center justify-between p-4 border-t border-gray-200">
-            <button class="flex items-center text-gray-600 hover:text-gray-800">
-                <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M3 8a5 5 0 0110 0v5a5 5 0 01-10 0V8z" />
-                </svg>
-                <span class="text-sm">Curtir|{{post.likes}}</span>
+        <div class="post-container flex">
+          <div class="flex items-center justify-between p-4 border-t border-gray-200">
+            <button class="flex items-center text-gray-600 hover:text-gray-800 like-button" 
+              data-id="{{ post.id }}" data-user-id="{{ id }}">
+              <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 8a5 5 0 0110 0v5a5 5 0 01-10 0V8z" />
+              </svg>
+              <span class="text-sm">Curtir | <span id="like-count-{{ post.id }}">{{ post.likes }}</span></span>
             </button>
+          </div>
+      
+      
+      
             <button class="flex items-center text-gray-600 hover:text-gray-800">
                 <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 3a1 1 0 00-1 1v3H6a1 1 0 100 2h3v3a1 1 0 102 0V9h3a1 1 0 100-2h-3V4a1 1 0 00-1-1z" />
@@ -173,7 +194,7 @@
 
 <div class="fixed flex bottom-6 end-6 group">
     <!-- Botão de Ação Único -->
-    <a href="{{ url_for('page_posts.create_post') }}" class="flex items-center justify-center w-14 h-14 text-white bg-blue-700 rounded-full hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
+    <a href="{{ url_for('page_posts.create_post_route') }}" class="flex items-center justify-center w-14 h-14 text-white bg-blue-700 rounded-full hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
         <!-- Ícone de Avião -->
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M2.5 19.83l6.72-2.69 2.68 6.72c.14.37.66.36.77-.01l9-21c.14-.32-.23-.68-.56-.54l-21 9c-.37.14-.38.63-.01.77l6.72 2.68L2.5 19.83Z"/>
@@ -266,7 +287,9 @@
     }
 </style>
 
-<script src="{{url_for('static', filename='js/menu.js')}}"></script>
+<script src="{{url_for('static', filename='js/utils.js')}}"></script>
+
+
 
 
 </body>

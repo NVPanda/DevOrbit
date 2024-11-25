@@ -7,3 +7,5 @@ requests==2.32.3
 fastapi==0.115.5
 python-multipart==0.0.17
 asgiref==3.8.1
+aiosqlite==0.20.0
+flask-cors==5.0.0

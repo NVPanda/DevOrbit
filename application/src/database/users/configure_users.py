@@ -19,7 +19,7 @@ def my_db():
     return banco, banco.cursor()
 
 
-def create_datebase():
+def create_database():
     banco, cursor = my_db()
     cursor.execute(
         '''CREATE TABLE IF NOT EXISTS usuarios(
@@ -28,7 +28,11 @@ def create_datebase():
         last_name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         age INTEGER,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        photo TEXT,
+        photo_post, TEXT
+
+        
         )'''
     )
     banco.commit()
