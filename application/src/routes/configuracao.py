@@ -50,7 +50,7 @@ def config_account(usuario):
         
         banco, cursor = my_db()
 
-        cursor.execute('SELECT id, photo, email FROM usuarios WHERE name = ?', (usuario,))
+        cursor.execute('SELECT id, photo, email, bio FROM usuarios WHERE name = ?', (usuario,))
         user = cursor.fetchone()
 
         if not user:
@@ -59,8 +59,10 @@ def config_account(usuario):
 
    
         user_photo = user[1]
-        usuario = current_user.username
         email_usuario = user[2]
+        bio = user[3]
+        usuario = current_user.username
+        id_usuario = current_user.id
         
         # O status da conta é determinado pelo comportamento do usuário na comunidade. 
         # Seguir as regras e interagir de forma positiva ajuda a manter um bom status.
@@ -77,4 +79,4 @@ def config_account(usuario):
         print(e)
 
 
-    return render_template('configuracao.html', posts=lista_do_melhor_post, user_photo=user_photo, usuario=usuario,email_usuario=email_usuario, status=status)
+    return render_template('configuracao.html', posts=lista_do_melhor_post, user_photo=user_photo, usuario=usuario,email_usuario=email_usuario, status=status, id_usuario=id_usuario, bio=bio)

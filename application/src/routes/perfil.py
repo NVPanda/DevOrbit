@@ -24,7 +24,7 @@ def measure_performance(usuario):
     banco, cursor = my_db()
     
     # Buscar o ID e o caminho da foto do usuário
-    cursor.execute('SELECT id, photo FROM usuarios WHERE name = ?', (usuario,))
+    cursor.execute('SELECT id, photo, bio FROM usuarios WHERE name = ?', (usuario,))
     user = cursor.fetchone()
 
     if not user:
@@ -33,6 +33,7 @@ def measure_performance(usuario):
 
    
     user_photo = user[1]
+    bio = user[2]
 
     # Faz a requisição para obter os posts da API
     response = requests.get(os.getenv('API_REDE'), timeout=5)
@@ -58,4 +59,4 @@ def measure_performance(usuario):
     # Retorna o template com a foto do usuário e os posts
     return render_template('profile.html', usuario=usuario, username=current_user.username, 
                            id=current_user.id, posts=posts_conta_usuario, 
-                           user_photo=user_photo)
+                           user_photo=user_photo, bio=bio)

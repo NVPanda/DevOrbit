@@ -18,7 +18,6 @@ def my_db():
     banco = sqlite3.connect('usuarios.db')
     return banco, banco.cursor()
 
-
 def create_database():
     banco, cursor = my_db()
     cursor.execute(
@@ -30,9 +29,7 @@ def create_database():
         age INTEGER,
         password TEXT NOT NULL,
         photo TEXT,
-        photo_post, TEXT
-
-        
+        photo_post TEXT
         )'''
     )
     banco.commit()
@@ -57,11 +54,30 @@ def check_user_login(login: Login):
     (login.email, login.password))
     user = cursor.fetchone()
     banco.close()
+    
 
     if user:
         return True, user[0], user[1]  # Retorne o ID e o nome do usuário
     else:
         return False, None, None  # Retorne False se o usuário não for encontrado
+
+# Função para adicionar a coluna 'bio' se não existir
+def add_column():
+    banco, cursor = my_db()
+    
+    # Verifica se a coluna 'bio' já existe
+    cursor.execute("PRAGMA table_info(usuarios)")
+    columns = [column[1] for column in cursor.fetchall()]  # Obtém todos os nomes das colunas
+
+    if 'bio' not in columns:
+        # Adiciona a coluna 'bio' à tabela 'usuarios'
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN bio TEXT")
+        banco.commit()
+        print("Coluna 'bio' adicionada com sucesso.")
+    else:
+        print("A coluna 'bio' já existe.")
+
+    banco.close()
 
 class User(UserMixin):
     def __init__(self, user_id: str, username: str):
@@ -76,4 +92,4 @@ class User(UserMixin):
         banco.close()
         if user:
             return True, (user[0], user[1])
-        return None
+        return None 

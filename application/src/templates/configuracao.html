@@ -111,13 +111,27 @@
           </div>
           <div class="mt-5 space-y-5">
             <h3 class="text-xl text-gray-100 font-semibold">Bio</h3>
-            <p class="bio-user text-gray-100 mt-2">CEO da DevOrbit 🚀 | Transformando ideias em inovação tecnológica 🌐 | Apaixonado por desenvolvimento e comunidades digitais 💻 | Criatividade + Impacto = 🌟</p>
-            <button class="relative inline-flex items-center justify-center p-0.5 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+            <p class="bio-user text-gray-100 mt-2">{{bio}}</p>
+            
+            <!-- Botão para editar a bio -->
+            <button id="showInputBtn" class="relative inline-flex items-center justify-center p-0.5 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                Editar bio
+                    Editar bio
                 </span>
+            </button>
+        
+            <!-- Contêiner de input para editar a bio (inicialmente escondido) -->
+            <div id="inputContainer" style="display: none;">
+                <input type="text" id="bioInput" placeholder="Digite algo...">
+                <button id="saveBioBtn" class="relative inline-flex items-center justify-center p-0.5 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                    Salvar
                 </button>
-
+            </div>
+        
+            <!-- Campo hidden para armazenar o id_usuario -->
+            <input type="hidden" id="user_id" value="{{ id_usuario }}">
+        </div>
+        
             <div class="space-y-5">
                 <h3 class="text-gray-100 ">Sua informação:</h3>
                 <dl class="infor_usuario ">
@@ -258,6 +272,8 @@
 </style>
 
 <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+<script src="{{url_for('static', filename='js/configuracao.js')}}"></script>
+
 
 
 

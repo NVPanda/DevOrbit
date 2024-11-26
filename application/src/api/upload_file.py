@@ -19,6 +19,10 @@ upload_model = api.model('UploadResponse', {
     'size': fields.Integer(description='Tamanho do arquivo em bytes', example=1234),
     'user_id': fields.Integer(description='ID do usuário associado', example=1)
 })
+bio = api.model('Bio', {
+    'new_bio': fields.String(description='Bio do usuário', required=True)
+})
+
 @api.route('/uploadfile/<int:user_id>')  # Aqui o tipo int é explicitado
 class UploadFile(Resource):
     @api.expect(api.parser().add_argument('file', type='file', location='files'))
@@ -91,8 +95,39 @@ class GetFile(Resource):
 
         # Garantir que o caminho seja acessível e retorne o arquivo corretamente
         return send_from_directory(os.path.join(caminho_img), relative_file_path)
+@api.route('/username/<int:user_id>/bio')
+class PutBio(Resource):
+    @api.response(200, 'Success', bio)
+    @api.response(404, 'Usuário não encontrado')
+    @api.response(400, 'Erro ao tentar atualizar a bio')
+    def put(self, user_id):
+        """Endpoint para atualizar a bio do usuário no banco de dados"""
+        # Obtém a nova bio do corpo da requisição
+        data = request.get_json()
+        new_bio = data.get('new_bio', '')
 
+        # Verifica se a bio foi fornecida
+        if not new_bio:
+            return {'message': 'A bio não pode estar vazia'}, 400
+        
+        # Conectar ao banco de dados
+        conn = sqlite3.connect(os.getenv("BANCO_DB"))
+        cursor = conn.cursor()
 
+        # Verifica se o usuário existe
+        cursor.execute("SELECT id FROM usuarios WHERE id = ?", (user_id,))
+        user = cursor.fetchone()
+
+        if not user:
+            conn.close()
+            return {'message': 'Usuário não encontrado'}, 404
+        
+        # Atualiza a bio do usuário
+        cursor.execute("UPDATE usuarios SET bio = ? WHERE id = ?", (new_bio, user_id))
+        conn.commit()
+        conn.close()
+
+        return {'message': 'Bio atualizada com sucesso'}, 200
 
 
 def register_file_routes(api_instance: Api):
