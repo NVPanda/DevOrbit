@@ -1,5 +1,5 @@
 from flask import Flask, url_for
-from application.src.database.users.configure_users import create_database
+from application.src.database.users.configure_users import create_database,add_column
 from flask_caching import Cache
 from flask_login import LoginManager, UserMixin
 from flask_restx import Api
@@ -80,7 +80,7 @@ def create_app():
 
     # Banco de dados
     create_database()
-    
+    add_column() # add coluna no banco
     initialize_posts_schema()
    
    
