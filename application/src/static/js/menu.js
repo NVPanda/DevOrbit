@@ -7,7 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const formData = new FormData(formElement);
 
-      fetch('http://127.0.0.1:8000/post/', { // Use o endpoint do FastAPI
+      // Verificar se todos os campos necessários estão presentes
+      if (!formData.has('user_id') || !formData.has('nome') || !formData.has('titulo') || !formData.has('post')) {
+        alert('Por favor, preencha todos os campos obrigatórios!');
+        return;
+      }
+
+      fetch('https://api-devorbirt.onrender.com/post/', { 
         method: 'POST',
         body: formData, // Envia o FormData diretamente
       })
@@ -19,7 +25,45 @@ document.addEventListener('DOMContentLoaded', function () {
           return response.json();
         })
         .then(data => {
-          if (data.success) {
+          if (data.id) {  // Supondo que um "id" seja retornado como sucesso
+            alert('Post criado com sucesso!');
+            window.location.href = '/devorbit/feed/'; // Redireciona para a página de feed
+          } else {
+            alert('Falha ao criar o post.');
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao enviar o formulário:', error);
+          alert('Erro ao enviar o formulário. Tente novamente!');
+        });
+    });
+  }
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const formElement = document.getElementById('post-form');
+
+  if (formElement) {
+    formElement.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(formElement);
+
+      fetch('http://localhost:5000/files/post', { // URL da sua API Flask
+        method: 'POST',
+        body: formData, // Envia o FormData diretamente
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status}`);
+          }
+
+          return response.json();
+        })
+        .then(data => {
+          if (data.id) {
             alert('Post criado com sucesso!');
             window.location.href = '/devorbit/feed/'; // Redireciona para a página de feed
           } else {
@@ -33,6 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+
 
 
 
@@ -80,3 +126,30 @@ document.addEventListener('DOMContentLoaded', function () {
     sidebarToggle.addEventListener('click', mybar);
   }
 
+// função para abri foto de perfil 
+function handleImageClick(element) {
+    const imageUrl = element.getAttribute('data-image-url');
+    
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center;
+      align-items: center; z-index: 1000;
+    `;
+
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.style.cssText = 'max-width: 93%; max-height: 93%; border-radius: 8px;';
+
+    const closeButton = document.createElement('span');
+    closeButton.textContent = 'X';
+    closeButton.style.cssText = `
+      position: absolute; top: 20px; right: 20px; color: white;
+      font-size: 24px; cursor: pointer;
+    `;
+    closeButton.onclick = () => document.body.removeChild(modal);
+    
+    modal.appendChild(img);
+    modal.appendChild(closeButton);
+    document.body.appendChild(modal);
+}

@@ -22,6 +22,6 @@ def page_register():
         register_in_db = Cadastro(name=name, last_name=last_name, email=email, age=int(age), password=password)
         
         # Adiciona o usuário ao banco de dados
-        append_user = add_user(register_in_db)  # Aqui, chamamos a função add_user
+        add_user(register_in_db)  # Aqui, chamamos a função add_user
 
     return render_template('register.html')

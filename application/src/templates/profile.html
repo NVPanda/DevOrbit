@@ -81,7 +81,13 @@
                <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Logout</span>
            </a>
            
-       </ul>
+           <li>
+          
+            <a href="{{ url_for('config.config_account', usuario=usuario) }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <i class="fas fa-cogs flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+               <span class="link-cumunidade flex-1 ms-3 whitespace-nowrap text-gray-900">Configuração</span>
+           </a>
+         </ul>
        <div id="dropdown-cta" class="p-4 mt-6 rounded-lg bg-blue-50 dark:bg-blue-900" role="alert">
           <div class="flex items-center mb-3">
              <span class="bg-orange-100 text-orange-800 text-sm font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">Beta</span>
@@ -124,7 +130,9 @@
         <div class="flex items-center p-4 border-b border-gray-200 m-10">
           <img class="w-32 h-32 rounded-full mx-auto" 
           src="{{ url_for('static', filename=user_photo) }}" 
-          alt="Profile picture">
+          data-image-url="{{ url_for('static', filename=user_photo) }}" 
+          onclick="handleImageClick(this)">
+          
             <div class="ml-3">
 
                 
@@ -152,13 +160,16 @@
          <div class="p-4">
           {% if post.img_url %}
           <img 
-              src="http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}" 
-              alt="Foto do Perfil" 
+
+          src="https://api-devorbirt.onrender.com/files/{{ post.img_url.split('/')[-1] if post.img_url else 'default_image.jpg' }}"
+            alt="Post Image"
               class="w-64 h-64 object-cover mb-4 cursor-pointer" 
-              onclick="handleImageClick('http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}')" 
+              onclick="handleImageClick('https://api-devorbirt.onrender.com/files/{{ post.img_url.split('/')[-1] if post.img_url else default_image.jpg }}')"
+
+              loading="lazy">
           
           {% endif %}
-            <p class="post-cumunity-communit text-sm">{{post.posts}}</p>
+          <p class="post-cumunity-communit text-sm text-gray-100">{{post.posts}}</p>
         </div>
 
         <!-- Ações do Post -->
@@ -203,7 +214,8 @@
     </a>
 </div>
 
-<script src="{{url_for('static', filename='js/menu.js')}}"></script>
+
+
 
 
 <style>
@@ -216,9 +228,7 @@
     h1 {
       color: black; /* Título padrão */
     }
-    p {
-      color: gray; /* Texto do parágrafo padrão */
-    }
+   
     data {
       color: black;
     }
@@ -285,6 +295,7 @@
 </style>
 
 <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+<script src="{{url_for('static', filename='js/configuracao.js')}}"></script>
 
 
 

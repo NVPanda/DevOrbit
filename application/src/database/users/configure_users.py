@@ -28,8 +28,8 @@ def create_database():
         email TEXT UNIQUE NOT NULL,
         age INTEGER,
         password TEXT NOT NULL,
-        photo TEXT,
-        photo_post TEXT
+        photo TEXT DEFAULT '/home/lansvx/criativacao/application/src/static/uploads/1_20241124191119.jpg'
+        
         )'''
     )
     banco.commit()
@@ -75,7 +75,7 @@ def add_column():
         banco.commit()
         print("Coluna 'bio' adicionada com sucesso.")
     else:
-        print("A coluna 'bio' já existe.")
+       pass
 
     banco.close()
 

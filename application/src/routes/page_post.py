@@ -1,15 +1,15 @@
-import asyncio
-from flask import Blueprint, render_template, url_for, request, redirect, flash, jsonify
-from flask_login import login_required, current_user
 import os
-from werkzeug.utils import secure_filename  # Importando secure_filename
-from application.src.database.configure_post import create_post
-from dotenv import load_dotenv
 import requests
+from flask import Blueprint, render_template, request, redirect, flash
+from flask_login import login_required, current_user
+from werkzeug.utils import secure_filename
+from application.src.database.configure_post import criando_post
+from dotenv import load_dotenv
 
 load_dotenv()
 
 posts = Blueprint('page_posts', __name__, template_folder='templates')
+
 @posts.route('/devorbit/feed/posts/', methods=['POST', 'GET'])
 @login_required
 def create_post_route():
@@ -40,12 +40,10 @@ def create_post_route():
                 print(f"Imagem salva no diretório: {post_img_path}")
 
             # Salvar dados diretamente no banco
-            create_post(username, post_img_path)
+            criando_post(username, post_img_path)
 
-            # Se necessário, também podemos salvar dados em uma API externa aqui
-            # Preparar dados para a API externa
+            # Preparar dados para a API externa (com JSON)
             data = {
-                'user_id': current_user.id,
                 'nome': username,
                 'titulo': titulo,
                 'post': post_content,
@@ -55,13 +53,13 @@ def create_post_route():
             files = None
             if post_image:
                 files = {
-                    'file': (post_image.filename, post_image.read(), post_image.mimetype)
+                    'file': (img_filename, open(post_img_path, 'rb'), post_image.content_type)
                 }
 
             headers = {'Authorization': f'Bearer {current_user.token}'}
 
-            # Enviar requisição para a API externa
-            response = requests.post("http://127.0.0.1:8000/post/", data=data, files=files, headers=headers)
+            # Enviar requisição para a API externa com o tipo de conteúdo 'multipart/form-data'
+            response = requests.post("http://localhost:5000/files/post", data=data, files=files, headers=headers)
 
             # Verificar resposta da API
             if response.status_code == 200:
@@ -75,4 +73,4 @@ def create_post_route():
             flash(f"Erro ao criar o post: {str(e)}", 'error')
             return redirect(request.url)
 
-    return render_template('post.html')
+    return render_template('post.html', username=current_user.username)

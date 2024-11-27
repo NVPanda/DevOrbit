@@ -20,7 +20,7 @@ fetch('http://localhost:8000/post/', {
 
   
   // Função para lidar com o envio do like
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const likeButtons = document.querySelectorAll('.like-button');
     
     likeButtons.forEach(button => {
@@ -31,7 +31,7 @@ fetch('http://localhost:8000/post/', {
         console.log(`Tentando curtir o post ${postId} com o usuário ${userId}`);
   
         try {
-          const response = await fetch(`http://localhost:8000/user/${userId}/likes/${postId}`, {
+          const response = await fetch(`https://api-devorbirt.onrender.com/user/${userId}/likes/${postId}`, { 
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json', // Especifica que o corpo da requisição é JSON
@@ -41,6 +41,7 @@ fetch('http://localhost:8000/post/', {
               postId: postId,
             }),
           });
+      
   
           if (response.ok) {
             const data = await response.json();

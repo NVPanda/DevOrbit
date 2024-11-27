@@ -1,5 +1,6 @@
+from datetime import datetime
 import os
-from flask import Flask, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 from flask_restx import Api, Namespace, Resource, fields
 import sqlite3
 from dotenv import load_dotenv
@@ -23,6 +24,70 @@ bio = api.model('Bio', {
     'new_bio': fields.String(description='Bio do usuário', required=True)
 })
 
+post_model = api.model('Post', {
+    'user_id': fields.Integer(required=True, description='ID do usuário'),
+    'nome': fields.String(required=True, description='Nome do autor'),
+    'titulo': fields.String(required=True, description='Título do post'),
+    'post': fields.String(required=True, description='Conteúdo do post'),
+})
+
+
+@api.route('/post/')
+class CriandoPostagem(Resource):
+    def post(self):
+        nome = request.form.get('nome')  # Recebe o nome do usuário
+        titulo = request.form.get('titulo')  # Recebe o título do post
+        post_content = request.form.get('post')  # Recebe o conteúdo do post
+        file = request.files.get('file')  # A imagem opcional
+
+        # Verifica se o nome, título e conteúdo foram fornecidos
+        if not nome or not titulo or not post_content:
+            return {"error": "Nome, título e conteúdo do post são obrigatórios."}, 400
+
+        # Salvar a imagem, se enviada
+        img_path = None
+        if file:
+            ext = os.path.splitext(file.filename)[1]
+            img_filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}{ext}"
+            img_path = os.path.join(caminho_img, img_filename)
+            file.save(img_path)
+            print(f"Imagem salva em: {img_path}")
+
+        # Salvar o post no banco de dados
+        try:
+            conn = sqlite3.connect("banco_posts_comunidade.db")
+            cursor = conn.cursor()
+            data_atual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            cursor.execute(
+                """
+                INSERT INTO post_do_usuario (nome, data, img_path)
+                VALUES (?, ?, ?)
+                """,
+                (nome, data_atual, img_path)
+            )
+            conn.commit()
+            post_id = cursor.lastrowid
+            conn.close()
+
+            # Retornar resposta com o ID do novo post
+            response_data = {
+                "id": post_id,
+                "nome": nome,
+                "titulo": titulo,
+                "post": post_content,
+                "data": data_atual,
+                "img_url": f"http://127.0.0.1:5000/files/{img_filename}" if img_path else None,
+            }
+            return jsonify(response_data), 200
+        except Exception as e:
+            return {"error": f"Erro ao salvar o post: {str(e)}"}, 500
+
+
+
+
+
+
+
 @api.route('/uploadfile/<int:user_id>')  # Aqui o tipo int é explicitado
 class UploadFile(Resource):
     @api.expect(api.parser().add_argument('file', type='file', location='files'))
@@ -31,6 +96,8 @@ class UploadFile(Resource):
         """
         Realiza o upload de um arquivo e associa ao usuário pelo ID.
         """
+        print(f"Recebendo upload para o usuário com ID: {user_id}")  # Verifique no console se o ID chega corretamente
+        
         uploaded_file = request.files.get('file')
         
         # Verifica se o arquivo foi enviado
@@ -68,6 +135,7 @@ class UploadFile(Resource):
             "user_id": user_id
         }, 200
 
+
 @api.route('/<int:user_id>', endpoint='get_file')
 class GetFile(Resource):
     @api.response(200, 'Success')
@@ -95,6 +163,7 @@ class GetFile(Resource):
 
         # Garantir que o caminho seja acessível e retorne o arquivo corretamente
         return send_from_directory(os.path.join(caminho_img), relative_file_path)
+    
 @api.route('/username/<int:user_id>/bio')
 class PutBio(Resource):
     @api.response(200, 'Success', bio)
