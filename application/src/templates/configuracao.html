@@ -94,15 +94,29 @@
        </div>
     </div>
  </aside>
+      
 
         <div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
           <img class="w-32 h-32 rounded-full mx-auto" 
           src="{{ url_for('static', filename=user_photo) }}" 
-          alt="Profile picture">
-
-
+          data-image-url="{{ url_for('static', filename=user_photo) }}" 
+          onclick="handleImageClick(this)"
+          
+        
           <h3 class="user-name text-sm font-semibold text-gray-800">{{ usuario }}</h3>
-
+          <div class="flex justify-between items-center">
+            <!-- Botão estilizado que serve como trigger para o campo de input -->
+            <button type="button" onclick="document.getElementById('files').click();" class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
+              Mudar foto de perfil
+            </button>
+          
+            <!-- Campo de input de arquivo escondido -->
+            <input type="file" id="files" class="hidden" accept="image/*" onchange="uploadImage(event)" />
+          
+            <!-- Campo hidden com o ID do usuário (supondo que esteja aqui) -->
+            <input type="hidden" id="id_usuario" value="{{id_usuario}}" />
+          </div>
+          
           <p class="text-center text-gray-100 mt-1">Software Engineer</p>
           <div class="flex justify-center mt-5">
             <a href="#" class="text-blue-500 hover:text-blue-700 mx-3">Twitter</a>
@@ -127,13 +141,16 @@
                     Salvar
                 </button>
             </div>
+
+          
+            
         
             <!-- Campo hidden para armazenar o id_usuario -->
             <input type="hidden" id="user_id" value="{{ id_usuario }}">
         </div>
         
             <div class="space-y-5">
-                <h3 class="text-gray-100 ">Sua informação:</h3>
+                <h3 class="text-gray-100 ">Suas informações:</h3>
                 <dl class="infor_usuario ">
                     <dt class="text-blue-400">Username:</dt>
                     <dd class="text-gray-100">{{usuario}}</dd>
@@ -188,7 +205,7 @@
             </div>
         </footer>
         
-        
+
 
 <style>
 

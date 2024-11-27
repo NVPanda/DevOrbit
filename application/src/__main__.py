@@ -4,7 +4,8 @@ from flask_caching import Cache
 from flask_login import LoginManager, UserMixin
 from flask_restx import Api
 from application.src.api.upload_file import register_file_routes, caminho_img, send_from_directory
-from application.src.database.configure_post import initialize_posts_schema
+
+from application.src.database.configure_post import banco_post, criar_tabela_post
 import asyncio
 
 
@@ -60,7 +61,7 @@ def create_app():
     print("Diretório de uploads:", app.config['UPLOAD_FOLDER'])
 
     # Registrar blueprints
-    from application.src.routes.home import login_, logout_, home_, erro_http_
+    from application.src.routes.home import login_, logout_, home_, erro_http_, files_
     from application.src.routes.register import register_
     from application.src.routes.perfil import profile
     from application.src.routes.page_post import posts
@@ -68,6 +69,8 @@ def create_app():
     from application.src.routes.configuracao import configuracao_
 
     app.register_blueprint(home_)
+    app.register_blueprint(files_)
+
     app.register_blueprint(login_)
     app.register_blueprint(register_)
     app.register_blueprint(logout_)
@@ -81,7 +84,8 @@ def create_app():
     # Banco de dados
     create_database()
     add_column() # add coluna no banco
-    initialize_posts_schema()
+    banco_post()
+    criar_tabela_post()
    
    
 

@@ -182,16 +182,13 @@
         <div class="p-4 max-w-full justify-center flex-wrap rounded-lg items-center">
         {% if post.img_url %}
         <img 
-    src="http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}" 
-    alt="Foto do Perfil" 
-    class="w-full h-auto object-cover mb-4 cursor-pointer" 
-    onclick="handleImageClick('http://127.0.0.1:8000/files/{{ post.img_url.split('/')[-1] }}')" 
-    loading="lazy"
-      
-     
+         src="https://api-devorbirt.onrender.com/files/{{ post.img_url.split('/')[-1] }}" 
+          alt="Post Image"
+        onclick="handleImageClick('https://api-devorbirt.onrender.com/files/{{ post.img_url.split('/')[-1] }}')" 
+        loading="lazy">
+        {% endif %}
+        </div>
              <div class="ml-3">
-        
-          {% endif %}
           <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.titulo }}</span>
           <p class="community-pos text-gray-100 text-sm whitespace-pre-line text-justify break-words overflow-auto">
               {{ post.post | safe }}
@@ -241,6 +238,7 @@
         <span class="sr-only">Create New Post</span>
     </a>
 </div>
+
 <style>
     /* Estilo padrão para o body */
     body {
@@ -338,7 +336,7 @@
 
       // Faz a requisição AJAX para o backend
       $.ajax({
-        url: `http://localhost:8000/user/${userId}/likes/${postId}`,
+        url: `https://api-devorbirt.onrender.com/user/${userId}/likes/${postId}`,
         type: 'PUT',
         headers: { Accept: 'application/json' },
         success: function (response) {
