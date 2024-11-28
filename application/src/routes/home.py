@@ -38,6 +38,8 @@ def login_page():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        
+
         try_login = Login(email, password)
         is_valid, user_id, username = check_user_login(try_login)
         
@@ -47,6 +49,8 @@ def login_page():
             # Faz login do usuário usando Flask-Login
             login_user(user)
             flash('Login bem-sucedido!')
+            session['user'] = {'name': current_user.username, 'id': current_user.id}
+           
 
             next_page = session.get('next', url_for('home.home_page'))
             return redirect(next_page)
@@ -54,10 +58,12 @@ def login_page():
         else:
             flash('Email ou senha inválidos. Tente novamente.')
             return redirect(url_for('login.login_page'))
+   
 
+    
     return render_template('login.html')
 
-@home_.route('/devorbit/feed/')
+@home_.route('/devorbit/feed/', methods=['POST', 'GET'])
 @login_required
 def home_page():
     """
@@ -142,11 +148,11 @@ def home_page():
             })
 
     except requests.RequestException as e:
-        flash(f"Erro ao acessar a API: {e}")
+       
         return redirect(url_for('errorHttp.page_erro'))
 
     except sqlite3.Error as e:
-        flash(f"Erro no banco de dados: {e}")
+       # Envia os erros para um arquilo de logs
         return redirect(url_for('home.home_page'))
 
     # Retorna a página principal com os posts

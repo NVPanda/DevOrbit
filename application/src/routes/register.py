@@ -24,4 +24,10 @@ def page_register():
         # Adiciona o usuário ao banco de dados
         add_user(register_in_db)  # Aqui, chamamos a função add_user
 
+        if register_in_db and add_user:
+             session['user'] = {'name': name, 'email': email}
+            
+
+             return redirect(url_for('home.home_page'))
+
     return render_template('register.html')
