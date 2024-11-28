@@ -21,6 +21,7 @@ module.exports = {
       whitespace: ['hover', 'focus'],
       textAlign: ['hover', 'focus'],
       wordBreak: ['hover', 'focus'],
+      boxDecorationBreak: ['hover', 'focus'],
       inset: {
         left: {
           left: 10,

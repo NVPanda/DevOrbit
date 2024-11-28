@@ -225,7 +225,17 @@
     {% endfor %}
 </div>
 
-
+<div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl aling-items:center min-h-screen">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+          {% for category, message in messages %}
+              <div class="flash {{ category }}">
+                  {{ message }}
+              </div>
+          {% endfor %}
+      {% endif %}
+  {% endwith %}
+</div>
 
 
 <div class="fixed flex bottom-6 end-6 group">
@@ -276,6 +286,24 @@
       font-size: 24px;
       cursor: pointer;
     }
+
+    .flash {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
   
     /* Media query para dispositivos móveis */
     @media (max-width: 768px) {
@@ -317,6 +345,13 @@
       }
     }
   </style>
+
+
+
+
+
+
+
 <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

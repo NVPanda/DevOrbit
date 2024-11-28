@@ -63,6 +63,7 @@ def create_post_route():
 
             # Verificar resposta da API
             if response.status_code == 200:
+                flash('Post criado com suceso')
                 return redirect('/devorbit/feed/')  # Sucesso
             else:
                 error_msg = response.json().get('detail', 'Erro desconhecido')
