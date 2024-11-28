@@ -108,10 +108,6 @@
  
  <div class="p-4 sm:ml-64">
      <!-- component -->
-    {% set interromper = False %}
-    {% for post in post_banner %}
-    {% if not interromper %}
-
     <div class="flex flex-col items-center">
         <div class="flex justify-between items-center w-full">
           <!-- Bolinha animada -->
@@ -132,21 +128,21 @@
   
      
       <div class="mt-2 text-center p-4 ">
-          <a class="post-cumunity-community  text-2xl text-blue-300 font-bold pl-4" href="#">{{post.post_titulo}}</a>
-          <p class="community-post mt-2 text-gray-100 text-center ml-4">{{post.post | safe}} </p>
+          <a class="post-cumunity-community  text-2xl text-blue-300 font-bold pl-4" href="#">{{ post_banner.post_titulo}}</a>
+          <p class="community-post mt-2 text-gray-100 text-center ml-4">{{post_banner.post}} </p>
+          
       </div>
-      
-        <a class="flex justify-center mx-4 text-gray-100" href="{{ url_for('perfil.profile_page', usuario=post.post_nome) }}"><p class="text-blue-500 mx-2">Author:</p> {{post.post_nome}}</a>
+        <a class="flex justify-center mx-4 text-gray-100" href="{{ url_for('perfil.profile_page', usuario=post_banner.post_nome) }}"><p class="text-blue-500 mx-2">Author:</p> {{ post_banner.post_nome}}</a>
             <img class=" mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar">
             </a>
         </div>
+        
     </div>
 </div>
-{% set interromper = True %}
+
 </div>
 </div>
-{% endif %}
-{% endfor %}
+
 
 
 <div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl aling-items:center min-h-screen">
@@ -159,7 +155,7 @@
          alt="Profile picture">
             <div class="ml-3">
                 <a href="{{ url_for('perfil.profile_page', usuario=post.nome) }}">
-                    <h3 class="user-name text-sm font-semibold text-gray-100">{{ post.nome }}</h3>
+                    <h3 class="user-name text-sm font-semibold text-gray-100">{{ post.post_nome }}</h3>
                 </a>
                 <span class="data text-xs text-gray-500 aling-items:center">{{ post.data }}</span>
             </div>
@@ -189,7 +185,7 @@
         {% endif %}
         </div>
              <div class="ml-3">
-          <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.titulo }}</span>
+          <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.post_titulo }}</span>
           <p class="community-pos text-gray-100 text-sm whitespace-pre-line text-justify break-words overflow-auto">
               {{ post.post | safe }}
           </p>
