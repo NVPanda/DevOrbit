@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, url_for, request, redirect, sessio
 from flask_login import login_user, logout_user, login_required, current_user, UserMixin
 from application.src.database.users.configure_users import Login, check_user_login, User
 from application.src.database.users.configure_users import my_db
+from application.src.services.api_service  import dataRequests
 
 import sqlite3
 import requests
@@ -71,81 +72,15 @@ def home_page():
     """
 
     try:
+        
         usuario = current_user.username
-        response = requests.get('https://api-devorbirt.onrender.com/posts/')
-        response.raise_for_status()
+
         
-        
-
-        # Certifique-se de que a resposta é válida e um JSON é retornado
-        if response.status_code != 200:
-            flash("Erro ao carregar posts. Tente novamente mais tarde.")
-            return redirect(url_for('perfil.profile_page'))
-
-        requesting_all_posts = response.json()
-        print(requesting_all_posts)
-
-        # Conectar ao banco de dados para buscar fotos de usuários
-        conn = sqlite3.connect(os.getenv("BANCO_DB"))
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT name, photo FROM usuarios")
-        user_photos = cursor.fetchall()
-        photo_dict = {user[0]: user[1] for user in user_photos}
-        conn.close()
-
-
-        # # Buscando usurio e foto que foi enviado ao fazer um post
-        # banco = sqlite3.connect(os.getenv("BANCO_POST"))
-        # cur = banco.cursor()
-
-        # cursor.execute("SELECT nome, img_path FROM post_do_usuario")
-        # all_post = cur.fetchall()
-        # data_post = {user[0]: user[1] for user in user_photos}
-        # banco.close()
-
-        # Ordenar os posts por likes e data
-        if requesting_all_posts:
-            requesting_all_posts.sort(key=lambda post: (post["likes"], post["data"]), reverse=True)
-
-        # Construir lista de posts com fotos de perfil
-        lista_do_melhor_post = []
-        for column in requesting_all_posts:
-            lista_do_melhor_post.append({
-                'id': column['id'],
-                'nome': column['nome'],
-                'titulo': column['titulo'],
-                'data': column['data'][10:16],
-                'post': column['post'],
-                'likes': column['likes'],
-                'img_url': column.get('img_url', None),
-                'user_photo': photo_dict.get(column['nome'], '/caminho/para/imagem/padrao.jpg')
-            })
-
-        # Filtro de posts populares
-        posts_filter = []
-        for post_do_momento in lista_do_melhor_post:
-            likes = int(post_do_momento['likes'])
-            if likes >= 30:
-                posts_filter.append({
-                    'post_titulo': post_do_momento['titulo'],
-                    'post': post_do_momento['post'],
-                    'post_nome': post_do_momento['nome'],
-                    'likes': post_do_momento['likes'],
-                    'data_post': post_do_momento['data'],
-                    'img_url': post_do_momento['img_url'],
-                    'user_photo': post_do_momento['user_photo']
-                })
-
-        # Se nenhum post popular foi encontrado'img_url':
-        if not posts_filter:
-            posts_filter.append({
-                'post_titulo': os.getenv('MENSAGEN'),
-                'post': os.getenv('MENSAGEN_POST'),
-                'post_nome': os.getenv('CODECHAMBER'),
-                'data_post': 'N/A',
-                
-            })
+       
+       
+       
+       
+       
 
     except requests.RequestException as e:
        
@@ -156,12 +91,16 @@ def home_page():
         return redirect(url_for('home.home_page'))
 
     # Retorna a página principal com os posts
-    return render_template('home.html', 
-                           username=current_user.username, 
-                           id=current_user.id, 
-                           posts=lista_do_melhor_post, 
-                           post_banner=posts_filter, 
-                           usuario=usuario)
+    data = dataRequests()
+    data = dataRequests()
+    return render_template(
+        'home.html',
+        username=current_user.username,
+        id=current_user.id,
+        posts=data['todos_os_posts'], 
+        post_banner=data['post_banner'], 
+        usuario=usuario
+    )
 @logout_.route('/devorbit/logout')
 @login_required
 def logout():
