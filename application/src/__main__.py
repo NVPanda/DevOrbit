@@ -3,22 +3,21 @@ from application.src.database.users.configure_users import create_database,add_c
 from flask_caching import Cache
 from flask_login import LoginManager, UserMixin
 from flask_restx import Api
+from flask_cors import CORS
 from application.src.api.upload_file import register_file_routes, caminho_img, send_from_directory
-
 from application.src.database.configure_post import banco_post, criar_tabela_post
-import asyncio
 
+from flask_bcrypt import Bcrypt
 
-
-from fastapi import FastAPI
 import os
 import sqlite3
 from dotenv import load_dotenv
 
 
+cache = Cache()
+# Carregando as variáveis de ambiente
+load_dotenv()
 
-load_dotenv()  # Carregando as variáveis de ambiente
-cache = Cache()  # Instância da classe Cache
 
 
 # Função para obter a conexão com o banco de dados
@@ -54,6 +53,9 @@ def create_app():
     app.config['CACHE_TYPE'] = os.getenv('CACHE')
     app.config['UPLOAD_FOLDER'] = os.path.abspath("application/src/static/uploads")
     app.add_url_rule('/files/<filename>', endpoint='files', view_func=send_from_directory, defaults={'directory': caminho_img})
+    CORS(app, resources={r"/*": {"origins": "*"}})
+
+    hashing = Bcrypt(app)
     
    
 
@@ -61,16 +63,17 @@ def create_app():
     print("Diretório de uploads:", app.config['UPLOAD_FOLDER'])
 
     # Registrar blueprints
-    from application.src.routes.home import login_, logout_, home_, erro_http_, files_
+    from application.src.routes.home import home_
+    from application.src.routes.loginAccount import login_
+    from application.src.routes.logoutAccont import logout_
     from application.src.routes.register import register_
     from application.src.routes.perfil import profile
     from application.src.routes.page_post import posts
     from application.src.routes.denucia import denucia
     from application.src.routes.configuracao import configuracao_
+    from application.src.routes.page_erro import erro_http_
 
     app.register_blueprint(home_)
-    app.register_blueprint(files_)
-
     app.register_blueprint(login_)
     app.register_blueprint(register_)
     app.register_blueprint(logout_)

@@ -41,32 +41,33 @@ document.getElementById("saveBioBtn").addEventListener("click", function() {
     }
 });
 
-
 function handleImageClick(element) {
-    const imageUrl = element.getAttribute('data-image-url');
-    
-    const modal = document.createElement('div');
-    modal.style.cssText = `
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center;
-      align-items: center; z-index: 1000;
-    `;
+  // Garantir que `element` seja válido e obtenha o atributo src
+  const imageUrl = element.getAttribute('src');
 
-    const img = document.createElement('img');
-    img.src = imageUrl;
-    img.style.cssText = 'max-width: 93%; max-height: 93%; border-radius: 8px;';
+  // Criar o modal
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center;
+    align-items: center; z-index: 1000;
+  `;
 
-    const closeButton = document.createElement('span');
-    closeButton.textContent = 'X';
-    closeButton.style.cssText = `
-      position: absolute; top: 20px; right: 20px; color: white;
-      font-size: 24px; cursor: pointer;
-    `;
-    closeButton.onclick = () => document.body.removeChild(modal);
-    
-    modal.appendChild(img);
-    modal.appendChild(closeButton);
-    document.body.appendChild(modal);
+  const img = document.createElement('img');
+  img.src = imageUrl;
+  img.style.cssText = 'max-width: 93%; max-height: 93%; border-radius: 8px;';
+
+  const closeButton = document.createElement('span');
+  closeButton.textContent = 'X';
+  closeButton.style.cssText = `
+    position: absolute; top: 20px; right: 20px; color: white;
+    font-size: 24px; cursor: pointer;
+  `;
+  closeButton.onclick = () => document.body.removeChild(modal);
+
+  modal.appendChild(img);
+  modal.appendChild(closeButton);
+  document.body.appendChild(modal);
 }
 
 
@@ -88,8 +89,7 @@ function displayFileName() {
     // Obtém o ID do usuário a partir do campo hidden
     const userId = document.getElementById('id_usuario') ? document.getElementById('id_usuario').value : null;
   
-    // Verifique se o ID foi recuperado corretamente
-    console.log("ID do usuário:", userId);  // Verifique no console
+    
   
     if (!userId) {
       alert("ID do usuário não encontrado.");
@@ -110,7 +110,7 @@ function displayFileName() {
     })
     .then(response => response.json()) 
     .then(data => {
-      console.log("Imagem enviada com sucesso:");
+      
       
     })
     

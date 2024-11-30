@@ -1,5 +1,7 @@
 import sqlite3
 from flask_login import UserMixin
+from flask_bcrypt import check_password_hash, generate_password_hash
+
 
 class Cadastro:
     def __init__(self, name: str, last_name: str, email: str, age: int, password: str):
@@ -35,31 +37,32 @@ def create_database():
     banco.commit()
     banco.close()
 
-def add_user(user: Cadastro):
+    
+def add_user(cadastro: Cadastro):
     banco, cursor = my_db()
-    try:
-        cursor.execute('''
-        INSERT INTO usuarios (name, last_name, email, age, password) values (?,?,?,?,?)''',
-        (user.name, user.last_name, user.email, user.age, user.password))
-        banco.commit()
-    except sqlite3.IntegrityError:
-        return 'Email já cadastrado', None
-    finally:
-        banco.close()
+    senha_hash = generate_password_hash(cadastro.password).decode('utf-8')  # Gera o hash da senha
+    cursor.execute('''
+    INSERT INTO usuarios (name, last_name, email, age, password)
+    VALUES (?, ?, ?, ?, ?)
+    ''', (cadastro.name, cadastro.last_name, cadastro.email, cadastro.age, senha_hash))
+    banco.commit()
+    banco.close()
 
 def check_user_login(login: Login):
     banco, cursor = my_db()
     cursor.execute('''
-    SELECT id, name FROM usuarios WHERE email = ? AND password = ?''',
-    (login.email, login.password))
+    SELECT id, name, password FROM usuarios WHERE email = ?
+    ''', (login.email,))
     user = cursor.fetchone()
     banco.close()
-    
 
     if user:
-        return True, user[0], user[1]  # Retorne o ID e o nome do usuário
-    else:
-        return False, None, None  # Retorne False se o usuário não for encontrado
+        user_id, username, hashed_password = user
+        # Verifique a senha usando check_password_hash
+        if check_password_hash(hashed_password, login.password):
+            return True, user_id, hashed_password, username
+    return False, None, None, None
+
 
 # Função para adicionar a coluna 'bio' se não existir
 def add_column():
@@ -79,6 +82,8 @@ def add_column():
 
     banco.close()
 
+
+
 class User(UserMixin):
     def __init__(self, user_id: str, username: str):
         self.id = user_id
@@ -91,5 +96,5 @@ class User(UserMixin):
         user = cursor.fetchone()
         banco.close()
         if user:
-            return True, (user[0], user[1])
+            return True, user[0], user[1]
         return None 
