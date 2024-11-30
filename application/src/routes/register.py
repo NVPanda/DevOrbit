@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, request, redirect, flash, session
 from application.src.database.users.configure_users import Cadastro, add_user
-
+from flask_bcrypt import generate_password_hash
 
 register_ = Blueprint('register', __name__, template_folder='templates')
 
@@ -24,7 +24,7 @@ def page_register():
         # Adiciona o usuário ao banco de dados
         add_user(register_in_db)  # Aqui, chamamos a função add_user
 
-        if register_in_db and add_user:
+        if register_in_db and add_user and Cadastro:
              session['user'] = {'name': name, 'email': email}
             
 
