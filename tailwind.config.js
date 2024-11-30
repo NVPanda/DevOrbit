@@ -22,12 +22,19 @@ module.exports = {
       textAlign: ['hover', 'focus'],
       wordBreak: ['hover', 'focus'],
       boxDecorationBreak: ['hover', 'focus'],
+      inset: ['hover', 'focus'],
+
       inset: {
         left: {
           left: 10,
           left: 35,
           left: 40,
           right: 10,
+          right: 25,
+          right: 15,
+          right: 5,
+
+
         },
       },
       colors: {
@@ -83,6 +90,8 @@ module.exports = {
       },
       top: {
         top: 12,
+        top: 20,
+        top: 25,
         top: 35,
         top: 45,
         top: 40,
