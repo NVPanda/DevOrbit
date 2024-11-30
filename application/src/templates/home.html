@@ -103,16 +103,16 @@
     </div>
  </aside>
  <!-- wallpape.jpg -->
-
-
+ 
+ 
  
  <div class="p-4 sm:ml-64">
-     <!-- component -->
-    <div class="flex flex-col items-center">
-        <div class="flex justify-between items-center w-full">
-          <!-- Bolinha animada -->
-          <span class="relative flex h-3 w-3">
-            <span class="animate-ping-lento absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+   <!-- component -->
+   <div class="flex flex-col items-center">
+     <div class="flex justify-between items-center w-full">
+       <!-- Bolinha animada -->
+       <span class="relative flex h-3 w-3">
+         <span class="animate-ping-lento absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
           </span>
           <!-- Texto fixo -->
@@ -120,24 +120,35 @@
           <!-- Botão de denúncia -->
           <a class="ml-auto px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-200 hover:text-gray-800 transition"
              href="{{ url_for('denucia.page_denucia') }}">
-            Denúncia
-          </a>
+             Denúncia
+            </a>
         </div>
       </div>
       
-  
-     
+      
       <div class="mt-2 text-center p-4 ">
-          <a class="post-cumunity-community  text-2xl text-blue-300 font-bold pl-4" href="#">{{ post_banner.post_titulo}}</a>
-          <p class="community-post mt-2 text-gray-100 text-center ml-4">{{post_banner.post}} </p>
-          
+        <a class="post-cumunity-community  text-2xl text-blue-300 font-bold pl-4" href="#">{{ post_banner.post_titulo}}</a>
+        <p class="community-post mt-2 text-gray-100 text-center ml-4">{{post_banner.post}} </p>
+        <p class="community-post mt-2 text-gray-100 text-center ml-4">{{post_banner.post_nome}} </p>
+
       </div>
-        <a class="flex justify-center mx-4 text-gray-100" href="{{ url_for('perfil.profile_page', usuario=post_banner.post_nome) }}"><p class="text-blue-500 mx-2">Author:</p> {{ post_banner.post_nome}}</a>
-            <img class=" mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar">
-            </a>
-        </div>
-        
-    </div>
+
+      {% for post in posts %}
+      {% if post.likes >= 30 %}
+      <a class="flex justify-center mx-4 text-gray-100" href="{{ url_for('perfil.profile_page', usuario=post.nome) }}">
+          <p class="text-blue-500 mx-2">Author:</p> {{ post.nome }}
+      </a>
+      
+      {%endif%}
+      {% endfor %}
+
+          <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" 
+               src="https://media.giphy.com/media/pLYBun7vprp62Ufhxc/giphy.gif" 
+               alt="avatar">
+      
+  
+    
+  </div>
 </div>
 
 </div>
@@ -145,9 +156,9 @@
 
 
 
-<div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl aling-items:center min-h-screen">
-    {% for post in posts %}
-    <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center">
+<div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl aling-items:center min-h-screen m-1">
+  {% for post in posts %}
+    <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden   p-4 m-4 align-items:center dark:bg-gray-800 items-center">
         <!-- Cabeçalho do Post -->
         <div class="flex items-center p-4 border-b border-gray-200 m-10 justify-center ">
           <img class="w-32 h-32 rounded-full mx-auto" 
@@ -155,16 +166,19 @@
          alt="Profile picture">
             <div class="ml-3">
                 <a href="{{ url_for('perfil.profile_page', usuario=post.nome) }}">
-                    <h3 class="user-name text-sm font-semibold text-gray-100">{{ post.post_nome }}</h3>
+                    <h3 class="user-name text-sm font-semibold text-gray-100">{{ post.nome }}</h3>
                 </a>
                 <span class="data text-xs text-gray-500 aling-items:center">{{ post.data }}</span>
+                
             </div>
             <!-- Menu de Opções -->
-            <div class="ml-auto relative">
-                <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 4a2 2 0 110-4 2 2 0 010 4zm0 4a2 2 0 110-4 2 2 0 010 4z" />
-                    </svg>
+            <div class="ml-auto m-1 relative top-[-73px] cursor-pointer text-gray-100 left-35 ">
+              <button class="options text-gray-100 hover:text-blue-700 focus:outline-none absolute inset-y-0 inset-x-0 ">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 " fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z" />
+                </svg>
+              </button>
+              
                 </button>
                 <div class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg z-10">
                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Denunciar</a>
@@ -178,17 +192,19 @@
         <div class="p-4 max-w-full justify-center flex-wrap rounded-lg items-center">
         {% if post.img_url %}
         <img 
-         src="https://api-devorbirt.onrender.com/files/{{ post.img_url.split('/')[-1] }}" 
-          alt="Post Image"
-        onclick="handleImageClick('https://api-devorbirt.onrender.com/files/{{ post.img_url.split('/')[-1] }}')" 
-        loading="lazy">
+      src="https://api-devorbirt.onrender.com/files/{{ post.img_url.split('/')[-1] }}" 
+      alt="Post Image"
+      onclick="handleImageClick(this)" 
+      loading="lazy">
+    
         {% endif %}
         </div>
              <div class="ml-3">
-          <span class="text-blue-500 text-sm uppercase whitespace-pre-line text-center">{{ post.post_titulo }}</span>
-          <p class="community-pos text-gray-100 text-sm whitespace-pre-line text-justify break-words overflow-auto">
+          <span class="text-blue-500 text-sm uppercase  whitespace-pre-line text-center">{{ post.titulo }}</span>
+          <p class="community-pos text-gray-100 text-sm whitespace-pre-line  text-justify break-words overflow-auto">
               {{ post.post | safe }}
           </p>
+          
       </div>
       
         
@@ -267,7 +283,9 @@
     CodePost{
         color: azure;
     } 
-       
+    .options{
+      color: white;
+    }
   
     /* Botão de fechar (oculto por padrão) */
     .close-sidebar-btn {
@@ -331,6 +349,9 @@
       .CodePost {
         color: azure;
       }
+      .options{
+        color: azure;
+      }
   
       /* Botão de fechar visível em telas menores */
       .close-sidebar-btn {
@@ -349,6 +370,8 @@
 
 
 <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function () {

@@ -72,6 +72,8 @@ def create_post_route():
 
         except Exception as e:
             flash(f"Erro ao criar o post: {str(e)}", 'error')
+            with open(os.getenv('LOGS'), 'w') as f:
+                f.write('{}\n'.format(e.__class__.__name__))
             return redirect(request.url)
 
     return render_template('post.html', username=current_user.username)

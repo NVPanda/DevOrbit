@@ -133,43 +133,7 @@
         </button>
     </form>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const formElement = document.getElementById('post-form');
 
-            if (formElement) {
-                formElement.addEventListener('submit', (event) => {
-                    event.preventDefault(); // Impede o envio normal do formulário
-
-                    const formData = new FormData(formElement);
-
-                    // Enviar os dados usando fetch
-                    fetch('https://api-devorbirt.onrender.com/post/', {
-                        method: 'POST',
-                        body: formData, // Envia o FormData com todos os campos do formulário
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`Erro na requisição: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.id) {  // Verifica se a resposta contém um ID (significa sucesso)
-                            alert('Post criado com sucesso!');
-                            window.location.href = '/devorbit/feed/'; // Redireciona para a página de feed
-                        } else {
-                            alert('Falha ao criar o post.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro ao enviar o formulário:', error);
-                        alert('Erro ao enviar o formulário. Tente novamente!');
-                    });
-                });
-            }
-        });
-    </script>
    
 <style>
   /* Estilo padrão para o body */
