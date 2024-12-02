@@ -45,7 +45,7 @@ def dataRequests() -> Dict[str, Any]:
             'post': column['post'].capitalize(),
             'likes': column['likes'],
             'img_url': column.get('img_url', None),
-            'user_photo': photo_dict.get(column['nome'], '/caminho/para/imagem/padrao.jpg')
+            'user_photo': photo_dict.get(column['nome'], None)
         })
 
 

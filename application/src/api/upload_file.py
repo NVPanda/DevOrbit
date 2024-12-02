@@ -9,6 +9,7 @@ load_dotenv()  # Carrega variáveis do arquivo .env
 
 # Caminho onde as imagens serão salvas
 caminho_img = 'application/src/static/fotos'
+foto_default = 'application/src/static/uploads/1.jpeg'
 os.makedirs(caminho_img, exist_ok=True)
 # Namespace para as rotas
 api = Namespace('files', description='Operações com arquivos', path='/files')
@@ -71,13 +72,16 @@ class CriandoPostagem(Resource):
 
             # Retornar resposta com o ID do novo post
             response_data = {
-                "id": post_id,
-                "nome": nome,
-                "titulo": titulo,
-                "post": post_content,
-                "data": data_atual,
-                "img_url": f"http://127.0.0.1:5000/files/{img_filename}" if img_path else None,
-            }
+        "id": post_id,
+        "nome": nome,
+        "titulo": titulo,
+        "post": post_content,
+        "data": data_atual,
+        "img_url": f"http://127.0.0.1:5000/files/{img_filename}" if img_path else "https://cdn-icons-png.flaticon.com/512/847/847969.png"
+}
+
+            
+
             return jsonify(response_data), 200
         except Exception as e:
             return {"error": f"Erro ao salvar o post: {str(e)}"}, 500
@@ -152,7 +156,8 @@ class GetFile(Resource):
         conn.close()
 
         if user is None or user[0] is None:
-            return {"error": "User not found or no photo available"}, 404
+            return jsonify({"img_url": "https://cdn-icons-png.flaticon.com/512/847/847969.png"}), 200
+
 
         # Caminho relativo da imagem
         relative_file_path = user[0]

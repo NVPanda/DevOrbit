@@ -103,9 +103,15 @@
 
         <div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
           <img class="w-32 h-32 rounded-full mx-auto" 
+          {% if user_photo %}
           src="{{ url_for('static', filename=user_photo) }}" 
-          alt="Profile picture">
-
+          data-image-url="{{ url_for('static', filename=user_photo) }}" 
+          onclick="handleImageClick(this)">
+          {% else %}
+          <img class="w-32 h-32 rounded-full mx-auto" 
+               src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+               alt="Default profile picture">
+          {% endif %}
 
           <h2 class="user-name text-center text-2xl font-semibold mt-3">{{usuario}}</h2>
 
@@ -117,7 +123,11 @@
           </div>
           <div class="mt-5">
             <h3 class="text-xl font-semibold">Bio</h3>
+            {%if bio%}
             <p class="bio-user text-gray-100 mt-2">{{bio}}</p>
+            {%else%}
+            <p class="bio-user text-gray-100 mt-2"> ... </p>
+            {%endif%}
           </div>
          </div>
 
@@ -129,9 +139,15 @@
         <!-- Cabeçalho do Post -->
         <div class="flex items-center p-4 border-b border-gray-200 m-10">
           <img class="w-32 h-32 rounded-full mx-auto" 
+          {% if post.user_photo %}
           src="{{ url_for('static', filename=user_photo) }}" 
           data-image-url="{{ url_for('static', filename=user_photo) }}" 
           onclick="handleImageClick(this)">
+          {% else %}
+          <img class="w-32 h-32 rounded-full mx-auto" 
+               src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+               alt="Default profile picture">
+          {% endif %}
           
             <div class="ml-3">
 
