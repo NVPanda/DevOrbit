@@ -95,12 +95,18 @@
     </div>
  </aside>
       
-
+        
         <div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
           <img class="w-32 h-32 rounded-full mx-auto" 
+          {% if user_photo %}
           src="{{ url_for('static', filename=user_photo) }}" 
           data-image-url="{{ url_for('static', filename=user_photo) }}" 
-          onclick="handleImageClick(this)"
+          onclick="handleImageClick(this)">
+          {% else %}
+          <img class="w-32 h-32 rounded-full mx-auto" 
+               src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+               alt="Default profile picture">
+          {% endif %}
           
         
           <h3 class="user-name text-sm font-semibold text-gray-800">{{ usuario }}</h3>

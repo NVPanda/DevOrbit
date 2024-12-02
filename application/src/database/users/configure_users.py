@@ -30,7 +30,8 @@ def create_database():
         email TEXT UNIQUE NOT NULL,
         age INTEGER,
         password TEXT NOT NULL,
-        photo TEXT DEFAULT '/home/lansvx/criativacao/application/src/static/uploads/1_20241124191119.jpg'
+        photo TEXT DEFAULT 'application/src/static/uploads/1.jpg'
+
         
         )'''
     )

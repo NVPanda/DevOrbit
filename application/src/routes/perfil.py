@@ -25,7 +25,7 @@ def make_cache_key():
 @cache.cached(timeout=20, key_prefix=make_cache_key)
 def profile_page(usuario):
    
-    usuario = usuario.strip('/')
+    
     result = measure_performance(usuario)
     return result
    
@@ -43,11 +43,14 @@ def measure_performance(usuario):
         return redirect(url_for('home.home_page'))  # Redireciona caso o usuário não seja encontrado
 
     user_photo = user[1]
+   
     bio = user[2]
+    
 
     data = dataRequests()
     if not isinstance(data, dict):
         return data
+    
     
     posts_account_user = [
         post for post in data['todos_os_posts'] if post['nome'] == usuario
