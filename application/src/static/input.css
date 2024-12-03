@@ -1,3 +1,184 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+#loadingOverlay {
+    display: none; /* Inicialmente escondido */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px); /* Aplica o desfoque no fundo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
+
+#loadingOverlay img {
+    animation: spin 2s linear infinite;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+/* Definição da animação de rotação */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estilo padrão para o body */
+body {
+    background-color: #121212; /* Fundo claro */
+    color: black; /* Texto escuro */
+  }
+  h1 {
+    color: black; /* Título padrão */
+  }
+  
+  data {
+    color: black;
+  }
+  .user-name {
+    color: black;
+  }
+  .community-post {
+    color: black;
+  }
+  .CodePost {
+    color: azure;
+  }
+  .options {
+    color: white;
+  }
+  
+  /* Botão de fechar (oculto por padrão) */
+  .close-sidebar-btn {
+    display: none; /* Não aparece em telas grandes */
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 50;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .flash {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+  .success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  .warning {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  .error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-in-out forwards;
+  }
+  
+  @keyframes fadeInSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fadeInSlideUp {
+    animation: fadeInSlideUp 0.5s ease-out forwards;
+  }
+  
+  /* Media query para dispositivos móveis */
+  @media (max-width: 768px) {
+    body {
+      background-color: #121212; /* Fundo escuro */
+      color: white; /* Texto claro */
+    }
+    h1 {
+      color: white; /* Título branco */
+    }
+    p {
+      color: white; /* Texto dos parágrafos em chartreuse */
+    }
+    .data {
+      color: white;
+    }
+    .user-name {
+      color: white;
+    }
+    .community-post {
+      color: white;
+    }
+    .post-cumunity-community {
+      color: #B3D9FF;
+    }
+    .flex {
+      justify-content: center !important;
+    }
+    .CodePost {
+      color: azure;
+    }
+    .options {
+      color: azure;
+    }
+  
+    /* Botão de fechar visível em telas menores */
+    .close-sidebar-btn {
+      display: block; /* Botão visível em dispositivos móveis */
+    }
+    .link-cumunidade {
+      color: #B3D9FF;
+    }
+  
+    /* Mostrar a div de carregamento apenas para telas pequenas */
+    #loadingOverlay {
+      display: flex !important; /* Exibir o carregamento */
+    }
+  
+    /* Animação de FadeIn */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    .animate-fadeInUp {
+      animation: fadeInUp 0.6s ease-in-out forwards;
+    }
+  
+  }
+  

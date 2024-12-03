@@ -51,14 +51,14 @@ def dataRequests() -> Dict[str, Any]:
 
     # Filtra os posts com 30 ou mais likes
         posts_em_destaque = [
-            post for post in lista_do_melhor_post if int(post['likes']) >= 10
+            post for post in lista_do_melhor_post if int(post['likes']) >= 1
         ]
 
     # Define o banner padrão (caso não haja destaque)
         banner = {
         'post_titulo': os.getenv('MENSAGEN'),
         'post': os.getenv('MENSAGEN_POST'),
-        'post_nome': os.getenv('CODECHAMBER'),
+        'nome': os.getenv('CODECHAMBER'),
         
     }
 
