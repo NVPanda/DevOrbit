@@ -43,10 +43,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
 function handleImageClick(element) {
-  // Garantir que `element` seja válido e obtenha o atributo src
-  const imageUrl = element.getAttribute('src');
+  // Obter o link da imagem a partir do atributo data-src
+  const imageUrl = element.getAttribute('data-src');
+  
+  // Verificar se a URL da imagem é válida
+  if (!imageUrl) {
+    console.error('A URL da imagem não foi encontrada.');
+    return;
+  }
 
   // Criar o modal
   const modal = document.createElement('div');
@@ -56,10 +61,13 @@ function handleImageClick(element) {
     align-items: center; z-index: 1000;
   `;
 
+  // Criar a imagem para o modal
   const img = document.createElement('img');
   img.src = imageUrl;
   img.style.cssText = 'max-width: 93%; max-height: 93%; border-radius: 8px;';
+  img.alt = 'Imagem ampliada';  // Adicionar texto alternativo para acessibilidade
 
+  // Criar o botão de fechar
   const closeButton = document.createElement('span');
   closeButton.textContent = 'X';
   closeButton.style.cssText = `
@@ -68,10 +76,14 @@ function handleImageClick(element) {
   `;
   closeButton.onclick = () => document.body.removeChild(modal);
 
+  // Adicionar a imagem e o botão de fechar ao modal
   modal.appendChild(img);
   modal.appendChild(closeButton);
+
+  // Adicionar o modal à página
   document.body.appendChild(modal);
 }
+
 
   // FUNÇÃO PARA EXIBIR A BARRA LATERAL
   function mybar() {

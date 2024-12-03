@@ -22,25 +22,30 @@ def make_cache_key():
     return f"{current_user.id}:{request.path}"
 
 @home_.route('/devorbit/feed/', methods=['POST', 'GET'])
-@login_required
+
 @cache.cached(timeout=20, key_prefix=make_cache_key)
 def home_page():
     """
     Mostra todos os posts dos usuários, incluindo quem postou, data, quantidade de likes, 
     e serve como a rota principal do feed.
     """
-    # Dados do usuário atual
-    usuario = current_user.username
-
     # Requisição de dados dos posts
     data = dataRequests()
-    
-    # Renderizar a página inicial com os dados necessários
-    return render_template(
-        'home.html',
-        username=current_user.username,
-        id=current_user.id,
-        posts=data['todos_os_posts'], 
-        post_banner=data['post_banner'], 
-        usuario=usuario
-    )
+
+    # Verifica se o usuário está logado
+    if current_user.is_authenticated:
+        # Se o usuário estiver logado, mostra a página com as informações dele
+        return render_template(
+            'home.html',
+            username=current_user.username,
+            id=current_user.id,
+            posts=data['todos_os_posts'], 
+            post_banner=data['post_banner']
+        )
+    else:
+        # Se o usuário não estiver logado, mostra os posts sem informações do usuário
+        return render_template(
+            'home.html',
+            posts=data['todos_os_posts'], 
+            post_banner=data['post_banner']
+        )

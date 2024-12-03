@@ -32,6 +32,40 @@
                 <span class="ms-3">home{{username}}</span>
             </a>
         </li>
+
+
+        <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 justify-center items-center backdrop-blur-sm z-50 hidden">
+          <img src="{{ url_for('static', filename='icon/nave.svg') }}" alt="Carregando..." class="w-20 h-20 flying-animation" />
+        </div>
+      
+      
+        <!-- Script para gerenciar a animação -->
+        <script>
+          // Função para mostrar o overlay de carregamento
+          function showLoading() {
+              const loadingOverlay = document.getElementById('loadingOverlay');
+      
+              // Mostra o overlay e aplica a animação
+              loadingOverlay.style.display = 'flex';
+      
+              // Aguarda 2 segundos (tempo do efeito de carregamento)
+              setTimeout(() => {
+                  // Aqui você pode remover o overlay após o carregamento (simulando com um delay)
+                  loadingOverlay.style.display = 'none'; // Esconde o overlay de carregamento
+                  // Agora você pode continuar com a navegação ou outra lógica.
+              }, 2000); // Simula um carregamento de 2 segundos (ajuste conforme necessário)
+          }
+      
+          // Usar a função em eventos específicos (exemplo de navegação ou clique)
+          document.querySelector("a[href='{{ url_for('home.home_page', usuario=username) }}']").addEventListener('click', function(e) {
+              e.preventDefault(); // Previne o link de navegar imediatamente
+              showLoading(); // Mostra a animação
+              // Aguarda o carregamento do conteúdo antes de navegar
+              setTimeout(() => {
+                  window.location.href = this.href; // Navega para a página após o tempo
+              }, 2000); // Tempo do carregamento
+          });
+      </script>
         
           <li>
              <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -104,7 +138,7 @@
           onclick="handleImageClick(this)">
           {% else %}
           <img class="w-32 h-32 rounded-full mx-auto" 
-               src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+            src="{{url_for('static', filename='icon/default.svg')}}" 
                alt="Default profile picture">
           {% endif %}
           
@@ -254,6 +288,53 @@
       cursor: pointer;
     }
 
+  
+@keyframes flyUp {
+        0% {
+            transform: translateY(100%); /* Começa fora da tela (em baixo) */
+            opacity: 0; /* Invisível no início */
+        }
+        30% {
+            transform: translateY(50%); /* No meio da tela */
+            opacity: 1; /* Torna-se visível */
+        }
+        100% {
+            transform: translateY(-50%) scale(1.2); /* Sai da tela pelo topo */
+            opacity: 0; /* Desaparece no final */
+        }
+    }
+
+    .flying-animation {
+        animation: flyUp 2s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite; /* Caminho com aceleração */
+        will-change: transform, opacity;}
+
+     
+   
+    /* Animação de "voo" da nave */
+    @keyframes flyUp{
+        0% {
+            transform: translateY(100%); /* Começa fora da tela (em baixo) */
+            opacity: 0; /* Invisível no início */
+        }
+        30% {
+            transform: translateY(50%); /* No meio da tela */
+            opacity: 1; /* Torna-se visível */
+        }
+        100% {
+            transform: translateY(-50%) scale(1.2); /* Sai da tela pelo topo */
+            opacity: 0; /* Desaparece no final */
+        }
+    }
+
+    .flying-animation {
+        animation: flyUp 2s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite; /* Caminho com aceleração */
+        will-change: transform, opacity;
+    }
+
+    
+
+
+
     @media (max-width: 768px) {
       body {
         background-color: #121212; /* Fundo escuro */
@@ -296,19 +377,5 @@
 
 <script src="{{url_for('static', filename='js/utils.js')}}"></script>
 <script src="{{url_for('static', filename='js/configuracao.js')}}"></script>
-
-
-
-
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
