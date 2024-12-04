@@ -96,69 +96,49 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   
   // Função para exibir a barra lateral (não modificada)
-  function mybar() {
+function mybar() {
     var x = document.getElementById("cta-button-sidebar");
     if (x.classList.contains("-translate-x-full")) {
       x.classList.remove("-translate-x-full");
     } else {
       x.classList.add("-translate-x-full");
     }
-  }
+}
   
-
-  // Função para mostrar o overlay de carregamento
+// Função para mostrar o overlay de carregamento
 function showLoading() {
   const loadingOverlay = document.getElementById('loadingOverlay');
-  
-  // Mostra o overlay com flexbox para centralizar
-  loadingOverlay.style.display = 'flex';
+  loadingOverlay.style.display = 'flex'; // Exibe o overlay
 }
 
 // Função para ocultar o overlay de carregamento
 function hideLoading() {
   const loadingOverlay = document.getElementById('loadingOverlay');
-  loadingOverlay.style.display = 'none';
+  loadingOverlay.style.display = 'none'; // Esconde o overlay
 }
 
-// Adicionar evento de clique no link para perfil
-document.addEventListener('DOMContentLoaded', () => {
-  // Selecionar o link de perfil usando o data-url
-  const profileLink = document.querySelector("a[data-url='{{ url_for('perfil.profile_page', usuario=username) }}']");
+// Função genérica para tratar o redirecionamento com efeito de carregamento
+function setupProfileRedirect(selector, url) {
+  const profileLink = document.querySelector(selector);
 
   if (profileLink) {
-      profileLink.addEventListener('click', function(e) {
-          e.preventDefault(); // Previne a navegação imediata
-          showLoading(); // Mostra o overlay de carregamento
+    profileLink.addEventListener('click', function(e) {
+      e.preventDefault(); // Previne a navegação imediata
+      showLoading(); // Mostra o overlay de carregamento
 
-          // Navega para o link após 2 segundos
-          setTimeout(() => {
-              window.location.href = this.getAttribute('data-url'); // Redireciona para o link do perfil
-          }, 2000); // Tempo do efeito de carregamento
-      });
+      // Navega para o link após 2 segundos
+      setTimeout(() => {
+        window.location.href = url; // Redireciona para o link
+      }, 2000); // Tempo do efeito de carregamento
+    });
   }
-});
-
-
-
-
-// Função para ocultar o overlay de carregamento
-function hideLoading_profile() {
-  const loadingOverlay = document.getElementById('loadingOverlay');
-  loadingOverlay.style.display = 'none';
 }
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Selecionar o link de perfil usando o data-url
-  const profileLink = document.querySelector("a[data-url='{{ url_for('home.home_page', usuario=username) }}']");
-
-  if (profileLink) {
-      profileLink.addEventListener('click', function(e) {
-          e.preventDefault(); // Previne a navegação imediata
-          showLoading(); // Mostra o overlay de carregamento
-
-          // Navega para o link após 2 segundos
-          setTimeout(() => {
-              window.location.href = this.getAttribute('data-url'); // Redireciona para o link do perfil
-          }, 2000); // Tempo do efeito de carregamento
-      });
-  }
+  // Configura o redirecionamento para o perfil
+  setupProfileRedirect("a[data-url='{{ url_for('perfil.profile_page', usuario=username) }}']", '{{ url_for('perfil.profile_page', usuario=username) }}');
+  
+  // Configura o redirecionamento para a home
+  setupProfileRedirect("a[data-url='{{ url_for('home.home_page', usuario=username) }}']", '{{ url_for('home.home_page', usuario=username) }}');
 });
+
