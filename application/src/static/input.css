@@ -1,20 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* Animação para o movimento da nave */
 @keyframes flyingAnimation {
   0% {
-      transform: translateY(100vh); /* Começa fora da tela, abaixo */
-      opacity: 0; /* Inicialmente invisível */
+    transform: translateY(100vh); /* Começa fora da tela, abaixo */
+    opacity: 0; /* Inicialmente invisível */
   }
   50% {
-      transform: translateY(50vh); /* Meio da tela */
-      opacity: 0.7; /* Começa a aparecer */
+    transform: translateY(50vh); /* Meio da tela */
+    opacity: 0.7; /* Começa a aparecer */
   }
   100% {
-      transform: translateY(-50vh); /* Move para o topo */
-      opacity: 1; /* Totalmente visível */
+    transform: translateY(-50vh); /* Move para o topo */
+    opacity: 1; /* Totalmente visível */
   }
 }
 
@@ -23,7 +22,7 @@
   animation: flyingAnimation 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; /* Animação com aceleração */
 }
 
-/* Estilo para o overlay */
+/* Estilo para o overlay de carregamento */
 #loadingOverlay {
   display: none;
   position: fixed;
@@ -31,9 +30,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com opacidade */
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
   z-index: 50;
+  opacity: 0; /* Começa invisível */
+  transition: opacity 0.3s ease-in-out; /* Transição suave de visibilidade */
+}
+
+/* Estilo quando o overlay for visível */
+#loadingOverlay.show {
+  display: flex; /* Torna o overlay visível */
+  opacity: 1; /* Faz o overlay aparecer gradualmente */
 }
