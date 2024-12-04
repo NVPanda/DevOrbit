@@ -30,7 +30,7 @@
           <a href="{{ url_for('home.home_page', usuario=username) }}" 
              class="flex items-center p-2 text-blue-400 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
              data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
-             onclick="hideLoading_profile()">
+             onclick="showLoading()">
               <i class="fas fa-user w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-white"></i>
               <span class="ms-3">{{ username }}</span>
           </a>
@@ -38,8 +38,10 @@
       
       <!-- Overlay de Carregamento -->
        <!-- Overlay de Carregamento -->
-       <div id="loadingOverlay" class="flex justify-center items-center">
-        <img src="{{ url_for('static', filename='icon/nave.svg') }}" alt="Carregando..." class="w-20 h-20 flying-animation" />
+       <div class="mt-7" id="loadingOverlay" style="display: none;">
+        <div class="flex justify-center items-center">
+            <img src="{{ url_for('static', filename='icon/nave.svg') }}" alt="Carregando..." class="w-20 h-20 flying-animation" />
+        </div>
     </div>
           <li>
              <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -321,9 +323,11 @@
       }
     }
 </style>
-
+<script src="{{url_for('static', filename='js/menu.js')}}"></script>
 <script src="{{url_for('static', filename='js/utils.js')}}"></script>
 <script src="{{url_for('static', filename='js/configuracao.js')}}"></script>
+<script src="{{url_for('static', filename='js/animations.js')}}"></script>
+
 
 
 
