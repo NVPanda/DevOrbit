@@ -28,55 +28,20 @@
   </button>
        <ul class="space-y-2 font-medium">
         <li>
-          <a href="{{ url_for('perfil.profile_page', usuario=username) }}" class="flex items-center p-2 text-blue-400 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onclick="showLoadingAnimation()">
+          <a href="{{ url_for('perfil.profile_page', usuario=username) }}" 
+             class="flex items-center p-2 text-blue-400 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+             data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
+             onclick="showLoading()">
               <i class="fas fa-user w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-white"></i>
               <span class="ms-3">{{ username }}</span>
           </a>
       </li>
       
       
-      <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 justify-center items-center backdrop-blur-sm z-50 hidden">
-        <img src="{{ url_for('static', filename='icon/nave.svg') }}" alt="Carregando..." class="w-20 h-20 flying-animation" />
+      <!-- Overlay de Carregamento -->
+      <div id="loadingOverlay" class="flex justify-center items-center">
+          <img src="{{ url_for('static', filename='icon/nave.svg') }}" alt="Carregando..." class="w-20 h-20 flying-animation" />
       </div>
-      
-    
-    
-      <script>
-        // Função para mostrar o overlay de carregamento
-        function showLoading() {
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            
-            // Mostra o overlay com flexbox para centralizar
-            loadingOverlay.style.display = 'flex';
-        }
-    
-        // Função para ocultar o overlay de carregamento
-        function hideLoading() {
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            loadingOverlay.style.display = 'none';
-        }
-    
-        // Adicionar evento de clique no link para perfil
-        document.addEventListener('DOMContentLoaded', () => {
-            const profileLink = document.querySelector("a[href='{{ url_for('perfil.profile_page', usuario=username) }}']");
-            
-            if (profileLink) {
-                profileLink.addEventListener('click', function(e) {
-                    e.preventDefault(); // Previne a navegação imediata
-                    showLoading(); // Mostra o overlay de carregamento
-    
-                    // Navega para o link após 2 segundos
-                    setTimeout(() => {
-                        window.location.href = this.href; // Redireciona para o link do perfil
-                    }, 2000); // Tempo do efeito de carregamento
-                });
-            }
-        });
-    </script>
-    
-    
-      
-        
           <li>
              <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -184,12 +149,11 @@
 </div>
 </div>
 
-
 <div class="flex flex-wrap justify-end m-2 space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl align-items:center min-h-screen">
   {% for post in posts %}
     <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center transition-all transform duration-300 ease-in-out 
-opacity-0 animate-fadeInUp hover:scale-105 hover:shadow-2xl hover:border-gray-300">
-
+         opacity-0 animate-fadeInUp hover:scale-105 hover:shadow-2xl hover:border-gray-300">
+        <!-- Cabeçalho do Post -->
         <div class="flex items-center p-4  border-gray-200 justify-center m-2  ">
           {% if post.user_photo %}
           <img class="w-32 h-32 rounded-full mx-auto border-4  border-gray-300  shadow-lg" 
@@ -347,48 +311,10 @@ opacity-0 animate-fadeInUp hover:scale-105 hover:shadow-2xl hover:border-gray-30
 }
 
 
-@keyframes flyUp {
-        0% {
-            transform: translateY(100%); /* Começa fora da tela (em baixo) */
-            opacity: 0; /* Invisível no início */
-        }
-        30% {
-            transform: translateY(50%); /* No meio da tela */
-            opacity: 1; /* Torna-se visível */
-        }
-        100% {
-            transform: translateY(-50%) scale(1.2); /* Sai da tela pelo topo */
-            opacity: 0; /* Desaparece no final */
-        }
-    }
 
-    .flying-animation {
-        animation: flyUp 2s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite; /* Caminho com aceleração */
-        will-change: transform, opacity;}
+  
 
    
-    /* Animação de "voo" da nave */
-    @keyframes flyUp {
-        0% {
-            transform: translateY(100%); /* Começa fora da tela (em baixo) */
-            opacity: 0; /* Invisível no início */
-        }
-        30% {
-            transform: translateY(50%); /* No meio da tela */
-            opacity: 1; /* Torna-se visível */
-        }
-        100% {
-            transform: translateY(-50%) scale(1.2); /* Sai da tela pelo topo */
-            opacity: 0; /* Desaparece no final */
-        }
-    }
-
-    .flying-animation {
-        animation: flyUp 2s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite; /* Caminho com aceleração */
-        will-change: transform, opacity;
-    }
-
-
 
 
   
@@ -474,7 +400,6 @@ opacity-0 animate-fadeInUp hover:scale-105 hover:shadow-2xl hover:border-gray-30
 
 <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
 <script src="{{url_for('static', filename='js/utils.js')}}"></script>
-<script src="{{url_for('static', filename='js/configuracao.js')}}"></script>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
