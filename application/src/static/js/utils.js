@@ -1,22 +1,4 @@
-fetch('http://localhost:8000/post/', {
-  method: 'POST',
-  body: formData,
-})
-.then(response => {
-  console.log(response);  // Verifique a resposta da API
-  return response.json(); // Aqui tenta-se interpretar a resposta como JSON
-})
-.then(data => {
-  if (data.id) {
-      alert('Post criado com sucesso!');
-  } else {
-      alert('Falha ao criar post.');
-  }
-})
-.catch(error => {
-  console.error('Erro na requisição:', error);
-  alert('Erro na requisição: ' + error);
-});
+
 
   
   // Função para lidar com o envio do like
@@ -123,3 +105,60 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
   
+
+  // Função para mostrar o overlay de carregamento
+function showLoading() {
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  
+  // Mostra o overlay com flexbox para centralizar
+  loadingOverlay.style.display = 'flex';
+}
+
+// Função para ocultar o overlay de carregamento
+function hideLoading() {
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  loadingOverlay.style.display = 'none';
+}
+
+// Adicionar evento de clique no link para perfil
+document.addEventListener('DOMContentLoaded', () => {
+  // Selecionar o link de perfil usando o data-url
+  const profileLink = document.querySelector("a[data-url='{{ url_for('perfil.profile_page', usuario=username) }}']");
+
+  if (profileLink) {
+      profileLink.addEventListener('click', function(e) {
+          e.preventDefault(); // Previne a navegação imediata
+          showLoading(); // Mostra o overlay de carregamento
+
+          // Navega para o link após 2 segundos
+          setTimeout(() => {
+              window.location.href = this.getAttribute('data-url'); // Redireciona para o link do perfil
+          }, 2000); // Tempo do efeito de carregamento
+      });
+  }
+});
+
+
+
+
+// Função para ocultar o overlay de carregamento
+function hideLoading_profile() {
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  loadingOverlay.style.display = 'none';
+}
+document.addEventListener('DOMContentLoaded', () => {
+  // Selecionar o link de perfil usando o data-url
+  const profileLink = document.querySelector("a[data-url='{{ url_for('home.home_page', usuario=username) }}']");
+
+  if (profileLink) {
+      profileLink.addEventListener('click', function(e) {
+          e.preventDefault(); // Previne a navegação imediata
+          showLoading(); // Mostra o overlay de carregamento
+
+          // Navega para o link após 2 segundos
+          setTimeout(() => {
+              window.location.href = this.getAttribute('data-url'); // Redireciona para o link do perfil
+          }, 2000); // Tempo do efeito de carregamento
+      });
+  }
+});

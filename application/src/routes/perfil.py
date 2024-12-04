@@ -55,9 +55,16 @@ def measure_performance(usuario):
     posts_account_user = [
         post for post in data['todos_os_posts'] if post['nome'] == usuario
     ]
-
     banco.close()
-    # Retorna o template com a foto do usuário e os posts
-    return render_template('profile.html', usuario=usuario, username=current_user.username, 
+
+    if current_user.is_authenticated:
+         return render_template('profile.html', usuario=usuario, username=current_user.username, 
                            id=current_user.id, posts=posts_account_user, 
                            user_photo=user_photo, bio=bio)
+    else:
+        return render_template('profile.html',   
+                           posts=posts_account_user, 
+                           user_photo=user_photo, bio=bio)
+
+
+    

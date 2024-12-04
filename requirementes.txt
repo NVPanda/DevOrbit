@@ -1,12 +1,12 @@
 flask-restplus==0.13.0
 flask-restx==1.3.0
 SQLAlchemy==2.0.36
-sqlite3==3.31.1
 Flask-Caching==2.3.0
 requests==2.32.3
 fastapi==0.115.5
 python-multipart==0.0.17
 asgiref==3.8.1
 aiosqlite==0.20.0
-flask-cors==5.0.0
+flask-cors==3.0.3
 bcrypt==1.0.1
+Flask-Login==0.5.0  # Adicionado o Flask-Login
