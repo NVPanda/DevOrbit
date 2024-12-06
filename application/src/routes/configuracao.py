@@ -62,6 +62,17 @@ def config_account(usuario):
         user_photo = user[1]
         email_usuario = user[2]
         bio = user[3]
+        print(bio)
+        print(bio)
+        print(bio)
+        print(bio)
+        print(bio)
+
+        if bio is None:
+            bio = '''Olá! A comunidade DevOrbit está pronta para te receber.
+                Compartilhe seus pensamentos e conecte-se com desenvolvedores apaixonados por inovação.'''
+            
+
         usuario = current_user.username
         id_usuario = current_user.id
         

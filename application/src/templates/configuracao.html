@@ -143,7 +143,10 @@
           {% endif %}
           
         
-          <h3 class="user-name text-sm font-semibold text-gray-800">{{ usuario }}</h3>
+          <h2 class="user-name text-center text-2xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
+            {{usuario}}
+            <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
+          </h2><br>
           <div class="flex justify-between items-center">
             <!-- Botão estilizado que serve como trigger para o campo de input -->
             <button type="button" onclick="document.getElementById('files').click();" class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
@@ -181,6 +184,7 @@
                     Salvar
                 </button>
             </div>
+            
 
           
             
@@ -188,6 +192,7 @@
             <!-- Campo hidden para armazenar o id_usuario -->
             <input type="hidden" id="user_id" value="{{ id_usuario }}">
         </div>
+          <br>
         
             <div class="space-y-5">
                 <h3 class="text-gray-100 ">Suas informações:</h3>
@@ -205,9 +210,47 @@
                     <dd class="text-gray-100">{{status}}</dd>
                   </dl>
                 </div>
+        <br>
+         <hr class="bg-blue-300 w-full">
+        <br>
+
+                <div class="space-y-5">
+                  <h3 class="text-gray-100 ">Configuração avançãda:</h3>
+                  <dl class="infor_usuario ">
+                      <dt class="text-blue-400">Links:</dt>
+                      <button id="showInputBtn" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                          Twitter
+                        </span>
+                      </button>
+                      
+                      <button id="showInputBtn" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                          LinkedIn
+                        </span>
+                      </button>
+                      
+                      <button id="showInputBtn" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                          GitHub
+                        </span>
+                      </button>
+                      
+                      <dt class="text-blue-400">Email:</dt>
+                      <dd class="text-gray-100">{{email_usuario}}</dd>
+                      
+                      <dt class="text-blue-400">Solicitar verificado</dt>
+                      <button id="saveBioBtn" class="relative inline-flex w-full items-center justify-center p-0.5 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        Verificado
+                     </button>
+                      <dt class="text-blue-400">Excluir:</dt>
+                      <button id="saveBioBtn" class="relative inline-flex w-full items-center justify-center p-0.5 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                       Excluir conta
+                    </button>
+                    </dl>
+                  </div>
           </div>
          </div>
-
 
 
 <div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl">
@@ -254,18 +297,14 @@
       background-color: #121212; /* Fundo claro */
       color: black; /* Texto escuro */
     }
-    h1 {
-      color: black; /* Título padrão */
-    }
+    
     p {
       color: gray; /* Texto do parágrafo padrão */
     }
     data {
       color: black;
     }
-    user-name {
-      color: black;
-    }
+    
     community-post {
       color: black;
     }
@@ -376,6 +415,8 @@
 </style>
 
 <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+<script src="{{url_for('static', filename='js/menu.js')}}"></script>
+
 <script src="{{url_for('static', filename='js/configuracao.js')}}"></script>
 </body>
 </html>

@@ -45,6 +45,10 @@ def measure_performance(usuario):
     user_photo = user[1]
    
     bio = user[2]
+
+    if bio is None:
+            bio = '''Olá! A comunidade DevOrbit está pronta para te receber.
+                Compartilhe seus pensamentos e conecte-se com desenvolvedores apaixonados por inovação.'''
     
 
     data = dataRequests()
