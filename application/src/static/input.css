@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 /* Animação para o movimento da nave */
 @keyframes flyingAnimation {
   0% {
@@ -44,3 +46,4 @@
   display: flex; /* Torna o overlay visível */
   opacity: 1; /* Faz o overlay aparecer gradualmente */
 }
+

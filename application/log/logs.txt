@@ -1,2 +1,3 @@
 [2024-11-28 17:09:29] MissingSchema: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?
 [2024-11-28 17:09:55] MissingSchema: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?
+[2024-12-05 20:04:52] ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))

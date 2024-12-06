@@ -1480,6 +1480,11 @@ video {
   background-color: rgb(219 234 254 / var(--tw-bg-opacity));
 }
 
+.bg-blue-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(147 197 253 / var(--tw-bg-opacity));
+}
+
 .bg-blue-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(96 165 250 / var(--tw-bg-opacity));
@@ -2115,7 +2120,7 @@ video {
   /* Animação com aceleração */
 }
 
-/* Estilo para o overlay */
+/* Estilo para o overlay de carregamento */
 
 #loadingOverlay {
   display: none;
@@ -2125,11 +2130,26 @@ video {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  /* Fundo escuro com opacidade */
   justify-content: center;
   align-items: center;
   -webkit-backdrop-filter: blur(5px);
           backdrop-filter: blur(5px);
+  /* Efeito de desfoque no fundo */
   z-index: 50;
+  opacity: 0;
+  /* Começa invisível */
+  transition: opacity 0.3s ease-in-out;
+  /* Transição suave de visibilidade */
+}
+
+/* Estilo quando o overlay for visível */
+
+#loadingOverlay.show {
+  display: flex;
+  /* Torna o overlay visível */
+  opacity: 1;
+  /* Faz o overlay aparecer gradualmente */
 }
 
 .hover\:scale-105:hover {

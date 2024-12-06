@@ -23,6 +23,7 @@ def create_post_route():
         if not titulo or not post_content:
             flash('Todos os campos são obrigatórios.', 'error')
             return redirect(request.url)
+ 
 
         try:
             # Definir caminho para salvar a imagem
