@@ -25,6 +25,7 @@ def create_database():
     cursor.execute(
         '''CREATE TABLE IF NOT EXISTS usuarios(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date_create TEXT DEFAULT (datetime('now', 'localtime')),
         name TEXT NOT NULL,
         last_name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
