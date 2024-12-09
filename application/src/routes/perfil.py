@@ -35,7 +35,7 @@ def measure_performance(usuario):
     banco, cursor = my_db()
     
     # Buscar o ID e o caminho da foto do usuário
-    cursor.execute('SELECT id, photo, bio FROM usuarios WHERE name = ?', (usuario,))
+    cursor.execute('SELECT id, photo, bio, github, likedin, site FROM usuarios WHERE name = ?', (usuario,))
     user = cursor.fetchone()
 
     if not user:
@@ -45,6 +45,15 @@ def measure_performance(usuario):
     user_photo = user[1]
    
     bio = user[2]
+    github = user[3]
+    likedin = user[4]
+    site = user[5]
+
+    print(site)
+    print(site)
+    print(site)
+
+
 
     if bio is None:
             bio = '''Olá! A comunidade DevOrbit está pronta para te receber.
@@ -61,10 +70,13 @@ def measure_performance(usuario):
     ]
     banco.close()
 
+    # Certifique-se de passar todas as variáveis necessárias para o template (Usuario autenticados)
     if current_user.is_authenticated:
          return render_template('profile.html', usuario=usuario, username=current_user.username, 
                            id=current_user.id, posts=posts_account_user, 
-                           user_photo=user_photo, bio=bio)
+                           user_photo=user_photo, bio=bio, github=github, site=site, likedin=likedin)
+    
+    # Certifique-se de passar todas as variáveis necessárias para o template (Usuario não autenticados)
     else:
         return render_template('profile.html',   
                            posts=posts_account_user, 

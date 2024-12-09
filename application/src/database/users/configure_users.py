@@ -16,6 +16,13 @@ class Login:
         self.email = email
         self.password = password
 
+class Links:
+    def __init__(self, github=None, likedin=None, site=None):
+        self.github = github
+        self.likedin = likedin
+        self.site = site
+
+
 def my_db():
     banco = sqlite3.connect('usuarios.db')
     return banco, banco.cursor()
@@ -31,9 +38,10 @@ def create_database():
         email TEXT UNIQUE NOT NULL,
         age INTEGER,
         password TEXT NOT NULL,
-        photo TEXT DEFAULT 'application/src/static/uploads/1.jpg'
-
-        
+        photo TEXT DEFAULT 'application/src/static/uploads/1.jpg',
+        github TEXT NULL,
+        likedin TEXT NULL,
+        site TEXT NULL
         )'''
     )
     banco.commit()
@@ -80,9 +88,28 @@ def add_column():
         banco.commit()
         print("Coluna 'bio' adicionada com sucesso.")
     else:
-       pass
+        pass
 
     banco.close()
+
+def linki_of_user(link: Links, user_id: int):
+    banco, cursor = my_db()
+    try:
+        # Atualiza os campos github, linkedin e site do usuário com o ID especificado
+        cursor.execute('''
+        UPDATE usuarios
+        SET github = ?, likedin = ?, site = ?
+        WHERE id = ?
+        ''', (link.github, link.likedin, link.site, user_id))
+        banco.commit()
+    except sqlite3.IntegrityError as e:
+        print(f"Erro ao salvar dados: {e}")
+    except sqlite3.OperationalError as e:
+        print(f"Erro ao acessar o banco de dados: {e}")
+    finally:
+        banco.close()
+
+
 
 
 
@@ -99,4 +126,4 @@ class User(UserMixin):
         banco.close()
         if user:
             return True, user[0], user[1]
-        return None 
+        return None

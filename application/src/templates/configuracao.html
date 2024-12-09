@@ -203,7 +203,7 @@
                     <dd class="text-gray-100">{{email_usuario}}</dd>
                     
                     <dt class="text-blue-400">Data de Criação:</dt>
-                    <dd class="text-gray-100">24 de Novembro de 2024</dd>
+                    <dd class="text-gray-100">{{date_create}}</dd>
                     
                     <dt class="text-blue-400">Status:</dt>
                     <dd class="text-gray-100">{{status}}</dd>
@@ -212,28 +212,43 @@
         <br>
          <hr class="bg-blue-300 w-full">
         <br>
+        
 
-                <div class="space-y-5">
-                  <h3 class="text-gray-100 ">Configuração avançãda:</h3>
-                  <dl class="infor_usuario ">
-                      <dt class="text-blue-400">Links:</dt>
-                      <button id="showInputBtn" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                          Twitter
-                        </span>
-                      </button>
+        <div class="space-y-5">
+          <h3 class="text-gray-100">Configuração avançãda:</h3>
+          <dl class="infor_usuario ">
+            <dt class="text-blue-400">Links:</dt>
+            <div class="space-y-2">
+
+              <form id="linksForm" action="{{ url_for('config.config_account', usuario=usuario) }}" method="POST">
+                <div class="flex items-center">
+                    <label for="github" class="block text-gray-300">GitHub</label>
+                    <input type="text" id="github" name="github" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 border-transparent">
+                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">GitHub</span>
+                    </input>
+                </div>
+            
+                <div class="flex items-center">
+                    <label for="linkedin" class="block text-gray-300">LinkedIn</label>
+                    <input type="text" id="linkedin" name="likedin" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 border-transparent">
+                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">LinkedIn</span>
+                    </input>
+                </div>
+            
+                <div class="flex items-center">
+                    <label for="site" class="block text-gray-300">Site</label>
+                    <input type="text" id="site" name="site" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 border-transparent">
+                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">Site</span>
+                    </input>
+                </div>
+            
+                <button type="submit" class="ml-2 p-2 bg-blue-500 text-white rounded-lg">Enviar</button>
+            </form>
+            
+</div>
+
+        
                       
-                      <button id="showInputBtn" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                          LinkedIn
-                        </span>
-                      </button>
-                      
-                      <button id="showInputBtn" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                          GitHub
-                        </span>
-                      </button>
                       
                       <dt class="text-blue-400">Email:</dt>
                       <dd class="text-gray-100">{{email_usuario}}</dd>
