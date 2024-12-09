@@ -15,6 +15,8 @@ def login_page():
         try_login = Login(email, password)
         is_valid, user_id, pwd, username = check_user_login(try_login)
 
+        
+
         if is_valid:
             # Cria a instância do usuário com o ID e o nome
             user = User(user_id, username)

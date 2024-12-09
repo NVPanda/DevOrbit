@@ -1,6 +1,6 @@
 from datetime import datetime
 import os
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, redirect, url_for
 from flask_restx import Api, Namespace, Resource, fields
 import sqlite3
 from dotenv import load_dotenv
@@ -129,6 +129,8 @@ class UploadFile(Resource):
         # Salva o arquivo no diretório de uploads
         file_path = os.path.join(caminho_img, uploaded_file.filename)
         uploaded_file.save(file_path)
+
+ 
 
         conn.close()
 
