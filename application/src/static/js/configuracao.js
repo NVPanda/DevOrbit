@@ -76,6 +76,10 @@ function displayFileName() {
     const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'Nenhum arquivo escolhido';
     document.getElementById('file-name').textContent = fileName;
   }
+
+
+
+  // função envio de img para o banco de dados foto perfil
   function uploadImage(event) {
     const fileInput = event.target; // O campo de input do tipo file
     const file = fileInput.files[0]; // Obtém o arquivo selecionado
@@ -116,3 +120,34 @@ function displayFileName() {
     
   }
   
+
+
+  function uploadImageBanner(event) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Por favor, selecione uma imagem.");
+        return;
+    }
+
+    const userId = document.getElementById('id_usuario')?.value;
+
+    if (!userId) {
+        alert("ID do usuário não encontrado.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);  // Nome da chave deve ser "file"
+
+    fetch(`http://localhost:5000/files/banner/uploadfile/${userId}`, {
+      method: 'POST',
+      headers: {
+          'accept': 'application/json',
+      },
+      body: formData,
+  })
+  
+   
+}

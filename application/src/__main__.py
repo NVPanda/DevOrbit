@@ -51,7 +51,7 @@ def create_app():
     app.config['DEBUG'] = os.getenv('DEBUG')
     app.config['SECRET_KEY'] = os.getenv('KEY')
     app.config['CACHE_TYPE'] = os.getenv('CACHE')
-    app.config['UPLOAD_FOLDER'] = os.path.abspath("application/src/static/uploads")
+    app.config['UPLOAD_FOLDER'] = os.path.abspath("application/src/static/banners")
     app.add_url_rule('/files/<filename>', endpoint='files', view_func=send_from_directory, defaults={'directory': caminho_img})
     CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -67,7 +67,7 @@ def create_app():
     from application.src.routes.loginAccount import login_
     from application.src.routes.logoutAccont import logout_
     from application.src.routes.register import register_
-    from application.src.routes.perfil import profile
+    from application.src.routes.perfil import profile, viws_img
     from application.src.routes.page_post import posts
     from application.src.routes.denucia import denucia
     from application.src.routes.configuracao import configuracao_
@@ -82,6 +82,8 @@ def create_app():
     app.register_blueprint(posts)
     app.register_blueprint(denucia)
     app.register_blueprint(configuracao_)
+    app.register_blueprint(viws_img)
+
 
 
     # Banco de dados

@@ -662,6 +662,10 @@ video {
   left: 0px;
 }
 
+.left-1 {
+  left: 0.25rem;
+}
+
 .right-0 {
   right: 0px;
 }
@@ -690,6 +694,10 @@ video {
   top: 0px;
 }
 
+.top-24 {
+  top: 6rem;
+}
+
 .top-4 {
   top: 1rem;
 }
@@ -704,6 +712,10 @@ video {
 
 .z-50 {
   z-index: 50;
+}
+
+.m-0 {
+  margin: 0px;
 }
 
 .m-1 {
@@ -772,6 +784,11 @@ video {
 .my-10 {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
+}
+
+.my-16 {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 .my-4 {
@@ -845,6 +862,10 @@ video {
   margin-inline-end: 1.5rem;
 }
 
+.ml-0 {
+  margin-left: 0px;
+}
+
 .ml-12 {
   margin-left: 3rem;
 }
@@ -901,6 +922,10 @@ video {
   margin-top: 0.25rem;
 }
 
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -911,6 +936,10 @@ video {
 
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mt-40 {
+  margin-top: 10rem;
 }
 
 .mt-5 {
@@ -1005,12 +1034,20 @@ video {
   height: 8rem;
 }
 
+.h-40 {
+  height: 10rem;
+}
+
 .h-48 {
   height: 12rem;
 }
 
 .h-5 {
   height: 1.25rem;
+}
+
+.h-56 {
+  height: 14rem;
 }
 
 .h-6 {
@@ -1167,6 +1204,11 @@ video {
 
 .border-collapse {
   border-collapse: collapse;
+}
+
+.-translate-x-1 {
+  --tw-translate-x: -0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .-translate-x-full {
@@ -2156,6 +2198,73 @@ video {
   /* Faz o overlay aparecer gradualmente */
 }
 
+/* Estilo base para o contêiner do banner */
+
+.banner-container {
+  position: relative;
+  width: 100%;
+  margin: 0;
+}
+
+/* Imagem do banner */
+
+.banner-image {
+  width: 100%;
+  height: 14rem;
+  /* Altura padrão para banners (14rem = 224px) */
+  -o-object-fit: cover;
+     object-fit: cover;
+  /* Mantém a proporção da imagem e preenche o espaço */
+  border-radius: 0.5rem;
+  /* Borda arredondada opcional */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Sombra para destacar o banner */
+  margin: 0px;
+}
+
+/* Responsividade */
+
+@media (max-width: 768px) {
+  .banner-image {
+    height: 10rem;
+    /* Ajusta a altura para telas menores */
+    display: flex;
+    position: relative;
+    z-index: 1;
+    /* Mantém o banner atrás das informações do usuário */
+  }
+
+  .foto {
+    display: flex;
+    position: absolute;
+    top: 20%;
+    z-index: 2;
+    /* Mantém a foto à frente do banner */
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    margin: 0;
+  }
+
+  .followes {
+    margin-left: auto;
+    margin-right: auto;
+    margin: 10px;
+    /* Ajusta o espaçamento para centralizar e afastar as informações do banner */
+  }
+
+  .btn-bar{
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-image {
+    height: 8rem;
+    /* Altura reduzida em dispositivos muito pequenos */
+  }
+}
+
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
@@ -2186,6 +2295,11 @@ video {
 .hover\:bg-blue-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(219 234 254 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-blue-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-blue-700:hover {
@@ -2308,6 +2422,11 @@ video {
   --tw-ring-color: rgb(147 197 253 / var(--tw-ring-opacity));
 }
 
+.focus\:ring-blue-400:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(96 165 250 / var(--tw-ring-opacity));
+}
+
 .focus\:ring-blue-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
@@ -2330,6 +2449,10 @@ video {
 
 .focus\:ring-opacity-50:focus {
   --tw-ring-opacity: 0.5;
+}
+
+.focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px;
 }
 
 .group:hover .group-hover\:bg-opacity-0 {
@@ -2551,4 +2674,3 @@ video {
     --tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity));
   }
 }
-

@@ -5,7 +5,7 @@ from flask import render_template, Blueprint, redirect, flash, url_for, request,
 import requests
 from datetime import datetime
 from flask_login import current_user, login_required
-from application.src.database.users.configure_users import my_db, Links, linki_of_user
+from application.src.database.users.configure_users import my_db, Links, link_of_user
 
 import os
 from dotenv import load_dotenv
@@ -29,7 +29,7 @@ def config_account(usuario):
         
         # Cria o objeto Links e salva no banco de dados
         link_data = Links(github=github, likedin=likedin, site=site)
-        linki_of_user(link_data, user_id)
+        link_of_user(link_data, user_id)
 
         return redirect(url_for('config.config_account', usuario=usuario))
     
@@ -96,11 +96,14 @@ def config_account(usuario):
         # Faz a requisição para obter os posts da API
         response = requests.get(os.getenv('API'), timeout=5)
 
+        return render_template('configuracao.html', posts=lista_do_melhor_post, user_photo=user_photo, usuario=usuario,
+                           email_usuario=email_usuario, status=status, id_usuario=id_usuario, bio=bio, date_create=date_create)
+
+
     except requests.exceptions.RequestException as e:
         log_file = os.getenv('LOGS', 'logs.txt')  # Define um padrão caso a variável de ambiente não esteja configurada
         with open(log_file, 'a') as f:
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             f.write(f'[{timestamp}] {e.__class__.__name__}: {str(e)}\n')
 
-    return render_template('configuracao.html', posts=lista_do_melhor_post, user_photo=user_photo, usuario=usuario,
-                           email_usuario=email_usuario, status=status, id_usuario=id_usuario, bio=bio, date_create=date_create)
+   
