@@ -1,18 +1,11 @@
-import os
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
 from application.src.services.api_service import dataRequests
 from application.src.__main__ import cache
-from dotenv import load_dotenv
-import requests
-
-# Carregar variáveis de ambiente
-load_dotenv()
 
 # Configuração do Blueprint
 home_ = Blueprint('home', __name__, template_folder='templates')
 
-# Função para gerar uma chave de cache específica para cada usuário
 @login_required
 def make_cache_key():
     """
@@ -22,30 +15,38 @@ def make_cache_key():
     return f"{current_user.id}:{request.path}"
 
 @home_.route('/devorbit/feed/', methods=['POST', 'GET'])
-
 @cache.cached(timeout=20, key_prefix=make_cache_key)
 def home_page():
     """
-    Mostra todos os posts dos usuários, incluindo quem postou, data, quantidade de likes, 
-    e serve como a rota principal do feed.
+    Mostra todos os posts dos usuários, incluindo informações de quem postou,
+    data, contagem de likes, e serve como rota principal do feed.
     """
-    # Requisição de dados dos posts
-    data = dataRequests()
+    try:
+        # Solicita os dados de postagens
+        data = dataRequests()
 
-    # Verifica se o usuário está logado
-    if current_user.is_authenticated:
-        # Se o usuário estiver logado, mostra a página com as informações dele
-        return render_template(
-            'home.html',
-            username=current_user.username,
-            id=current_user.id,
-            posts=data['todos_os_posts'], 
-            post_banner=data['post_banner']
-        )
-    else:
-        # Se o usuário não estiver logado, mostra os posts sem informações do usuário
-        return render_template(
-            'home.html',
-            posts=data['todos_os_posts'], 
-            post_banner=data['post_banner']
-        )
+        # Verifica se os dados esperados estão presentes
+        if not data or 'todos_os_posts' not in data or 'post_banner' not in data:
+            # Caso os dados estejam ausentes, redireciona para uma página de erro
+            return redirect(url_for('errorHttp.page_erro'))
+
+        if current_user.is_authenticated:
+            # Renderiza a página com informações do usuário logado
+            return render_template(
+                'home.html',
+                username=current_user.username,
+                id=current_user.id,
+                posts=data['todos_os_posts'],
+                post_banner=data['post_banner']
+            )
+        else:
+            # Renderiza a página com postagens públicas (sem informações do usuário)
+            return render_template(
+                'home.html',
+                posts=data['todos_os_posts'],
+                post_banner=data['post_banner']
+            )
+    except Exception as e:
+        # Loga o erro e redireciona para uma página de erro
+        print(f"Erro ao carregar a página inicial: {e}")
+        return redirect(url_for('errorHttp.page_erro'))

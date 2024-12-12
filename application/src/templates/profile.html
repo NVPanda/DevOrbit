@@ -11,7 +11,7 @@
 </head>
 <body >
 
-    <button data-drawer-target="cta-button-sidebar" data-drawer-toggle="cta-button-sidebar" aria-controls="cta-button-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-800 dark:text-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" onclick="mybar()">
+    <button data-drawer-target="cta-button-sidebar" data-drawer-toggle="cta-button-sidebar" aria-controls="cta-button-sidebar" type="button" class="btn-bar  inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-800 dark:text-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" onclick="mybar()">
         <span class="sr-only">Open sidebar</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
@@ -111,8 +111,23 @@
     </div>
  </aside>
 
+     <!-- img de fundo | Banner -->
+  <div class="banner-container">
+  <!-- Banner -->
+  <div class="w-full">
+      {% if banner %}
+      <img 
+        src="{{ url_for('static', filename=banner) }}"
+        alt="Banner" 
+        class="banner-image">
+    {% endif %}
+  </div>
+</div>
+
+
+        
         <div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
-          <img class="w-32 h-32 rounded-full mx-auto" 
+          <img class="foto w-32 h-32 rounded-full mx-auto" 
           {% if user_photo %}
           src="{{ url_for('static', filename=user_photo) }}" 
           data-image-url="{{ url_for('static', filename=user_photo) }}" 
@@ -129,14 +144,24 @@
           </h2>
 
           <p class="text-center text-gray-100 mt-1">Software Engineer</p> <br>
-          <p class="text-xl font-semibold text-center text-gray-400">Seguindo: 500  Seguidores: 20.874</p>
+          <p class="text-center text-lg font-medium text-gray-100 mt-4">
+            Seguindo: <span class="followes text-gray-100">{{following}}</span> &nbsp; • &nbsp; Seguidores: <span class="text-gray-100">{{followers}}</span>
+          </p>
+
+          {% if  seguir %}
+          <div class="flex justify-center items-center h-full w-full">
+            <button class="px-6 py-2 bg-blue-600 text-gray-100 p-10 flex m-1 w-full items-center justify-center text-sm font-medium rounded-full shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
+              {{seguir}}
+            </button>
+          </div>
+          {% endif %}
+          
+
+
           <div class="flex justify-center mt-5">
             <a href="{{ github }}" class="text-blue-500 hover:text-blue-700 mx-3" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="{{ likedin }}" class="text-blue-500 hover:text-blue-700 mx-3" target="_blank" rel="noopener noreferrer">Likedin</a>
             <a href="{{ site }}" class="text-blue-500 hover:text-blue-700 mx-3" target="_blank" rel="noopener noreferrer">Site</a>
-
-            
-
           </div>
           
 
@@ -197,6 +222,7 @@
             loading="lazy">
           {% endif %}
         </div>
+        
 
         <div class="ml-3">
           <p class="community-pos text-gray-100 text-sm whitespace-pre-line text-justify break-words">

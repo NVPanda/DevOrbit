@@ -140,18 +140,25 @@
             {{usuario}}
             <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
           </h2><br>
-          <div class="flex justify-between items-center">
-            <!-- Botão estilizado que serve como trigger para o campo de input -->
-            <button  type="button"  onclick="document.getElementById('files').click(); "class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
-              Mudar foto de perfil
-            </button>
-          
-            <!-- Campo de input de arquivo escondido -->
-            <input type="file" id="files" class="hidden" accept="image/*" onchange="uploadImage(event)" />
-          
-            <!-- Campo hidden com o ID do usuário (supondo que esteja aqui) -->
-            <input type="hidden" id="id_usuario" value="{{id_usuario}}" />
-          </div>
+        <!-- Botão para foto de perfil -->
+<div class="flex justify-between items-center">
+  <button type="button" onclick="document.getElementById('files').click();" class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
+      Mudar foto de perfil
+  </button>
+  <input type="file" id="files" class="hidden" accept="image/*" onchange="uploadImage(event)" />
+  <input type="hidden" id="id_usuario" value="{{id_usuario}}" />
+</div>
+
+<!-- Botão para foto do banner -->
+<div class="flex justify-between items-center">
+  <button type="button" onclick="document.getElementById('banner').click();" class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
+      Mudar foto banner
+  </button>
+  <input type="file" id="banner" class="hidden_banner" accept="image/*" onchange="uploadImageBanner(event)" />
+  <input type="hidden" id="id_usuario" value="{{id_usuario}}" />
+</div>
+
+
           <!-- Atualiza dados -->
           <div class="absolute top-4 right-5">
             <button  type="button" onclick="recarregarAPagina()"  class="relative  inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-16 mr-2">

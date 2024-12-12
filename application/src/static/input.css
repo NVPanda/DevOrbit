@@ -47,3 +47,55 @@
   opacity: 1; /* Faz o overlay aparecer gradualmente */
 }
 
+/* Estilo base para o contêiner do banner */
+.banner-container {
+  position: relative;
+  width: 100%;
+  margin: 0;
+}
+
+/* Imagem do banner */
+.banner-image {
+  width: 100%;
+  height: 14rem; /* Altura padrão para banners (14rem = 224px) */
+  object-fit: cover; /* Mantém a proporção da imagem e preenche o espaço */
+  border-radius: 0.5rem; /* Borda arredondada opcional */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para destacar o banner */
+  margin: 0px;
+}
+/* Responsividade */
+@media (max-width: 768px) {
+  .banner-image {
+      height: 10rem; /* Ajusta a altura para telas menores */
+      display: flex;
+      position: relative;
+      z-index: 1; /* Mantém o banner atrás das informações do usuário */
+  }
+
+  .foto {
+      display: flex;
+      position: absolute;
+      top: 20%;
+      z-index: 2; /* Mantém a foto à frente do banner */
+      width: 100px;
+      height: 100px;
+      padding: 5px;
+      margin: 0;
+  }
+
+  .followes {
+      margin-left: auto;
+      margin-right: auto;
+      margin: 10px;
+      /* Ajusta o espaçamento para centralizar e afastar as informações do banner */
+  }
+  .btn-bar{
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-image {
+    height: 8rem; /* Altura reduzida em dispositivos muito pequenos */
+  }
+}

@@ -89,10 +89,31 @@ def add_column():
         print("Coluna 'bio' adicionada com sucesso.")
     else:
         pass
+    if 'followers' not in columns:
+        # add followers
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN followers INTEGER DEFAULT 0")
+        banco.commit()
+        print("Coluna 'followers' adicionada com sucesso. ")
+    else:
+        pass
+
+    if 'following' not in columns:
+        # add following
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN following INTEGER DEFAULT 0")
+        banco.commit()
+        print("Coluna 'following' adicionada com sucesso. ")
+    else:
+        pass
+
+    if 'banner' not in columns:
+        # banner de perfil do usuario
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN banner TEXT")
+    else:
+        pass
 
     banco.close()
 
-def linki_of_user(link: Links, user_id: int):
+def link_of_user(link: Links, user_id: int):
     banco, cursor = my_db()
     try:
         # Atualiza os campos github, linkedin e site do usuário com o ID especificado
