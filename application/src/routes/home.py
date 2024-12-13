@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
 from application.src.services.api_service import dataRequests
+from application.src.models.recommendations import recommendationsUser
 from application.src.__main__ import cache
 
 # Configuração do Blueprint
@@ -25,6 +26,9 @@ def home_page():
         # Solicita os dados de postagens
         data = dataRequests()
 
+        # recommendationsUser | Account
+        recommendations = recommendationsUser()
+
         # Verifica se os dados esperados estão presentes
         if not data or 'todos_os_posts' not in data or 'post_banner' not in data:
             # Caso os dados estejam ausentes, redireciona para uma página de erro
@@ -37,7 +41,8 @@ def home_page():
                 username=current_user.username,
                 id=current_user.id,
                 posts=data['todos_os_posts'],
-                post_banner=data['post_banner']
+                post_banner=data['post_banner'],
+                recommendations=recommendations
             )
         else:
             # Renderiza a página com postagens públicas (sem informações do usuário)

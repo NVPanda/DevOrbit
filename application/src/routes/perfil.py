@@ -44,10 +44,6 @@ def measure_performance(usuario):
         return redirect(url_for('home.home_page'))  # Redireciona caso o usuário não seja encontrado
 
     user_photo = user[1]   
-    print(user_photo)
-    print(user_photo)
-    print(user_photo)
-
     bio = user[2]
     github = user[3]
     likedin = user[4]
@@ -55,9 +51,6 @@ def measure_performance(usuario):
     followers = user[6]
     following = user[7]
     banner = user[8]
-    print(banner)
-    print(banner)
-    print(banner)
 
 
 
