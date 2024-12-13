@@ -84,8 +84,7 @@
   }
 
   .followes {
-      margin-left: auto;
-      margin-right: auto;
+
       margin: 10px;
       /* Ajusta o espaçamento para centralizar e afastar as informações do banner */
   }
@@ -98,4 +97,80 @@
   .banner-image {
     height: 8rem; /* Altura reduzida em dispositivos muito pequenos */
   }
+}
+
+
+/* Estilo geral para o container da recomendação */
+.container-recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0; /* Remove espaçamento indesejado */
+  padding: 0.5rem; /* Controla espaçamento interno */
+}
+
+/* Estilo para o container das recomendações */
+.recommendation-card {
+  display: flex;
+  align-items: center;
+  background-color: #000000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ 
+  border-radius: 0.75rem;
+  border: 1px solid #edf2f7;
+  max-width: 500px;
+  margin: 0 auto;
+  min-height: 150px; /* Altura mínima ajustada */
+  overflow: hidden;
+}
+
+/* Foto do usuário */
+.user-photo {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  flex-shrink: 0; /* Garante que a imagem não seja reduzida */
+}
+
+/* Informações do usuário */
+.user-info {
+  margin-left: 1rem;
+  flex-grow: 1; /* Permite que o conteúdo ocupe o espaço restante */
+  overflow: hidden; /* Esconde qualquer conteúdo que ultrapasse a largura */
+  min-width: 0; /* Necessário para truncamento funcionar corretamente */
+}
+
+/* Nome do usuário com truncamento */
+.user-name-reco {
+  color: #2d3748;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  white-space: nowrap; /* Evita quebra de linha */
+  overflow: hidden; /* Esconde texto que ultrapassa a largura */
+  text-overflow: ellipsis; /* Adiciona reticências ao texto longo */
+}
+
+
+/* Título do usuário */
+.user-title {
+  color: #718096;
+  font-size: 0.875rem; /* Tamanho menor para diferenciar do nome */
+  margin: 0; /* Remove margens padrão */
+}
+
+/* Ícone de verificação */
+.verification-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0; /* Garante que o ícone nunca reduza de tamanho */
+}
+
+/* Ajuste geral do layout */
+.recommendation-card > * {
+  flex-shrink: 0; /* Impede distorção do layout */
 }
