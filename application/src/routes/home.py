@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
 from application.src.services.api_service import dataRequests
+from application.src.services.user_service import get_user_info
 from application.src.models.recommendations import recommendationsUser
 from application.src.__main__ import cache
 
@@ -28,6 +29,12 @@ def home_page():
 
         # recommendationsUser | Account
         recommendations = recommendationsUser()
+        get_user = get_user_info(current_user.username)
+
+        
+
+       
+
 
         # Verifica se os dados esperados estão presentes
         if not data or 'todos_os_posts' not in data or 'post_banner' not in data:
@@ -39,6 +46,7 @@ def home_page():
             return render_template(
                 'home.html',
                 username=current_user.username,
+                photo_user_profile=get_user[0]['user_photo'],
                 id=current_user.id,
                 posts=data['todos_os_posts'],
                 post_banner=data['post_banner'],

@@ -27,15 +27,28 @@
   </button>
        <ul class="space-y-2 font-medium">
         <li>
-          <a href="{{ url_for('home.home_page', usuario=username) }}" 
-             class="flex items-center p-2 text-blue-400 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-             data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
-             onclick="showLoading()">
-              <i class="fas fa-user w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-              <span class="ms-3">{{ username }}</span>
-          </a>
+          <div class="flex items-center space-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+              <!-- Foto do usuário -->
+              {% if photo_user_profile %}
+              <img class="w-12 h-12 rounded-full border-4 border-gray-300 shadow-lg" 
+                   src="{{ url_for('static', filename=photo_user_profile) }}" 
+                   alt="Profile picture">
+              {% else %}
+              <img class="w-12 h-12 rounded-full border-4 border-gray-300 shadow-lg" 
+                   src="{{ url_for('static', filename='icon/default.svg') }}" 
+                   alt="Default profile picture">
+              {% endif %}
+              
+              <!-- Nome do usuário -->
+              <a href="{{ url_for('home.home_page', usuario=username) }}" 
+                 class="text-blue-400 dark:text-white hover:underline"
+                 data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
+                 onclick="showLoading()">
+                  {{ username }}
+              </a>
+          </div>
       </li>
-      
+         
       <!-- Overlay de Carregamento -->
        <!-- Overlay de Carregamento -->
        <div class="mt-7" id="loadingOverlay" style="display: none;">
@@ -112,7 +125,8 @@
  </aside>
 
      <!-- img de fundo | Banner -->
-  <div class="banner-container">
+      
+  <div class="banner-container ">
   <!-- Banner -->
   <div class="w-full">
       {% if banner %}

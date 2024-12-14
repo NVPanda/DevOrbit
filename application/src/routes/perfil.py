@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, flash, redirect, send_from_directory, url_for, request
 from flask_login import current_user, login_required
 from application.src.__main__ import cache
-from application.src.database.users.configure_users import my_db
 from application.src.services.api_service import dataRequests
-import os
-import requests
+from application.src.services.user_service import get_user_info
+
 
 from dotenv import load_dotenv
 
@@ -32,31 +31,16 @@ def profile_page(usuario):
    
 
 def measure_performance(usuario):
-    # Conectar ao banco de dados
-    banco, cursor = my_db()
     
-    # Buscar o ID e o caminho da foto do usuário
-    cursor.execute('SELECT id, photo, bio, github, likedin, site, followers, following, banner FROM usuarios WHERE name = ?', (usuario,))
-    user = cursor.fetchone()
-
-    if not user:
-        flash('Usuário não encontrado.', 'error')
-        return redirect(url_for('home.home_page'))  # Redireciona caso o usuário não seja encontrado
-
-    user_photo = user[1]   
-    bio = user[2]
-    github = user[3]
-    likedin = user[4]
-    site = user[5]
-    followers = user[6]
-    following = user[7]
-    banner = user[8]
+    get_user = get_user_info(current_user.username)
 
 
 
-    if bio is None:
-            bio = '''Olá! A comunidade DevOrbit está pronta para te receber.
+
+    if get_user[0]['bio'] is None:
+            get_user[0]['bio'] = '''Olá! A comunidade DevOrbit está pronta para te receber.
                 Compartilhe seus pensamentos e conecte-se com desenvolvedores apaixonados por inovação.'''
+    
 
     seguir = None
 
@@ -74,20 +58,23 @@ def measure_performance(usuario):
     posts_account_user = [
         post for post in data['todos_os_posts'] if post['nome'] == usuario
     ]
-    banco.close()
+    # foto do dono da conta
+    user_photo = posts_account_user[0]['user_photo']
+
+    
 
     # Certifique-se de passar todas as variáveis necessárias para o template (Usuario autenticados)
     if current_user.is_authenticated:
          return render_template('profile.html', usuario=usuario, username=current_user.username, 
-                           id=current_user.id, posts=posts_account_user, 
-                           user_photo=user_photo, bio=bio, github=github, site=site, likedin=likedin,
-                           seguir=seguir, followers=followers, following=following, banner=banner )
+                           id=current_user.id, posts=posts_account_user, user_photo=user_photo,
+                           photo_user_profile=get_user[0]['user_photo'], bio=get_user[0]['bio'], github=get_user[0]['github'], site=get_user[0]['site'], likedin=get_user[0]['linkedin'],
+                           seguir=seguir, followers=get_user[0]['followers'], following=get_user[0]['following'], banner=get_user[0]['banner'] )
     
     # Certifique-se de passar todas as variáveis necessárias para o template (Usuario não autenticados)
     else:
         return render_template('profile.html',   
                            posts=posts_account_user, 
-                           user_photo=user_photo, bio=bio, banner=banner)
+                           user_photo=get_user[0]['user_photo'], bio=get_user[0]['bio'], banner=get_user[0]['banner'])
 
 
     

@@ -27,14 +27,29 @@
     &times; <!-- Ícone de fechar -->
   </button>
        <ul class="space-y-2 font-medium">
-        <li>
-          <a href="{{ url_for('perfil.profile_page', usuario=username) }}" 
-             class="flex items-center p-2 text-blue-400 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-             data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
-             onclick="showLoading()">
-              <i class="fas fa-user w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-              <span class="ms-3">{{ username }}</span>
-          </a>
+         <li>
+          <div class="flex items-center space-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+              <!-- Foto do usuário -->
+              {% if photo_user_profile %}
+              <img class="w-12 h-12 rounded-full border-4 border-gray-300 shadow-lg" 
+                   src="{{ url_for('static', filename=photo_user_profile) }}" 
+                   alt="Profile picture">
+              {% else %}
+              <img class="w-12 h-12 rounded-full border-4 border-gray-300 shadow-lg" 
+                   src="{{ url_for('static', filename='icon/default.svg') }}" 
+                   alt="Default profile picture">
+              {% endif %}
+              
+              <!-- Nome do usuário -->
+              <a href="{{ url_for('perfil.profile_page', usuario=username) }}" 
+                 class="text-blue-400 dark:text-white hover:underline"
+                 data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
+                 onclick="showLoading()">
+                  {{ username }}
+              </a>
+          </div>
+      </li>
+            
       
              <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -96,7 +111,7 @@
        </div>
     </div>
  </aside>
- <!-- wallpape.jpg -->
+
 
  
  <div class="p-4 sm:ml-64">
@@ -144,7 +159,6 @@
           {% if post.user_photo %}
           <img class="w-32 h-32 rounded-full mx-auto border-4  border-gray-300  shadow-lg" 
                src="{{ url_for('static', filename=post.user_photo) }}" 
-               onclick="handleImageClick(this)"
                alt="Profile picture">
           {% else %}
           <img class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-lg" 
@@ -213,11 +227,13 @@
       </div>
       {% endfor %}
 
-    <div class="flex flex-col items-center bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl min-h-screen md:hidden">
-    <div class="w-full ">
-      <div class="w-full p-6 flex justify-center items-center">
-        <span class="text-gray-100 font-medium text-center text-lg">Recomendações</span>
-      </div>
+      
+      <div class="flex flex-col items-center bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl min-h-screen md:hidden">
+        <div class="w-full ">
+          
+          <div class="w-full p-6 flex justify-center items-center">
+            <span class="text-gray-100 font-medium text-center text-lg">Recomendações</span>
+          </div>
       
         <div class="container-recommendations">
             {% for recommend in recommendations %}
@@ -246,11 +262,12 @@
                         </a>
                         <h6 class="user-title">Software Engineer</h6>
                 </div>
-            </div>
-            {% endfor %}
+              </div>
+              {% endfor %}
+          </div>      
         </div>
     </div>
-</div>
+  
 
         
 
