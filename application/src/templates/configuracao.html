@@ -121,6 +121,19 @@
        </div>
     </div>
  </aside>
+
+         <!-- img de fundo | Banner -->
+  <div class="banner-container">
+    <!-- Banner -->
+    <div class="w-full">
+        {% if banner %}
+        <img 
+          src="{{ url_for('static', filename=banner) }}"
+          alt="Banner" 
+          class="banner-image">
+      {% endif %}
+    </div>
+  </div>
       
         
         <div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
@@ -140,23 +153,26 @@
             {{usuario}}
             <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
           </h2><br>
-        <!-- Botão para foto de perfil -->
+          
+ 
+<!-- Botão para mudar foto de perfil -->
 <div class="flex justify-between items-center">
   <button type="button" onclick="document.getElementById('files').click();" class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
-      Mudar foto de perfil
+      Mudar foto do perfil
   </button>
   <input type="file" id="files" class="hidden" accept="image/*" onchange="uploadImage(event)" />
   <input type="hidden" id="id_usuario" value="{{id_usuario}}" />
 </div>
 
-<!-- Botão para foto do banner -->
+<!-- Botão para mudar foto do banner -->
 <div class="flex justify-between items-center">
   <button type="button" onclick="document.getElementById('banner').click();" class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
-      Mudar foto banner
+      Mudar imagem do banner
   </button>
-  <input type="file" id="banner" class="hidden_banner" accept="image/*" onchange="uploadImageBanner(event)" />
+  <input type="file" id="banner" class="hidden" accept="image/*" onchange="uploadImageBanner(event)" />
   <input type="hidden" id="id_usuario" value="{{id_usuario}}" />
 </div>
+
 
 
           <!-- Atualiza dados -->
@@ -220,6 +236,19 @@
          <hr class="bg-blue-300 w-full">
         <br>
         
+        
+        <!-- <div class="flex justify-center items-center">
+          {% with messages = get_flashed_messages(with_categories=True) %}
+              {% if messages %}
+                  <ul class="flashes">
+                      {% for category, message in messages %}
+                          <li class="text-red-600" if category == "error" else "text-green-600">{{ message }}</li>
+                      {% endfor %}
+                  </ul>
+              {% endif %}
+          {% endwith %}
+      </div>
+       -->
 
         <div class="space-y-5">
           <h3 class="text-gray-100">Configuração avançãda:</h3>
@@ -228,31 +257,59 @@
             <div class="space-y-2">
 
               <form id="linksForm" action="{{ url_for('config.config_account', usuario=usuario) }}" method="POST">
-                <div class="flex items-center">
+
+                <!-- Campo GitHub -->
+                <div class="space-y-1">
                     <label for="github" class="block text-gray-300">GitHub</label>
-                    <input type="text" id="github" name="github" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 border-transparent">
-                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">GitHub</span>
-                    </input>
+                    <input type="text" id="github" name="github"
+                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
+                           {% if 'github' in get_flashed_messages(with_categories=True) %}border-red-500{% else %}border-transparent{% endif %}">
+                    
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% for category, message in messages %}
+                            {% if category == "github" %}
+                                <p class="text-red-500 text-sm mt-1">{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
                 </div>
             
-                <div class="flex items-center">
+                <!-- Campo LinkedIn -->
+                <div class="space-y-1">
                     <label for="linkedin" class="block text-gray-300">LinkedIn</label>
-                    <input type="text" id="linkedin" name="likedin" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 border-transparent">
-                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">LinkedIn</span>
-                    </input>
+                    <input type="text" id="linkedin" name="linkedin"
+                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
+                           {% if 'linkedin' in get_flashed_messages(with_categories=True) %}border-red-500{% else %}border-transparent{% endif %}">
+                    
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% for category, message in messages %}
+                            {% if category == "linkedin" %}
+                                <p class="text-red-500 text-sm mt-1">{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
                 </div>
             
-                <div class="flex items-center">
+                <!-- Campo Site -->
+                <div class="space-y-1">
                     <label for="site" class="block text-gray-300">Site</label>
-                    <input type="text" id="site" name="site" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 border-transparent">
-                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">Site</span>
-                    </input>
+                    <input type="text" id="site" name="site"
+                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
+                           {% if 'site' in get_flashed_messages(with_categories=True) %}border-red-500{% else %}border-transparent{% endif %}">
+                    
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% for category, message in messages %}
+                            {% if category == "site" %}
+                                <p class="text-red-500 text-sm mt-1">{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
                 </div>
+                <br>
             
-                <button type="submit" class="ml-2 p-2 bg-blue-500 text-white rounded-lg">Enviar</button>
+                <button type="submit" class="ml-2 p-2 bg-blue-500 w-full text-white rounded-lg">Enviar</button>
             </form>
             
-</div>
 
         
                       
