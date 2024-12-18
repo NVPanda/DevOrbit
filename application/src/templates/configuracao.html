@@ -309,11 +309,7 @@
             
                 <button type="submit" class="ml-2 p-2 bg-blue-500 w-full text-white rounded-lg">Enviar</button>
             </form>
-            
-
-        
-                      
-                      
+          
                       <dt class="text-blue-400">Email:</dt>
                       <dd class="text-gray-100">{{email_usuario}}</dd>
                       
@@ -321,14 +317,43 @@
                       <button id="saveBioBtn" class="relative inline-flex w-full items-center justify-center p-0.5 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
                         Verificado
                      </button>
+                     <dl>
                       <dt class="text-blue-400">Excluir:</dt>
-                      <button id="saveBioBtn" class="relative inline-flex w-full items-center justify-center p-0.5 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                       Excluir conta
-                    </button>
+                      <button 
+                        id="saveBioBtn" 
+                        class="relative inline-flex w-full items-center justify-center p-0.5 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        Excluir conta
+                      </button>
                     </dl>
                   </div>
           </div>
          </div>
+      
+         <div id="deleteForm" class="hidden">
+          <div class="modal">
+            <h2 class="text-lg font-bold mb-2">Excluir Conta</h2>
+            <p class="text-gray-200 mb-4">Deseja realmente excluir sua conta? Essa ação não poderá ser desfeita.</p>
+            <label for="deleteReason" class="text-sm text-gray-300">Motivo da exclusão (opcional):</label>
+            <textarea 
+              id="deleteReason" 
+              class="w-full p-2 mt-1 rounded-lg bg-gray-800 text-white border border-gray-600"
+              rows="3"
+              placeholder="Descreva o motivo, se desejar..."></textarea>
+            <div class="flex justify-end mt-4">
+              <button 
+                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 mr-2"
+                id="confirmDeleteBtn">
+                Confirmar
+              </button>
+              <button 
+                class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+                id="cancelDeleteBtn">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      
 
 
 <div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl">
