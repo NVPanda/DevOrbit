@@ -100,6 +100,7 @@
 }
 
 
+
 /* Estilo geral para o container da recomendação */
 .container-recommendations {
   display: flex;
@@ -173,4 +174,13 @@
 /* Ajuste geral do layout */
 .recommendation-card > * {
   flex-shrink: 0; /* Impede distorção do layout */
+}
+
+
+/* BTN de posts apenas em computadores sem o nav bar */
+/* Ocultar o botão em telas menores que 768px (dispositivos móveis e tablets) */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
 }

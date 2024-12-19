@@ -1,15 +1,16 @@
-import os
-import requests
-from flask import Blueprint, render_template, request, redirect, flash
+from application.src.__main__ import cache
+from flask import Blueprint, render_template, request, redirect, flash, session, url_for
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from application.src.database.configure_post import criando_post
 from dotenv import load_dotenv
+import requests
+import os
 
 load_dotenv()
 
 posts = Blueprint('page_posts', __name__, template_folder='templates')
-
+@cache.cached(timeout=5)
 @posts.route('/devorbit/feed/posts/', methods=['POST', 'GET'])
 @login_required
 def create_post_route():
@@ -38,7 +39,7 @@ def create_post_route():
                 
                 # Salvar imagem no diretório de uploads
                 post_image.save(post_img_path)
-                print(f"Imagem salva no diretório: {post_img_path}")
+               
 
             # Salvar dados diretamente no banco
             criando_post(username, post_img_path)
@@ -60,12 +61,16 @@ def create_post_route():
             headers = {'Authorization': f'Bearer {current_user.token}'}
 
             # Enviar requisição para a API externa com o tipo de conteúdo 'multipart/form-data'
-            response = requests.post("http://localhost:5000/files/post", data=data, files=files, headers=headers)
+            response = requests.post("https://api-devorbirt.onrender.com/post/", data=data, files=files, headers=headers)
 
             # Verificar resposta da API
             if response.status_code == 200:
                 flash('Post criado com suceso')
-                return redirect('/devorbit/feed/')  # Sucesso
+
+                next_page = session.get('next', url_for('home.home_page'))
+                return redirect(next_page)
+
+
             else:
                 error_msg = response.json().get('detail', 'Erro desconhecido')
                 flash(f"Erro ao enviar para a API: {error_msg}", 'error')

@@ -26,13 +26,12 @@ def home_page():
     try:
         # Solicita os dados de postagens
         data = dataRequests()
-
         # recommendationsUser | Account
         recommendations = recommendationsUser()
         get_user = get_user_info(current_user.username)
 
-        
-
+        # var sendo usada para verificação
+        likes = [post['likes'] for post in data['todos_os_posts'] if post['likes'] >= 0]
        
 
 
@@ -50,14 +49,16 @@ def home_page():
                 id=current_user.id,
                 posts=data['todos_os_posts'],
                 post_banner=data['post_banner'],
-                recommendations=recommendations
+                recommendations=recommendations,
+                likes=likes
             )
         else:
             # Renderiza a página com postagens públicas (sem informações do usuário)
             return render_template(
                 'home.html',
                 posts=data['todos_os_posts'],
-                post_banner=data['post_banner']
+                post_banner=data['post_banner'],
+                likes=likes
             )
     except Exception as e:
         # Loga o erro e redireciona para uma página de erro

@@ -35,8 +35,9 @@ def recommendationsUser():
         cursor = banco.cursor()
 
         limit = random.randint(2,4)
-      
+        
 
+      
         # Busca os primeiros 10 usuários da tabela
         cursor.execute(f"SELECT * FROM usuarios LIMIT {limit}")
         users = cursor.fetchall()
@@ -50,6 +51,9 @@ def recommendationsUser():
                 "user_photo": user[7] if user[7] else None
                 
             })
+
+    
+
         
         random.shuffle(recommendations)
             

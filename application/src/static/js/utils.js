@@ -142,3 +142,24 @@ document.addEventListener('DOMContentLoaded', () => {
   setupProfileRedirect("a[data-url='{{ url_for('home.home_page', usuario=username) }}']", '{{ url_for('home.home_page', usuario=username) }}');
 });
 
+// Exibir ou esconder o formulário de exclusão
+function toggleDeleteForm() {
+  const deleteForm = document.getElementById('deleteForm');
+  deleteForm.style.display = deleteForm.style.display === 'none' || deleteForm.style.display === '' ? 'block' : 'none';
+}
+
+// Confirmar exclusão
+function confirmDeletion() {
+  const reason = document.getElementById('deleteReason').value;
+  if (confirm('Tem certeza de que deseja excluir sua conta?')) {
+    alert(`Conta excluída.\nMotivo: ${reason || 'Nenhum motivo fornecido'}`);
+    // Adicione a lógica para excluir a conta aqui (por exemplo, requisição à API)
+  } else {
+    alert('Exclusão cancelada.');
+  }
+}
+
+// Eventos dos botões
+document.getElementById('saveBioBtn').addEventListener('click', toggleDeleteForm);
+document.getElementById('cancelDeleteBtn').addEventListener('click', toggleDeleteForm);
+document.getElementById('confirmDeleteBtn').addEventListener('click', confirmDeletion);

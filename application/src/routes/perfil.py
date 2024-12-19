@@ -33,7 +33,10 @@ def profile_page(usuario):
 def measure_performance(usuario):
     
     get_user = get_user_info(current_user.username)
+    user_photo = get_user[0]['user_photo']
+  
 
+    
 
 
 
@@ -58,10 +61,8 @@ def measure_performance(usuario):
     posts_account_user = [
         post for post in data['todos_os_posts'] if post['nome'] == usuario
     ]
-    # foto do dono da conta
-    user_photo = posts_account_user[0]['user_photo']
-
     
+
 
     # Certifique-se de passar todas as variáveis necessárias para o template (Usuario autenticados)
     if current_user.is_authenticated:

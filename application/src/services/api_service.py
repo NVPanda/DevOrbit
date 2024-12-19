@@ -54,8 +54,11 @@ def dataRequests() -> Dict:
 
         # Filtra os posts com 30 ou mais likes
         featured_posts = [
-            post for post in best_post_list if int(post['likes']) >= 30
+            post for post in best_post_list if int(post['likes']) >= 4
         ]
+        
+        
+
 
         # Configura o banner padrão
         banner = {

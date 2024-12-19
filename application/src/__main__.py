@@ -7,6 +7,7 @@ from flask_cors import CORS
 from application.src.api.upload_file import register_file_routes, caminho_img, send_from_directory
 from application.src.database.configure_post import banco_post, criar_tabela_post
 
+
 from flask_bcrypt import Bcrypt
 
 import os
