@@ -96,6 +96,12 @@ module.exports = {
         top: 45,
         top: 40,
         top: 50,
+        top: 32,
+        top: 34,
+        top: 22,
+        top: 53,
+        top: 24,
+
       },
       fontSize: {
         xs: '.75rem',

@@ -154,33 +154,45 @@
             <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
           </h2><br>
           
- 
-<!-- Botão para mudar foto de perfil -->
-<div class="flex justify-between items-center">
-  <button type="button" onclick="document.getElementById('files').click();" class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
-      Mudar foto do perfil
-  </button>
-  <input type="file" id="files" class="hidden" accept="image/*" onchange="uploadImage(event)" />
-  <input type="hidden" id="id_usuario" value="{{id_usuario}}" />
+ <!-- Contêiner dos botões -->
+<div class="flex justify-center items-center space-x-2">
+  <!-- Foto -->
+  <div class="flex flex-col items-center">
+    <span class="text-center text-gray-100">Foto</span>
+    <button type="button" onclick="document.getElementById('files').click();" 
+      class="relative inline-flex items-center justify-center p-2 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-24">
+      <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#EFEFEF">
+        <path d="M440-438ZM106.67-120q-27 0-46.84-19.83Q40-159.67 40-186.67v-502q0-26.33 19.83-46.5 19.84-20.16 46.84-20.16h140L320-840h262.67v66.67H350.33l-73 84.66H106.67v502h666.66v-396H840v396q0 27-20.17 46.84Q799.67-120 773.33-120H106.67Zm666.66-569.33v-84h-84V-840h84v-84.67H840V-840h84.67v66.67H840v84h-66.67ZM439.67-264.67q73.33 0 123.5-50.16 50.16-50.17 50.16-123.5 0-73.34-50.16-123.17-50.17-49.83-123.5-49.83-73.34 0-123.17 49.83t-49.83 123.17q0 73.33 49.83 123.5 49.83 50.16 123.17 50.16Zm0-66.66q-45.67 0-76-30.67-30.34-30.67-30.34-76.33 0-45.67 30.34-76 30.33-30.34 76-30.34 45.66 0 76.33 30.34 30.67 30.33 30.67 76 0 45.66-30.67 76.33t-76.33 30.67Z"/>
+      </svg>
+    </button>
+    <input type="file" id="files" class="hidden" accept="image/*" onchange="uploadImage(event)" />
+  </div>
+
+  <!-- Banner -->
+  <div class="flex flex-col items-center">
+    <span class="text-center text-gray-100">Banner</span>
+    <button type="button" onclick="document.getElementById('banner').click();" 
+      class="relative inline-flex items-center justify-center p-2 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-24">
+      <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#EFEFEF">
+        <path d="M280-280h533.33v-466.67H280V-280Zm0 66.67q-27 0-46.83-19.84Q213.33-253 213.33-280v-533.33q0-27 19.84-46.84Q253-880 280-880h533.33q27 0 46.84 19.83Q880-840.33 880-813.33V-280q0 27-19.83 46.83-19.84 19.84-46.84 19.84H280ZM146.67-80q-27 0-46.84-19.83Q80-119.67 80-146.67v-600h66.67v600h600V-80h-600ZM280-813.33V-280v-533.33Z"/>
+      </svg>
+    </button>
+    <input type="file" id="banner" class="hidden" accept="image/*" onchange="uploadImageBanner(event)" />
+  </div>
 </div>
 
-<!-- Botão para mudar foto do banner -->
-<div class="flex justify-between items-center">
-  <button type="button" onclick="document.getElementById('banner').click();" class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-1/2 mr-2">
-      Mudar imagem do banner
-  </button>
-  <input type="file" id="banner" class="hidden" accept="image/*" onchange="uploadImageBanner(event)" />
-  <input type="hidden" id="id_usuario" value="{{id_usuario}}" />
-</div>
+
 
 
 
           <!-- Atualiza dados -->
-          <div class="absolute top-4 right-5">
-            <button  type="button" onclick="recarregarAPagina()"  class="relative  inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-16 mr-2">
-              Salvar
+          <div class="fixed bottom-5 right-5">
+            <button type="button" onclick="recarregarAPagina()" 
+              class="relative inline-flex items-center justify-center p-2 mb-1 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 w-16 mr-2">
+              Salva
             </button>
           </div>
+          
           
           <p class="text-center text-gray-100 mt-1">Software Engineer</p>
           <div class="flex justify-center mt-5">
@@ -262,7 +274,7 @@
                 <div class="space-y-1">
                     <label for="github" class="block text-gray-300">GitHub</label>
                     <input type="text" id="github" name="github"
-                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
+                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-800 rounded-lg group bg-gradient-to-br from-gray-100  group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
                            {% if 'github' in get_flashed_messages(with_categories=True) %}border-red-500{% else %}border-transparent{% endif %}">
                     
                     {% with messages = get_flashed_messages(with_categories=True) %}
@@ -278,7 +290,7 @@
                 <div class="space-y-1">
                     <label for="linkedin" class="block text-gray-300">LinkedIn</label>
                     <input type="text" id="linkedin" name="linkedin"
-                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
+                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-800 rounded-lg group bg-gradient-to-br from-gray-100  group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
                            {% if 'linkedin' in get_flashed_messages(with_categories=True) %}border-red-500{% else %}border-transparent{% endif %}">
                     
                     {% with messages = get_flashed_messages(with_categories=True) %}
@@ -294,8 +306,8 @@
                 <div class="space-y-1">
                     <label for="site" class="block text-gray-300">Site</label>
                     <input type="text" id="site" name="site"
-                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-100 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-gray-100 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
-                           {% if 'site' in get_flashed_messages(with_categories=True) %}border-red-500{% else %}border-transparent{% endif %}">
+                           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-1 overflow-hidden text-sm font-medium text-gray-800 rounded-lg group bg-gradient-to-br from-gray-100 group-hover:from-purple-600 group-hover:to-blue-500  dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-2 
+                           {% if 'site' in get_flashed_messages(with_categories=True) %}border-gray-100{% else %}border-transparent{% endif %}">
                     
                     {% with messages = get_flashed_messages(with_categories=True) %}
                         {% for category, message in messages %}
@@ -307,7 +319,12 @@
                 </div>
                 <br>
             
-                <button type="submit" class="ml-2 p-2 bg-blue-500 w-full text-white rounded-lg">Enviar</button>
+                <button type="submit" class="ml-2 p-2 bg-blue-500 w-full border-none text-white rounded-lg flex justify-center items-center  group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#EFEFEF">
+                    <path d="m200-553.67 96.67 41Q313.33-546 332-578q18.67-32 40-62l-71.33-14.33L200-553.67ZM350-472l126.67 126.33q52-22.66 101.33-55.66T662-469q77.33-77.33 115.83-162.5T816.67-812q-95.34.33-180.67 38.83-85.33 38.5-162.67 115.84-34.66 34.66-67.66 84Q372.67-524 350-472Zm212-85.67q-21-21-21-51.83t21-51.83q21-21 52-21t52 21q21 21 21 51.83t-21 51.83q-21 21-52 21t-52-21Zm-3.67 362.34L659-296l-14.33-71.33q-30 21.33-62 39.83t-65.34 35.17l41 97ZM880-875.67q12.33 131-30.5 243.84Q806.67-519 706-418.33q-.67.66-1.33 1.33-.67.67-1.34 1.33l21.34 106.34Q728-292.67 723-277q-5 15.67-17 27.67L536-78.67l-84.67-197.66L281-446.67 83.33-531.33l170.34-170q12-12 27.83-17 15.83-5 32.5-1.67l106.33 21.33q.67-.66 1.34-1 .66-.33 1.33-1 100.67-100.66 213.33-144Q749-888 880-875.67Zm-728.33 552q35-35 85.5-35.5t85.5 34.5q35 35 34.5 85.5t-35.5 85.5q-25.67 25.67-81.5 43-55.84 17.34-162.84 32Q92-185.67 109-241.83q17-56.17 42.67-81.84Zm47 47.34Q186-263 175.33-232.83q-10.66 30.16-17.33 72.5 42.33-6.67 72.5-17.17 30.17-10.5 43.5-23.17 16.67-15.33 17.33-38Q292-261.33 276-278q-16.67-16-39.33-15.5-22.67.5-38 17.17Z"/>
+                  </svg>
+                </button>
+                
             </form>
           
                       <dt class="text-blue-400">Email:</dt>
@@ -366,9 +383,9 @@
 
         <footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4 items-center">
             <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-                <div class="sm:flex sm:items-center sm:justify-between">
-                    <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+                <div class="sm:flex sm:items-center sm:justify-between w-auto ">
+                    <a href="{{url_for('home.home_page')}}" class="flex items-center mb-4 sm:mb-0  rounded-full space-x-3 rtl:space-x-reverse">
+                        <img src="{{url_for('static', filename='uploads/icon_devobirt.jpg')}}" class="h-10" alt="Flowbite Logo" />
                         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Dev orbit</span>
                     </a>
                     <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 justify-center sm:justify-end">

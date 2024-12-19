@@ -1,3 +1,4 @@
+from application.src.__main__ import cache
 from flask import Blueprint, render_template, url_for, request, redirect, session
 from flask_login import login_user, current_user
 from application.src.database.users.configure_users import Login, check_user_login, User
@@ -5,6 +6,7 @@ from application.src.database.users.configure_users import Login, check_user_log
 
 
 login_ = Blueprint('login', __name__, template_folder='templates')
+@cache.cached(timeout=5)
 @login_.route('/devorbit/login/', methods=['POST', 'GET'])
 def login_page():
     if request.method == 'POST':
@@ -17,7 +19,7 @@ def login_page():
 
         
 
-        if is_valid:
+        if try_login and  is_valid:
             # Cria a instância do usuário com o ID e o nome
             user = User(user_id, username)
             # Faz login do usuário usando Flask-Login

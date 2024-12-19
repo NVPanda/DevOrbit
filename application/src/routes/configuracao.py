@@ -6,104 +6,90 @@ import requests
 from datetime import datetime
 from flask_login import current_user, login_required
 from application.src.database.users.configure_users import my_db, Links, link_of_user
+from application.src.models.link_validators import is_valid_link, is_linkedin_link, personal_link
 
 import os
 from dotenv import load_dotenv
 
 configuracao_ = Blueprint('config', __name__, template_folder='templates')
-
 load_dotenv()
 
-# Definir a rota e a função associada
+
 @configuracao_.route('/devorbit/configuracao/<usuario>', methods=['POST', 'GET'])
 def config_account(usuario):
+    # Inicializando variáveis para evitar problemas
+    
+    user_photo = None
+    email_usuario = None
+    bio = None
+    status = None
+    id_usuario = None
+    date_create = None
+
     if request.method == 'POST':
         github = request.form.get('github')
-        likedin = request.form.get('likedin')
+        linkedin = request.form.get('linkedin')  
         site = request.form.get('site')
 
-        # Obtém o ID do usuário logado a partir da sessão
-        user_id = session.get('user', {}).get('id')
-        if not user_id:
-            return redirect(url_for('login.login_page'))  # Redireciona se não estiver logado
-        
-        # Cria o objeto Links e salva no banco de dados
-        link_data = Links(github=github, likedin=likedin, site=site)
-        link_of_user(link_data, user_id)
+          
+        # Validação dos links
+        is_github_valid = is_valid_link(github) if github else False
+        is_linkedin_valid = is_linkedin_link(linkedin) if linkedin else False
+        my_link = personal_link(site) if site else False
 
-        return redirect(url_for('config.config_account', usuario=usuario))
-    
-    
+    # Validar os links
+        if not is_github_valid:
+            flash(('github', "O link do GitHub fornecido é inválido."), "error")
+        if not is_linkedin_valid:
+            flash(('linkedin', "O link do LinkedIn fornecido é inválido."), "error")
+        if not my_link:
+            flash(('site', "O site pessoal fornecido é inválido."), "error")
 
+    # Verifica se pelo menos um dos links é válido
+        if is_github_valid or is_linkedin_valid:
+            user_id = session.get('user', {}).get('id')
+            if not user_id:
+                return redirect(url_for('login.login_page'))
+
+        # Correção: Passar valores diretamente
+            link_data = Links(github=is_github_valid, linkedin=is_linkedin_valid, site=my_link)
+            link_of_user(link_data, user_id)
+            flash("Links salvos com sucesso!", "success")
+            return redirect(url_for('config.config_account', usuario=usuario))
+        else:
+        # Redireciona de volta com mensagens de erro
+            flash("Erro ao salvar links. Verifique os links e tente novamente.", "error")
+            return redirect(url_for('config.config_account', usuario=usuario))
 
     try:
-        response = requests.get(os.getenv('API'), timeout=10)
-        requesting_all_posts = response.json()
-
-        """esse bloco de codigo busca a foto de perfil do usuario"""
+        
         conn = sqlite3.connect(os.getenv("BANCO_DB"))
         cursor = conn.cursor()
+        cursor.execute('SELECT id, photo, email, bio, date_create, banner FROM usuarios WHERE name = ?', (usuario,))
 
-        """Pegando os dados nescesarios"""
-        cursor.execute("SELECT name, photo FROM usuarios")
-        user_photos = cursor.fetchall()
-
-        """Transforme em um dicionário para facilitar o acesso"""
-        photo_dict = {user[0]: user[1] for user in user_photos}
-        conn.close()
-
-        lista_do_melhor_post = [{
-            'id': column['id'],
-            'nome': column['nome'],
-            'titulo': column['titulo'],
-            'data': column['data'][10:16],
-            'post': column['post'],
-            'likes': column['likes'],
-            'img_url': column.get('img_url', None),
-
-            'user_photo': photo_dict.get(column['nome'], 'application/src/static/icon/padrão-do-usuário-64.png')  
-        } for column in requesting_all_posts]
-
-        banco, cursor = my_db()
-
-        cursor.execute('SELECT id, photo, email, bio, date_create FROM usuarios WHERE name = ?', (usuario,))
         user = cursor.fetchone()
-
-        if not user:
-            flash('Usuário não encontrado.', 'error')
-            return redirect(url_for('home.home_page'))  # Redireciona caso o usuário não seja encontrado
-
         user_photo = user[1]
         email_usuario = user[2]
         bio = user[3]
         date_create = user[4][0:10]
-
-        if bio is None:
-            bio = '''Olá! A comunidade DevOrbit está pronta para te receber.
-                Compartilhe seus pensamentos e conecte-se com desenvolvedores apaixonados por inovação.'''
-
         usuario = current_user.username
         id_usuario = current_user.id
+        banner = user[5]
+       
 
-        # O status da conta é determinado pelo comportamento do usuário na comunidade. 
-        # Seguir as regras e interagir de forma positiva ajuda a manter um bom status.
-        status = "Conta Saudável"
-        if usuario:
-            status = "Conta Saudável"
-        else:
-            status = "Sua conta está sendo verificada. Por favor, aguarde até que o processo seja concluído."
-
-        # Faz a requisição para obter os posts da API
-        response = requests.get(os.getenv('API'), timeout=5)
-
-        return render_template('configuracao.html', posts=lista_do_melhor_post, user_photo=user_photo, usuario=usuario,
-                           email_usuario=email_usuario, status=status, id_usuario=id_usuario, bio=bio, date_create=date_create)
+        status = "Conta Saudável" if usuario else "Sua conta está sendo verificada."
 
 
-    except requests.exceptions.RequestException as e:
-        log_file = os.getenv('LOGS', 'logs.txt')  # Define um padrão caso a variável de ambiente não esteja configurada
-        with open(log_file, 'a') as f:
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            f.write(f'[{timestamp}] {e.__class__.__name__}: {str(e)}\n')
+        conn.close()
 
-   
+       
+    except requests.exceptions.RequestException:
+        flash("Erro ao carregar a página. Tente novamente mais tarde.", "error")
+
+    finally:
+        conn.close()
+
+
+    return render_template('configuracao.html',  user_photo=user_photo, usuario=usuario, 
+                           email_usuario=email_usuario, status=status, id_usuario=id_usuario,
+                            bio=bio, date_create=date_create, banner=banner)

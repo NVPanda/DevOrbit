@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build:css": "tailwindcss -i ./application/src/static/input.css -o ./application/src/static/css/output.css --watch"
+    "dev": "tailwindcss -i ./application/src/static/input.css -o ./application/src/static/css/output.css --watch"
   },
   "keywords": [],
   "author": "",

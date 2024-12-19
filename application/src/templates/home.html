@@ -6,7 +6,7 @@
         <title>DevOrbit</title>
         <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
-        <link rel="icon" href="{{ url_for('static', filename='imagem/favicon.ico') }}" type="image/ico">
+        <link rel="icon" href="{{ url_for('static', filename='icon/icon_1.ico') }}" type="image/ico">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=home" />
@@ -14,20 +14,10 @@
 </head>
 <body >
    
-<button data-drawer-target="cta-button-sidebar" data-drawer-toggle="cta-button-sidebar" aria-controls="cta-button-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-800 dark:text-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" onclick="mybar()">
-    <span class="sr-only">Open sidebar</span>
-    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-    </svg>
- </button>
  
  <aside id="cta-button-sidebar" class="topnav fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar" onclick="mybar()">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"onclick="mybar()" >
-        <button
-    class="flex close-sidebar-btn  ml-4 p-1"
-    onclick="mybar()">
-    &times; <!-- Ícone de fechar -->
-  </button>
+       
        <ul class="space-y-2 font-medium">
          <li>
           <div class="flex items-center space-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
@@ -129,10 +119,18 @@
           <!-- Texto fixo -->
           <span class="ml-2 text-gray-100 font-medium">Melhor CodePost</span>
           <!-- Botão de denúncia -->
+           {% if post_banner['post'] %}
           <a class="ml-auto px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-200 hover:text-gray-800 transition"
              href="{{ url_for('denucia.page_denucia') }}">
-             Denúncia
+             DevOrbit
             </a>
+            {%else%}
+            <a class="ml-auto px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-200 hover:text-gray-800 transition"
+            href="{{ url_for('home.home_page') }}">
+           Denúcia
+          </a>
+          {%endif%}
+
         </div>
       </div>
       

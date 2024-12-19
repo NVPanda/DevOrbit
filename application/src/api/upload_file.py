@@ -80,7 +80,7 @@ class UploadBanner(Resource):
     def post(self, user_id):
         uploaded_file = request.files.get('file')
         if not uploaded_file:
-            return {"error": "Nenhum arquivo enviado"}, 400
+            return 400
 
         conn = sqlite3.connect(os.getenv("BANCO_DB"))
         cursor = conn.cursor()
