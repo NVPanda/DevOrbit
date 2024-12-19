@@ -73,6 +73,11 @@ def create_app():
     from application.src.routes.denucia import denucia
     from application.src.routes.configuracao import configuracao_
     from application.src.routes.page_erro import erro_http_
+    from application.src.routes.username import username_unic
+    from application.src.routes.username import termosEcondicao
+
+
+
 
     app.register_blueprint(home_)
     app.register_blueprint(login_)
@@ -84,6 +89,12 @@ def create_app():
     app.register_blueprint(denucia)
     app.register_blueprint(configuracao_)
     app.register_blueprint(viws_img)
+    app.register_blueprint(username_unic)
+    app.register_blueprint(termosEcondicao)
+
+    
+
+    
 
 
 

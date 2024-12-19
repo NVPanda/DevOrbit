@@ -244,10 +244,7 @@
                     src="{{ url_for('static', filename=recommend.user_photo) }}"
                     alt="Foto de {{ recommend.name }}"
                     loading="lazy">
-                {% else %}
-                <img class="default-photo" 
-                     src="{{ url_for('static', filename='icon/default.svg') }}" 
-                     alt="Default profile picture">
+                
                 {% endif %}
         
                 

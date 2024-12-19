@@ -29,7 +29,7 @@ def login_page():
             session['user'] = {'name': current_user.username, 'id': current_user.id}
             
             # Redireciona para a página desejada ou para a home
-            next_page = session.get('next', url_for('home.home_page'))
+            next_page = session.get('next', url_for('username_page.register_username'))
             return redirect(next_page)
         else:
            
