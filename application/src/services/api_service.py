@@ -5,15 +5,15 @@ from datetime import datetime
 from dotenv import load_dotenv
 import os
 import requests
+from flask_login import current_user
 
+from application.src.services.user_service import UserData
 load_dotenv()
-
 def dataRequests() -> Dict:
     try:
         # Faz a requisição à API
         response = requests.get(os.getenv("API"))
         print(response)  # Log para depuração
-      
 
         if not response.ok:
             print(f"Erro na API: {response.status_code}")
@@ -30,40 +30,47 @@ def dataRequests() -> Dict:
             print("A resposta da API não é uma lista de posts.")
             return {}
 
-        # Conecta ao banco de dados para buscar fotos dos usuários
+        # Conecta ao banco de dados para buscar dados dos usuários
         conn = sqlite3.connect(os.getenv("BANCO_DB"))
         cursor = conn.cursor()
-        cursor.execute("SELECT name, photo FROM usuarios")
-        user_photos = cursor.fetchall()
-        photo_dict = {user[0]: user[1] for user in user_photos}
-        conn.close()
 
-        # Formata a lista de posts
+        # Buscar fotos dos usuários
+        cursor.execute("SELECT name, photo FROM usuarios")
+        user_photos = dict(cursor.fetchall())
+
+        # Buscar nomes de usuário correspondentes
+        cursor.execute("SELECT name, username, occupation FROM user_information")
+        user_usernames = {name: {'username': username, 'occupation': occupation} 
+        for name, username, occupation in cursor.fetchall()}
+
+
+# Formata a lista de posts
         best_post_list = []
         for post in posts:
+            real_name = post['nome']  # Nome real do autor do post
+            user_info = user_usernames.get(real_name, {"username": "Desconhecido", "occupation": "Desconhecido"})  # Obter username e occupation
+    
             best_post_list.append({
-                'id': post['id'],
-                'nome': post['nome'],
-                'titulo': post['titulo'],
-                'data': post['data'][11:16],  # Formato HH:MM
-                'post': post['post'].capitalize(),
-                'likes': post['likes'],
-                'img_url': post.get('img_url', None),
-                'user_photo': photo_dict.get(post['nome'], None)
-            })
+        'id': post['id'],
+        'nome': user_info['username'],  # Nome de usuário correto
+        'titulo': post['titulo'],
+        'data': post['data'][11:16],  # Formato HH:MM
+        'post': post['post'].capitalize(),
+        'likes': post['likes'],
+        'img_url': post.get('img_url', None),
+        'user_photo': user_photos.get(real_name, None),  # Foto baseada no nome real
+        'occupation': user_info['occupation']  # Adiciona a ocupação
+        })
 
         # Filtra os posts com 30 ou mais likes
         featured_posts = [
             post for post in best_post_list if int(post['likes']) >= 4
         ]
-        
-        
-
 
         # Configura o banner padrão
         banner = {
             'post_titulo': os.getenv('MENSAGEN', "Fala Dev!"),
-            'post': os.getenv('MENSAGEN_POST', "'Os melhores posts vão aparecer aqui! 🌟 Não deixe de comentar e compartilhar suas ideias. Vamos juntos criar uma comunidade incrível!"),
+            'post': os.getenv('MENSAGEN_POST', "Os melhores posts vão aparecer aqui! 🌟 Não deixe de comentar e compartilhar suas ideias. Vamos juntos criar uma comunidade incrível!"),
             'nome': os.getenv('CODECHAMBER', "DEV ORBIT")
         }
 
@@ -78,7 +85,6 @@ def dataRequests() -> Dict:
 
     except requests.RequestException as e:
         print(f"Erro na requisição: {e}")
-        # Log do erro em um arquivo
         log_file = os.getenv('LOGS', 'logs.txt')
         with open(log_file, 'a') as f:
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
