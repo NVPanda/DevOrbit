@@ -44,21 +44,18 @@
               {% endif %}
               
               <!-- Nome do usuário -->
-              <a href="{{ url_for('home.home_page', usuario=username) }}" 
+              <a href="{{ url_for('home.home_page', usuario=usuario) }}" 
                  class="text-blue-400 dark:text-white hover:underline"
-                 data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
+                 data-url="{{ url_for('perfil.profile_page', usuario=usuario) }}"
                  onclick="showLoading()">
-                  {{ username }}
+                  {{ usuario }}
               </a>
           </div>
       </li>
          
       <!-- Overlay de Carregamento -->
        <!-- Overlay de Carregamento -->
-       <div class="mt-7" id="loadingOverlay" style="display: none;">
-        <div class="flex justify-center items-center">
-            <img src="{{ url_for('static', filename='icon/nave.svg') }}" alt="Carregando..." class="w-20 h-20 flying-animation" />
-        </div>
+       
     </div>
           <li>
              <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -135,10 +132,8 @@
   </div>
 </div>
 
-
-        
-        <div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
-          <img class="foto w-32 h-32 rounded-full mx-auto" 
+<div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
+  <img class="foto w-32 h-32 rounded-full mx-auto" 
           {% if user_photo %}
           src="{{ url_for('static', filename=user_photo) }}" 
           data-image-url="{{ url_for('static', filename=user_photo) }}" 
@@ -146,26 +141,31 @@
           {% else %}
           <img class="w-32 h-32 rounded-full mx-auto" 
           src="{{url_for('static', filename='icon/default.svg')}}"  
-               alt="Default profile picture">
+          alt="Default profile picture">
           {% endif %}
+          
+  {% if posts and posts|length > 0 %}
+  <h2 class="user-name text-center text-2xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
+    {{ posts[0].nome }}
+    <img class="w-5 h-5 ml-2" src="{{ url_for('static', filename='icon/verificado.png') }}" alt="Verificado">
+  </h2>
+  {% endif %}
+          
+  <p class="text-center text-gray-100 mt-1">{{ posts[0].occupation }}</p> <br>
+  <p class="text-center text-lg font-medium text-gray-100 mt-4">
+    Seguindo: <span class="followes text-gray-100">{{ following }}</span> &nbsp; • &nbsp; Seguidores: <span class="text-gray-100">{{ followers }}</span>
+  </p>
 
-          <h2 class="user-name text-center text-2xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
-            {{usuario}}
-            <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
-          </h2>
+  {% if seguir %}
+  <div class="flex justify-center items-center h-full w-full">
+    <button class="px-6 py-2 bg-blue-600 text-gray-100 p-10 flex m-1 w-full items-center justify-center text-sm font-medium rounded-full shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
+      {{ seguir }}
+    </button>
+  </div>
+  {% endif %}
+</div>
 
-          <p class="text-center text-gray-100 mt-1">Software Engineer</p> <br>
-          <p class="text-center text-lg font-medium text-gray-100 mt-4">
-            Seguindo: <span class="followes text-gray-100">{{following}}</span> &nbsp; • &nbsp; Seguidores: <span class="text-gray-100">{{followers}}</span>
-          </p>
 
-          {% if  seguir %}
-          <div class="flex justify-center items-center h-full w-full">
-            <button class="px-6 py-2 bg-blue-600 text-gray-100 p-10 flex m-1 w-full items-center justify-center text-sm font-medium rounded-full shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
-              {{seguir}}
-            </button>
-          </div>
-          {% endif %}
           
 
 
@@ -178,14 +178,15 @@
 
 
           <div class="mt-5">
-            <h3 class="text-xl font-semibold text-gray-100">Bio</h3>
-
-            {%if bio%}
-            <p class="bio-user text-gray-100 mt-2">{{bio}}</p>
-            {%else%}
-            <p class="bio-user text-gray-100 mt-2"> ... </p>
-            {%endif%}
+            <h3 class="text-xl font-semibold text-gray-100 text-center">Bio</h3>
+          
+            {% if bio %}
+            <p class="bio-user text-gray-100 mt-2 text-center whitespace-pre-line">{{ bio }}</p>
+            {% else %}
+            <p class="bio-user text-gray-100 mt-2 text-center"> ... </p>
+            {% endif %}
           </div>
+          
           
          </div>
          <hr class="bg-gray-100">
@@ -211,7 +212,7 @@
           <div class="ml-3 text-center">
             <a href="{{ url_for('perfil.profile_page', usuario=post.nome) }}">
               <h2 class="user-name text-center text-1xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
-                {{usuario}}
+                {{post.nome}}
                 <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
               </h2><br>
             </a>
