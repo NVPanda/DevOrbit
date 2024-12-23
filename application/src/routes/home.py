@@ -41,6 +41,7 @@ def home_page():
             return redirect(url_for('errorHttp.page_erro'))
 
         if current_user.is_authenticated:
+        
             # Renderiza a página com informações do usuário logado
             return render_template(
                 'home.html',
