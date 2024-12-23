@@ -1,7 +1,8 @@
 from application.src.__main__ import cache
 from flask import Blueprint, render_template, url_for, request, redirect, session
 from flask_login import login_user, current_user
-from application.src.database.users.configure_users import Login, check_user_login, User
+from application.src.database.users.configure_users import check_user_login, User
+from application.src.models.modelsUser import Login
 
 
 
@@ -29,7 +30,7 @@ def login_page():
             session['user'] = {'name': current_user.username, 'id': current_user.id}
             
             # Redireciona para a página desejada ou para a home
-            next_page = session.get('next', url_for('username_page.register_username'))
+            next_page = session.get('next', url_for('home.home_page'))
             return redirect(next_page)
         else:
            
