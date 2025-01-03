@@ -1,14 +1,13 @@
 from flask import Flask, url_for
-from application.src.database.users.configure_users import create_database,add_column
+from flask_bcrypt import Bcrypt
 from flask_caching import Cache
 from flask_login import LoginManager, UserMixin
 from flask_restx import Api
 from flask_cors import CORS
+
+from application.src.database.users.configure_users import create_database,add_column
 from application.src.api.upload_file import register_file_routes, caminho_img, send_from_directory
 from application.src.database.configure_post import banco_post, criar_tabela_post
-
-
-from flask_bcrypt import Bcrypt
 
 import os
 import sqlite3
@@ -16,9 +15,7 @@ from dotenv import load_dotenv
 
 
 cache = Cache()
-# Carregando as variáveis de ambiente
 load_dotenv()
-
 
 
 # Função para obter a conexão com o banco de dados
@@ -53,66 +50,66 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('KEY')
     app.config['CACHE_TYPE'] = os.getenv('CACHE')
     app.config['UPLOAD_FOLDER'] = os.path.abspath("application/src/static/banners")
+    
     app.add_url_rule('/files/<filename>', endpoint='files', view_func=send_from_directory, defaults={'directory': caminho_img})
-    CORS(app, resources={r"/*": {"origins": "*"}})
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+    CORS(app, resources={r"/*": {"origins": "*"}})
     hashing = Bcrypt(app)
     
-   
-
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-    print("Diretório de uploads:", app.config['UPLOAD_FOLDER'])
 
     # Registrar blueprints
     from application.src.routes.home import home_
-    from application.src.routes.loginAccount import login_
-    from application.src.routes.logoutAccont import logout_
-    from application.src.routes.register import register_
-    from application.src.routes.perfil import profile, viws_img
-    from application.src.routes.page_post import posts
-    from application.src.routes.denucia import denucia
-    from application.src.routes.configuracao import configuracao_
-    from application.src.routes.page_erro import erro_http_
-    from application.src.routes.username import username_unic
-    from application.src.routes.username import termosEcondicao
-
-
-
-
     app.register_blueprint(home_)
+   
+
+    from application.src.routes.loginAccount import login_
     app.register_blueprint(login_)
-    app.register_blueprint(register_)
+
+    from application.src.routes.logoutAccont import logout_
     app.register_blueprint(logout_)
+
+    from application.src.routes.register import register_
+    app.register_blueprint(register_)
+
+    from application.src.routes.perfil import profile, viws_img
     app.register_blueprint(profile)
-    app.register_blueprint(erro_http_)
-    app.register_blueprint(posts)
-    app.register_blueprint(denucia)
-    app.register_blueprint(configuracao_)
     app.register_blueprint(viws_img)
+
+    from application.src.routes.page_post import posts
+    app.register_blueprint(posts)
+
+    from application.src.routes.denucia import denucia
+    app.register_blueprint(denucia)
+
+    from application.src.routes.configuracao import configuracao_
+    app.register_blueprint(configuracao_)
+
+    from application.src.routes.page_erro import erro_http_
+    app.register_blueprint(erro_http_)
+
+    from application.src.routes.username import username_unic
     app.register_blueprint(username_unic)
+
+    from application.src.routes.username import termosEcondicao
     app.register_blueprint(termosEcondicao)
-
     
 
-    
-
-
-
-    # Banco de dados
-    create_database()
+    create_database() # Banco de dados
     add_column() # add coluna no banco
-    banco_post()
-    criar_tabela_post()
+    banco_post() # banco de dados para posts | Null
+    criar_tabela_post() # init tabalas
    
    
 
     # Configuração do Flask-Login
     login_manager = LoginManager()
     login_manager.init_app(app)
-    # Corrige a referência à página de login
+   
+   # Pagina padrão de login
     login_manager.login_view = 'login.login_page'
 
-    """"""
+    
     @login_manager.user_loader
     def load_user(user_id):
         return User.get(user_id)
@@ -121,19 +118,15 @@ def create_app():
     register_file_routes(api)
 
 
-    
 
     # Configuração de cache
     cache.init_app(app)
-
     CONFIG = {
         "DEBUG:": True,
         "CACHE_DEFAULT_TIMEOUT": 300,
         "CACHE_NO_NULL_WARNING": True,
     }
-
     app.config.update(CONFIG)
-
     return app
 
 app = create_app()

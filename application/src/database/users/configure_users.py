@@ -1,28 +1,11 @@
 import sqlite3
 from flask_login import UserMixin
 from flask_bcrypt import check_password_hash, generate_password_hash
+from application.src.models.modelsUser import (Cadastro, Login, Links, UserInformation)
 
 
-class Cadastro:
-    def __init__(self, name: str, last_name: str, email: str, age: int, password: str):
-        self.name = name.capitalize()
-        self.last_name = last_name
-        self.email = email
-        self.age = age
-        self.password = password
 
-class Login:
-    def __init__(self, email: str, password: str):
-        self.email = email
-        self.password = password
-
-class Links:
-    def __init__(self, github=None, likedin=None, site=None):
-        self.github = github
-        self.likedin = likedin
-        self.site = site
-
-
+    
 def my_db():
     banco = sqlite3.connect('usuarios.db')
     return banco, banco.cursor()
@@ -44,19 +27,67 @@ def create_database():
         site TEXT NULL
         )'''
     )
+   
+
+    cursor.execute(
+        '''CREATE TABLE IF NOT EXISTS user_information(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        username TEXT UNIQUE NOT NULL,
+        occupation TEXT UNIQUE NOT NULL
+
+        )'''
+    )
     banco.commit()
     banco.close()
-
     
 def add_user(cadastro: Cadastro):
     banco, cursor = my_db()
-    senha_hash = generate_password_hash(cadastro.password).decode('utf-8')  # Gera o hash da senha
-    cursor.execute('''
-    INSERT INTO usuarios (name, last_name, email, age, password)
-    VALUES (?, ?, ?, ?, ?)
-    ''', (cadastro.name, cadastro.last_name, cadastro.email, cadastro.age, senha_hash))
-    banco.commit()
-    banco.close()
+    
+    try:
+        # Gerar o hash da senha
+        senha_hash = generate_password_hash(cadastro.password).decode('utf-8')
+        
+        # Inserir na tabela `usuarios`
+        cursor.execute('''
+        INSERT INTO usuarios (name, last_name, email, age, password)
+        VALUES (?, ?, ?, ?, ?)
+        ''', (cadastro.name, cadastro.last_name, cadastro.email, cadastro.age, senha_hash))
+        
+        # Confirmar as transações
+        banco.commit()
+    
+    except Exception as e:
+        banco.rollback()
+        print(f"Erro ao adicionar usuário: {e}")
+    
+    finally:
+        banco.close()
+
+
+def add_user_information(user: UserInformation):
+    banco, cursor = my_db()
+    
+    try:
+        # Inserir na tabela `user_information`
+        cursor.execute('''
+        INSERT INTO user_information (name, username, email, occupation)
+        VALUES (?, ?, ?, ?)
+        ''', (user.name, user.username, user.email, user.occupation))
+        
+        # Confirmar as transações
+        banco.commit()
+        print("Usuário adicionado com sucesso!")
+        print("Usuário adicionado com sucesso!")
+    
+    except Exception as e:
+        banco.rollback()
+        print(f"Erro ao adicionar informações do usuário: {e}")
+    
+    finally:
+        banco.close()
+
 
 def check_user_login(login: Login):
     banco, cursor = my_db()
@@ -86,14 +117,14 @@ def add_column():
         # Adiciona a coluna 'bio' à tabela 'usuarios'
         cursor.execute("ALTER TABLE usuarios ADD COLUMN bio TEXT")
         banco.commit()
-        print("Coluna 'bio' adicionada com sucesso.")
+       
     else:
         pass
     if 'followers' not in columns:
         # add followers
         cursor.execute("ALTER TABLE usuarios ADD COLUMN followers INTEGER DEFAULT 0")
         banco.commit()
-        print("Coluna 'followers' adicionada com sucesso. ")
+
     else:
         pass
 
@@ -101,15 +132,25 @@ def add_column():
         # add following
         cursor.execute("ALTER TABLE usuarios ADD COLUMN following INTEGER DEFAULT 0")
         banco.commit()
-        print("Coluna 'following' adicionada com sucesso. ")
+        
     else:
         pass
 
     if 'banner' not in columns:
         # banner de perfil do usuario
         cursor.execute("ALTER TABLE usuarios ADD COLUMN banner TEXT")
+        banco.commit()
+    
     else:
         pass
+
+    if 'is_first_login' not in columns:
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN is_first_login BOOLEAN DEFAULT 1")
+        banco.commit()
+    else:
+        pass
+
+   
 
     banco.close()
 
@@ -133,18 +174,21 @@ def link_of_user(link: Links, user_id: int):
 
 
 
-
 class User(UserMixin):
-    def __init__(self, user_id: str, username: str):
+    def __init__(self, user_id: str, username: str, email: str):
         self.id = user_id
         self.username = username
+        self.email = email
 
     @staticmethod
     def get(user_id):
+        if not user_id:
+            return None
         banco, cursor = my_db()
-        cursor.execute('SELECT id, name FROM usuarios WHERE id = ?', (user_id,))
+        cursor.execute('SELECT id, name, email FROM usuarios WHERE id = ?', (user_id,))
         user = cursor.fetchone()
         banco.close()
         if user:
-            return True, user[0], user[1]
+            print(f'ID: {user[0]}, Username: {user[1]}, Email: {user[2]}')  # Verificando se os dados estão corretos
+            return User(user_id=user[0], username=user[1], email=user[2])
         return None

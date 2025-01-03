@@ -13,6 +13,7 @@ def login_page():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
+        # remember_me = request.form['remember_me'] <-- futuramente salva o usuario na session para não precisa realiza login novamente
 
         # Verificar o login
         try_login = Login(email, password)
@@ -22,7 +23,7 @@ def login_page():
 
         if try_login and  is_valid:
             # Cria a instância do usuário com o ID e o nome
-            user = User(user_id, username)
+            user = User(user_id, username, email)
             # Faz login do usuário usando Flask-Login
             login_user(user)
             

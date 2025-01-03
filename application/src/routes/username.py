@@ -21,23 +21,12 @@ def register_username():
         username = request.form['username']
         profession = request.form['profession']
 
-        print(username)
-        print(username)
-        print()
-        print(profession)
-        print(profession)
-
 
 
         # Recupera os dados da sessão
         user_id = current_user.id
         user_name = current_user.username
         user_email = session['user']['email']
-
-        print(f'ID: {user_id}')
-        print(f'NAME: {user_name}')
-        print(f'EMAIl: {user_email}')
-
 
         # Cria o objeto UserInformation
         account_information = UserInformation(

@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
 from application.src.services.api_service import dataRequests
-from application.src.services.user_service import get_user_info
+from application.src.services.user_service import get_user_info, UserData
 from application.src.models.recommendations import recommendationsUser
 from application.src.__main__ import cache
 
 # Configuração do Blueprint
 home_ = Blueprint('home', __name__, template_folder='templates')
+
 
 @login_required
 def make_cache_key():
@@ -26,9 +27,18 @@ def home_page():
     try:
         # Solicita os dados de postagens
         data = dataRequests()
+
         # recommendationsUser | Account
         recommendations = recommendationsUser()
         get_user = get_user_info(current_user.username)
+        searching_account_data = UserData(current_user.id)
+        if not searching_account_data:
+            return redirect(url_for('errorHttp.page_erro'))
+            
+        username = searching_account_data[0]['username']
+        user_id = searching_account_data[0]['id']
+       
+
 
         # var sendo usada para verificação
         likes = [post['likes'] for post in data['todos_os_posts'] if post['likes'] >= 0]
@@ -45,7 +55,8 @@ def home_page():
             # Renderiza a página com informações do usuário logado
             return render_template(
                 'home.html',
-                username=current_user.username,
+                username=username,
+                usuario=current_user.username,
                 photo_user_profile=get_user[0]['user_photo'],
                 id=current_user.id,
                 posts=data['todos_os_posts'],
@@ -57,11 +68,14 @@ def home_page():
             # Renderiza a página com postagens públicas (sem informações do usuário)
             return render_template(
                 'home.html',
+                id=user_id,
                 posts=data['todos_os_posts'],
                 post_banner=data['post_banner'],
                 likes=likes
             )
     except Exception as e:
         # Loga o erro e redireciona para uma página de erro
-        print(f"Erro ao carregar a página inicial: {e}")
+        print(f"Erro ao carregar a página inicial: {e} : {e.__class__.__name__} : {e.__cause__}")
         return redirect(url_for('errorHttp.page_erro'))
+
+

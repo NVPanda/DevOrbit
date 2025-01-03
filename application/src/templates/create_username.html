@@ -24,7 +24,7 @@
    <div class="flex justify-center items-center min-h-screen bg-gray-900">
     <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-lg">
       <h1 class="text-center text-gray-100 text-2xl font-bold mb-6">Criar Nome de Usuário</h1>
-      <form method="POST" action="{{ url_for('home.home_page') }}">
+      <form method="POST" action="{{ url_for('username_page.register_username') }}">
         <!-- Nome de Usuário -->
         <div class="mb-4">
           <label for="username" class="block text-gray-200 text-sm mb-2">Nome de Usuário</label>
@@ -79,18 +79,19 @@
           </select>
         </div>
   
-        <!-- Termos e Condições -->
-        <div class="flex items-center mb-6">
-          <input type="checkbox" id="terms" name="terms"
-            class="w-4 h-4 text-blue-500 bg-gray-700 border-gray-600 rounded focus:ring-2 focus:ring-blue-500" required>
-          <label for="terms" class="ml-2 text-sm text-gray-200">Aceito os <a href="{{url_for('temos.termos')}}" class="text-blue-400 hover:underline">termos e condições</a>.</label>
-        </div>
+        
   
-        <!-- Botão Entrar -->
-        <button type="submit"
-          class="w-full px-4 py-2 bg-blue-500 text-gray-100 font-bold rounded-lg hover:bg-blue-600 transition">
-          Entrar
-        </button>
+        <form method="POST" action="{{ url_for('temos.termos') }}">
+          <div class="flex items-center mb-6">
+            <input type="checkbox" id="terms" name="terms"
+              class="w-4 h-4 text-blue-500 bg-gray-700 border-gray-600 rounded focus:ring-2 focus:ring-blue-500" required>
+            <label for="terms" class="ml-2 text-sm text-gray-200">Aceito os <a href="{{url_for('temos.termos')}}" class="text-blue-400 hover:underline">termos e condições</a>.</label>
+          </div>
+        
+          <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-gray-100 font-bold rounded-lg hover:bg-blue-600 transition">
+            Aceitar
+          </button>
+        </form>
       </form>
     </div>
   </div>
