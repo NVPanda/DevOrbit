@@ -10,10 +10,13 @@ from flask_login import current_user
 from application.src.services.user_service import UserData
 load_dotenv()
 def dataRequests() -> Dict:
+
+    
+    
     try:
         # Faz a requisição à API
-        response = requests.get(os.getenv("API"))
-        print(response)  # Log para depuração
+        response = requests.get(os.getenv("API","https://api-devorbirt.onrender.com/posts/"))
+        print(f"Resposta da API: {response.status_code} ") # Retira antes de ir a prodrução
 
         if not response.ok:
             print(f"Erro na API: {response.status_code}")
@@ -22,9 +25,11 @@ def dataRequests() -> Dict:
         # Tenta converter a resposta para JSON
         try:
             posts = response.json()
+            print(f"Posts retornados: {posts[:5]}")  # Mostra os 5 primeiros posts
         except ValueError:
-            print("Erro ao converter a resposta para JSON")
+            print("Erro ao converter a resposta para JSON") # Retira antes de ir a prodrução
             return {}
+        
 
         if not isinstance(posts, list):  # Garante que é uma lista
             print("A resposta da API não é uma lista de posts.")
@@ -59,7 +64,8 @@ def dataRequests() -> Dict:
         'likes': post['likes'],
         'img_url': post.get('img_url', None),
         'user_photo': user_photos.get(real_name, None),  # Foto baseada no nome real
-        'occupation': user_info['occupation']  # Adiciona a ocupação
+        'occupation': user_info['occupation'],  # Adiciona a ocupação
+        
         })
 
         # Filtra os posts com 30 ou mais likes
@@ -92,5 +98,6 @@ def dataRequests() -> Dict:
         return {}
 
     except sqlite3.Error as e:
-        print(f"Erro no banco de dados: {e}")
+        print(f"Erro no banco de dados: {e}") # Retira antes de ir a prodrução
         return {}
+    

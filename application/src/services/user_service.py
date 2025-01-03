@@ -41,13 +41,15 @@ def UserData(usuario):
         (usuario,)
     )
     user = cursor.fetchone()
-
+   
+    
     if not user:
         flash('Usuário não encontrado.', 'error')
         return redirect(url_for('home.home_page'))  # Redireciona caso o usuário não seja encontrado
 
     # Retornar diretamente um dicionário com as informações
     return [{
+        'id': user[0],
         'username': user[1],
         'occupation': user[2]
         
