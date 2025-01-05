@@ -8,7 +8,6 @@ from application.src.__main__ import cache
 # Configuração do Blueprint
 home_ = Blueprint('home', __name__, template_folder='templates')
 
-
 @login_required
 def make_cache_key():
     """
@@ -27,55 +26,50 @@ def home_page():
     try:
         # Solicita os dados de postagens
         data = dataRequests()
+        if not data or "todos_os_posts" not in data or "post_banner" not in data:
+            print("Erro: dados incompletos ou ausentes.")
+            return redirect(url_for('errorHttp.page_erro'))
 
-        # recommendationsUser | Account
+        # Obtém os posts e o banner
+        posts = data["todos_os_posts"]
+        post_banner = data["post_banner"]
+
+        # Obtenção das recomendações e informações do usuário
         recommendations = recommendationsUser()
         get_user = get_user_info(current_user.username)
         searching_account_data = UserData(current_user.id)
         if not searching_account_data:
             return redirect(url_for('errorHttp.page_erro'))
-            
+
         username = searching_account_data[0]['username']
         user_id = searching_account_data[0]['id']
-       
 
+        # Variável sendo usada para verificação de likes
+        likes = [post['likes'] for post in posts if post['likes'] >= 0]
 
-        # var sendo usada para verificação
-        likes = [post['likes'] for post in data['todos_os_posts'] if post['likes'] >= 0]
-       
-
-
-        # Verifica se os dados esperados estão presentes
-        if not data or 'todos_os_posts' not in data or 'post_banner' not in data:
-            # Caso os dados estejam ausentes, redireciona para uma página de erro
-            return redirect(url_for('errorHttp.page_erro'))
-
+        # Renderiza a página com informações do usuário logado ou pública
         if current_user.is_authenticated:
-        
-            # Renderiza a página com informações do usuário logado
             return render_template(
                 'home.html',
                 username=username,
                 usuario=current_user.username,
-                photo_user_profile=get_user[0]['user_photo'],
+                photo_user_profile=get_user[0].get('user_photo', None),
                 id=current_user.id,
-                posts=data['todos_os_posts'],
-                post_banner=data['post_banner'],
+                posts=posts,
+                post_banner=post_banner,
                 recommendations=recommendations,
                 likes=likes
             )
         else:
-            # Renderiza a página com postagens públicas (sem informações do usuário)
             return render_template(
                 'home.html',
                 id=user_id,
-                posts=data['todos_os_posts'],
-                post_banner=data['post_banner'],
+                posts=posts,
+                post_banner=post_banner,
                 likes=likes
             )
+
     except Exception as e:
         # Loga o erro e redireciona para uma página de erro
         print(f"Erro ao carregar a página inicial: {e} : {e.__class__.__name__} : {e.__cause__}")
         return redirect(url_for('errorHttp.page_erro'))
-
-
