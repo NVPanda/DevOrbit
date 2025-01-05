@@ -13,6 +13,7 @@ import os
 import sqlite3
 from dotenv import load_dotenv
 
+import logging 
 
 cache = Cache()
 load_dotenv()
@@ -55,6 +56,7 @@ def create_app():
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
     CORS(app, resources={r"/*": {"origins": "*"}})
+    logging.debug("CORS configurado com sucesso.")
     hashing = Bcrypt(app)
     
 
@@ -127,6 +129,10 @@ def create_app():
         "CACHE_NO_NULL_WARNING": True,
     }
     app.config.update(CONFIG)
+
+    # Logs iniciais para monitoramento
+    logging.info("Inicializando aplicação Flask...")
+
     return app
 
 app = create_app()

@@ -9,3 +9,21 @@
 [2024-12-24 21:00:53] ConnectionError: HTTPSConnectionPool(host='api-devorbirt.onrender.com', port=443): Max retries exceeded with url: /posts/ (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7fa5423135b0>: Failed to resolve 'api-devorbirt.onrender.com' ([Errno -3] Temporary failure in name resolution)"))
 [2024-12-24 21:01:23] ConnectionError: HTTPSConnectionPool(host='api-devorbirt.onrender.com', port=443): Max retries exceeded with url: /posts/ (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7fa54226dee0>: Failed to resolve 'api-devorbirt.onrender.com' ([Errno -3] Temporary failure in name resolution)"))
 [2024-12-24 21:01:53] ConnectionError: HTTPSConnectionPool(host='api-devorbirt.onrender.com', port=443): Max retries exceeded with url: /posts/ (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7fa54226e5e0>: Failed to resolve 'api-devorbirt.onrender.com' ([Errno -3] Temporary failure in name resolution)"))
+[2025-01-03 20:14:33] ConnectionError: HTTPSConnectionPool(host='api-devorbirt.onrender.com', port=443): Max retries exceeded with url: /posts/ (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fa3695845b0>: Failed to establish a new connection: [Errno 110] Connection timed out'))
+[2025-01-03 20:15:59] ConnectionError: HTTPSConnectionPool(host='api-devorbirt.onrender.com', port=443): Max retries exceeded with url: /posts/ (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fa369534be0>: Failed to establish a new connection: [Errno 110] Connection timed out'))
+[2025-01-03 20:16:32] ConnectionError: HTTPSConnectionPool(host='api-devorbirt.onrender.com', port=443): Max retries exceeded with url: /posts/ (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fa369522be0>: Failed to establish a new connection: [Errno 110] Connection timed out'))
+[2025-01-04 22:08:26] IndexError: list index out of range
+[2025-01-04 22:09:21] IndexError: list index out of range
+[2025-01-04 22:09:41] IndexError: list index out of range
+[2025-01-04 22:09:57] IndexError: list index out of range
+[2025-01-04 22:11:41] IndexError: list index out of range
+[2025-01-04 22:15:54] IndexError: list index out of range
+[2025-01-04 22:17:48] IndexError: list index out of range
+[2025-01-04 22:18:35] IndexError: list index out of range
+[2025-01-04 22:19:01] IndexError: list index out of range
+[2025-01-04 22:19:22] IndexError: list index out of range
+[2025-01-04 22:19:43] IndexError: list index out of range
+[2025-01-04 22:20:06] IndexError: list index out of range
+[2025-01-04 22:20:17] IndexError: list index out of range
+[2025-01-04 22:20:33] IndexError: list index out of range
+[2025-01-04 22:23:51] IndexError: list index out of range

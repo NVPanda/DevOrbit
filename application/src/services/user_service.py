@@ -14,7 +14,7 @@ def get_user_info(usuario):
 
     if not user:
         flash('Usuário não encontrado.', 'error')
-        return redirect(url_for('home.home_page'))  # Redireciona caso o usuário não seja encontrado
+        return None  # caso o usuário não seja encontrado
 
     # Retornar diretamente um dicionário com as informações
     return [{
