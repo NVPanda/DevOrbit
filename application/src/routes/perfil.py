@@ -70,10 +70,10 @@ def measure_performance(usuario):
     # Certifique-se de passar todas as variáveis necessárias para o template (Usuario autenticados)
     if current_user.is_authenticated:
          return render_template('profile.html', 
-             username=get_user[0]['username'], 
+             username=username, 
              usuario=current_user.username,
             id=current_user.id, posts=posts_account_user, user_photo=user_photo,
-            photo_user_profile=get_user[0]['user_photo'], bio=get_user[0]['bio'], github=get_user[0]['github'], site=get_user[0]['site'], likedin=get_user[0]['linkedin'],
+            photo_user_profile=get_user[0].get('user_photo', None), bio=get_user[0]['bio'], github=get_user[0]['github'], site=get_user[0]['site'], likedin=get_user[0]['linkedin'],
             seguir=seguir, followers=get_user[0]['followers'], following=get_user[0]['following'], banner=get_user[0]['banner'],
              )
     
