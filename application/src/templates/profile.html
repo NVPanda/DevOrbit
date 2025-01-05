@@ -46,7 +46,7 @@
               <!-- Nome do usuário -->
               <a href="{{ url_for('home.home_page', usuario=usuario) }}" 
                  class="text-blue-400 dark:text-white hover:underline"
-                 data-url="{{ url_for('perfil.profile_page', usuario=usuario) }}"
+                 data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
                  onclick="showLoading()">
                   {{ usuario }}
               </a>
