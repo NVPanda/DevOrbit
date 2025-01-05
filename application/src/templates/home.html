@@ -166,7 +166,7 @@
                alt="Foto de perfil">
           {% endif %}
           <div class="ml-3 text-center">
-            <a href="{{ url_for('perfil.profile_page', usuario=post.nome) }}">
+            <a href="{{ url_for('perfil.profile_page', usuario=username) }}">
               <h2 class="user-name text-center text-1xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
                 {{post.nome}}
                 <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
@@ -208,21 +208,52 @@
               <span class="ml-2 text-sm" id="like-count-{{ post.id }}">{{ post.likes }}</span>
             </button>
         
-            <!-- Botão 2 -->
+            <!-- Botão 2 comentarios -->
             <button class="flex items-center text-gray-600 hover:text-gray-800 bg-transparent">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"/>
               </svg>
-            </button>
-        
-            <!-- Botão 3 -->
+              
+            <!-- Botão-->
             <button class="flex items-center text-gray-600 hover:text-gray-800 bg-transparent">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF"><path d="m226-559 78 33q14-28 29-54t33-52l-56-11-84 84Zm142 83 114 113q42-16 90-49t90-75q70-70 109.5-155.5T806-800q-72-5-158 34.5T492-656q-42 42-75 90t-49 90Zm178-65q-23-23-23-56.5t23-56.5q23-23 57-23t57 23q23 23 23 56.5T660-541q-23 23-57 23t-57-23Zm19 321 84-84-11-56q-26 18-52 32.5T532-299l33 79Zm313-653q19 121-23.5 235.5T708-419l20 99q4 20-2 39t-20 33L538-80l-84-197-171-171-197-84 167-168q14-14 33.5-20t39.5-2l99 20q104-104 218-147t235-24ZM157-321q35-35 85.5-35.5T328-322q35 35 34.5 85.5T327-151q-25 25-83.5 43T82-76q14-103 32-161.5t43-83.5Zm57 56q-10 10-20 36.5T180-175q27-4 53.5-13.5T270-208q12-12 13-29t-11-29q-12-12-29-11.5T214-265Z"/>
               </svg>
-              <li>
-                {{post.comentario}}
-              </li>
             </button>
           </div>
+          <ul class="text-gray-100">
+            {% for comment in post.comments %}
+            
+              <li class="text-gray-100 flex items-center space-x-4 p-2 rounded-lg">
+                
+                <div class="flex items-start space-x-4 p-2">
+                  <!-- Foto do usuário (fica no canto) -->
+                  <div class="flex-shrink-0">
+                    {% if photo_user_profile %}
+                      <img class="w-12 h-12 rounded-full border-2 border-gray-300 shadow-lg" 
+                           src="{{ url_for('static', filename=photo_user_profile) }}" 
+                           alt="Profile picture">
+                    {% else %}
+                      <img class="w-12 h-12 rounded-full border-4 border-gray-300 shadow-lg" 
+                           src="{{ url_for('static', filename='icon/default.svg') }}" 
+                           alt="Default profile picture">
+                    {% endif %}
+                  </div>
+                
+                  <!-- Comentário e data -->
+                  <div class="flex flex-col w-full">
+                    {% if comment.comment %}
+                    <p class="text-sm text-gray-100 break-words p-2 rounded-md shadow-sm bg-gray-800">
+                      {{ comment.comment[:55] }}{% if comment.comment|length > 25 %}... <a href="#" class="text-blue-500">Ver mais</a>{% endif %}
+                    </p>
+                    {% endif %}
+                    <small class="text-xs text-gray-400 dark:text-gray-400">{{ comment.date_creation }}</small>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+          
+          
+        </button>
         </div>
       </div>
       {% endfor %}
