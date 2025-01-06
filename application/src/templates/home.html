@@ -266,36 +266,44 @@
             <span class="text-gray-100 font-medium text-center text-lg">Recomendações</span>
           </div>
       
-        <div class="container-recommendations">
+          <div class="container-recommendations">
             {% for recommend in recommendations %}
-            <div class="recommendation-card">
+            
+              <div class="recommendation-card">
                 <!-- Foto do usuário -->
                 {% if recommend.user_photo %}
                 <img 
-                    class="user-photo"
-                    src="{{ url_for('static', filename=recommend.user_photo) }}"
-                    alt="Foto de {{ recommend.name }}"
-                    loading="lazy">
-                
+                  class="user-photo"
+                  src="{{ url_for('static', filename=recommend.user_photo) }}"
+                  alt="Foto de {{ recommend.name }}"
+                  loading="lazy">
                 {% endif %}
-        
                 
                 <!-- Informações do usuário -->
                 <div class="user-info">
-                    <a href="{{ url_for('perfil.profile_page', usuario=recommend.name) }}">
-                        <h2 class="user-name-reco text-gray-100">
-                            {{ recommend.name }}
-                            <img class="verification-icon" src="{{ url_for('static', filename='icon/verificado.png') }}" alt="Verificado">
-                          </h2>
-                        </a>
-                        <h6 class="user-title">Software Engineer</h6>
+                  <a href="{{ url_for('perfil.profile_page', usuario=recommend.name) }}">
+                    <h2 class=" text-gray-100">
+                      {{ recommend.name }}
+                      {% if recommend.is_verified %}
+                      <img class="verification-icon" src="{{ url_for('static', filename='icon/verificado.png') }}" alt="Verificado">
+                      {% endif %}
+                    </h2>
+                  </a>
+                  <h6 class="user-title">{{ recommend.occupation }}</h6>
+                  
+                  <!-- Loop para exibir todos os posts relacionados -->
+                  {% for post in recommend.posts %}
+                  <div class="post-info">
+                    <p>{{ post.occupation }}</p>
+                  </div>
+                  {% endfor %}
+                  
                 </div>
               </div>
-              {% endfor %}
-          </div>      
-        </div>
-    </div>
-
+            
+            {% endfor %}
+          </div>
+          
     
   
     <div class="fixed flex bottom-6 end-6 group desktop-only">

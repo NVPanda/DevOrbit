@@ -93,7 +93,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
           'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
         })
 
-    featured_posts = [post for post in best_post_list if post['likes'] >= 1]
+    featured_posts = [post for post in best_post_list if post['likes'] >= 30]
     banner = {
         'post_titulo': os.getenv('MENSAGEN', "Fala Dev!"),
         'post': os.getenv('MENSAGEN_POST', "Os melhores posts vão aparecer aqui! 🌟 Não deixe de comentar e compartilhar suas ideias. Vamos juntos criar uma comunidade incrível!"),
