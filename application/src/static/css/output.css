@@ -2364,25 +2364,99 @@ video {
   flex-direction: column;
   gap: 1rem;
   margin: 0;
-  /* Remove espaçamento indesejado */
-  padding: 0.5rem;
-  /* Controla espaçamento interno */
+  padding: 1rem;
+  /* Melhorando o padding para dar espaço interno */
+  box-sizing: border-box;
 }
 
 /* Estilo para o container das recomendações */
 
 .recommendation-card {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  /* Foto à esquerda e informações à direita */
+  align-items: flex-start;
   background-color: #000000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 0.75rem;
   border: 1px solid #edf2f7;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
-  min-height: 150px;
-  /* Altura mínima ajustada */
+  min-height: 180px;
+  /* Altura mínima consistente */
   overflow: hidden;
+  padding: 1rem;
+  /* Adicionando padding para separar o conteúdo */
+  gap: 1rem;
+  /* Espaçamento entre a foto e as informações */
+  transition: all 0.3s ease;
+  /* Suavizando a transição */
+}
+
+.recommendation-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  /* Efeito de hover para card */
+  transform: translateY(-5px);
+  /* Leve efeito de elevação */
+}
+
+/* Estilo para a foto do usuário */
+
+.user-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+/* Estilo para as informações do usuário */
+
+.user-info {
+  flex-grow: 1;
+  /* Faz com que a área de informações ocupe o restante do espaço */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.user-name-reco {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #edf2f7;
+  display: flex;
+  align-items: center;
+}
+
+.verification-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 0.5rem;
+}
+
+.user-title {
+  font-size: 1rem;
+  color: #cbd5e0;
+}
+
+/* Estilo para os posts dentro de cada recomendação */
+
+.post-info {
+  background-color: #2d3748;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  color: #edf2f7;
+  flex-grow: 0;
+  /* Evitar que o post-info cresça além do necessário */
+  min-height: 50px;
+  /* Garantir que haja um tamanho mínimo para o post */
+  overflow: hidden;
+  /* Para não sair do contêiner */
+  text-overflow: ellipsis;
+  /* Caso o conteúdo seja muito longo */
+  white-space: nowrap;
+  /* Impedir quebras de linha no conteúdo */
 }
 
 /* Foto do usuário */
@@ -2408,32 +2482,6 @@ video {
   /* Esconde qualquer conteúdo que ultrapasse a largura */
   min-width: 0;
   /* Necessário para truncamento funcionar corretamente */
-}
-
-/* Nome do usuário com truncamento */
-
-.user-name-reco {
-  color: #2d3748;
-  font-size: 1.1rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  /* Evita quebra de linha */
-  overflow: hidden;
-  /* Esconde texto que ultrapassa a largura */
-  text-overflow: ellipsis;
-  /* Adiciona reticências ao texto longo */
-}
-
-/* Título do usuário */
-
-.user-title {
-  color: #718096;
-  font-size: 0.875rem;
-  /* Tamanho menor para diferenciar do nome */
-  margin: 0;
-  /* Remove margens padrão */
 }
 
 /* Ícone de verificação */

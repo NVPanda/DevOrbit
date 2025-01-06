@@ -27,31 +27,38 @@ def home_page():
     """
     logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
     try:
-        # Solicita os dados de postagens
-        data = dataRequests()
+        
+        data = dataRequests() # Request post data
+        if not isinstance(data, (dict)):
+            try:
+                data = dict(data)
+            except (ValueError, TypeError):
+                print("Erro: os dados recebidos não puderam ser convertidos para um dicionário.")
+                return redirect(url_for('errorHttp.page_erro'))
+        
         if not data or "todos_os_posts" not in data or "post_banner" not in data:
             print("Erro: dados incompletos ou ausentes.")
             return redirect(url_for('errorHttp.page_erro'))
+        
+        posts = data["todos_os_posts"] # Get the posts and banner
+        post_banner = data["post_banner"] # Get posts and banner
 
-        # Obtém os posts e o banner
-        posts = data["todos_os_posts"]
-        post_banner = data["post_banner"]
-
-        # Obtenção das recomendações e informações do usuário
-        recommendations = recommendationsUser()
-        get_user = get_user_info(current_user.username)
+       
+        recommendations = recommendationsUser()  # Obtaining user recommendations and information
+        get_user = get_user_info(current_user.username) # Retrieves the logged-in user's information based on their current username.
         searching_account_data = UserData(current_user.id)
         if not searching_account_data:
             return redirect(url_for('errorHttp.page_erro'))
-
+        
         username = searching_account_data[0]['username']
         user_id = searching_account_data[0]['id']
+       
+        likes = [post['likes'] for post in posts if post['likes'] >= 0] # This line creates a list called "likes", containing only the number of likes for the posts. 
+        # It filters posts, including only those whose number of likes is greater than or equal to zero, 
+        # ensuring that negative values ​​are discarded.        
 
-        # Variável sendo usada para verificação de likes
-        likes = [post['likes'] for post in posts if post['likes'] >= 0]
 
-        # Renderiza a página com informações do usuário logado ou pública
-        if current_user.is_authenticated:
+        if current_user.is_authenticated: # Render the page with logged in or public user information
             return render_template(
                 'home.html',
                 username=username,
@@ -63,7 +70,7 @@ def home_page():
                 recommendations=recommendations,
                 likes=likes
             )
-        else:
+        else: # visitor users
             return render_template(
                 'home.html',
                 id=user_id,
@@ -71,11 +78,10 @@ def home_page():
                 post_banner=post_banner,
                 likes=likes
             )
-
-    except Exception as e:
-        # Loga o erro e redireciona para uma página de erro
+       
+    except Exception as e:  # Loga o erro e redireciona para uma página de erro
         print(f"Erro ao carregar a página inicial: {e} : {e.__class__.__name__} : {e.__cause__}")
         return redirect(url_for('errorHttp.page_erro'))
-    
+       
     except requests.exceptions.InvalidURL as e:
-        pass
+        return redirect(url_for('home_home_page'))
