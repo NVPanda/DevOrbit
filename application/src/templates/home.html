@@ -150,12 +150,14 @@
       </div>
     </div>
 
-<div class="flex flex-wrap justify-end m-2 space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl align-items:center min-h-screen">
+    
+
+<div id="janela-modal" class=" jane-moda flex flex-wrap justify-end m-2 space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl align-items:center min-h-screen">
   {% for post in posts %}
-    <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center transition-all 
-         hover:scale-105 hover:shadow-2xl hover:border-gray-300">
+    <div class=" bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center 
+          hover:shadow-2xl hover:border-gray-300">
         <!-- Cabeçalho do Post -->
-        <div class="flex items-center p-4  border-gray-200 justify-center m-2  ">
+        <div  class=" modal-post flex items-center p-4  border-gray-200 justify-center m-2  ">
           {% if post.user_photo %}
           <img class="w-32 h-32 rounded-full mx-auto border-4  border-gray-300  shadow-lg" 
                src="{{ url_for('static', filename=post.user_photo) }}" 
@@ -207,59 +209,56 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
               <span class="ml-2 text-sm" id="like-count-{{ post.id }}">{{ post.likes }}</span>
             </button>
+
+           
         
-            <!-- Botão 2 comentarios -->
-            <button class="flex items-center text-gray-600 hover:text-gray-800 bg-transparent">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"/>
-              </svg>
-              
-            <!-- Botão-->
-            <button class="flex items-center text-gray-600 hover:text-gray-800 bg-transparent">
+          
+
+            <!-- Botão compatinhar -->
+            <button  class="flex items-center text-gray-600 hover:text-gray-800 bg-transparent"  >
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF"><path d="m226-559 78 33q14-28 29-54t33-52l-56-11-84 84Zm142 83 114 113q42-16 90-49t90-75q70-70 109.5-155.5T806-800q-72-5-158 34.5T492-656q-42 42-75 90t-49 90Zm178-65q-23-23-23-56.5t23-56.5q23-23 57-23t57 23q23 23 23 56.5T660-541q-23 23-57 23t-57-23Zm19 321 84-84-11-56q-26 18-52 32.5T532-299l33 79Zm313-653q19 121-23.5 235.5T708-419l20 99q4 20-2 39t-20 33L538-80l-84-197-171-171-197-84 167-168q14-14 33.5-20t39.5-2l99 20q104-104 218-147t235-24ZM157-321q35-35 85.5-35.5T328-322q35 35 34.5 85.5T327-151q-25 25-83.5 43T82-76q14-103 32-161.5t43-83.5Zm57 56q-10 10-20 36.5T180-175q27-4 53.5-13.5T270-208q12-12 13-29t-11-29q-12-12-29-11.5T214-265Z"/>
               </svg>
             </button>
           </div>
-          <ul class="text-gray-100">
-            {% for comment in post.comments %}
-            
-              <li class="text-gray-100 flex items-center space-x-4 p-2 rounded-lg">
-                
-                <div class="flex items-start space-x-4 p-2">
-                  <!-- Foto do usuário (fica no canto) -->
-                  <div class="flex-shrink-0">
-                    {% if photo_user_profile %}
-                      <img class="w-12 h-12 rounded-full border-2 border-gray-300 shadow-lg" 
-                           src="{{ url_for('static', filename=photo_user_profile) }}" 
-                           alt="Profile picture">
-                    {% else %}
-                      <img class="w-12 h-12 rounded-full border-4 border-gray-300 shadow-lg" 
-                           src="{{ url_for('static', filename='icon/default.svg') }}" 
-                           alt="Default profile picture">
-                    {% endif %}
-                  </div>
-                
-                  <!-- Comentário e data -->
-                  <div class="flex flex-col w-full">
-                    {% if comment.comment %}
-                    <p class="text-sm text-gray-100 break-words p-2 rounded-md shadow-sm bg-gray-800">
-                      {{ comment.comment[:55] }}{% if comment.comment|length > 25 %}... <a href="#" class="text-blue-500">Ver mais</a>{% endif %}
-                    </p>
-                    {% endif %}
-                    <small class="text-xs text-gray-400 dark:text-gray-400">{{ comment.date_creation }}</small>
-                  </div>
-                </div>
-              </li>
-            {% endfor %}
-          </ul>
           
-          
-        </button>
+          <div  class="overflow-y-auto max-h-64 flex flex-col space-y-4 space-x-4"> <!-- Contêiner com rolagem e espaçamento entre os itens -->
+            <ul class="text-gray-100 space-y-4"> <!-- Adicionando espaçamento entre os comentários -->
+              {% for comment in post.comments %}
+                <li class="flex items-center space-x-4 p-5 rounded-lg shadow-md  "> <!-- Ajuste do item da lista -->
+                  <div class="flex items-start space-x-4 p-3 "> <!-- Espaçamento maior entre os itens -->
+                    <!-- Foto do usuário (fica no canto) -->
+                    <div class="flex-shrink-0">
+                      {% if photo_user_profile %}
+                        <img class="w-14 h-14 rounded-full border-2 border-gray-400 shadow-md hover:scale-105 transition-all duration-300" 
+                             src="{{ url_for('static', filename=photo_user_profile) }}" 
+                             alt="Profile picture">
+                      {% else %}
+                        <img class="w-14 h-14 rounded-full border-4 border-gray-500 shadow-md hover:scale-105 transition-all duration-300" 
+                             src="{{ url_for('static', filename='icon/default.svg') }}" 
+                             alt="Default profile picture">
+                      {% endif %}
+                    </div>
+                  
+                    <!-- Nome do usuário -->
+                    <div " class="flex flex-col">
+                      <h4 class="text-lg  font-semibold text-gray-100">{{ post.nome }}</h4> <!-- Título maior e em negrito -->
+                      <small class="text-xs text-gray-400 dark:text-gray-400 text-center">{{ comment.date_creation }}</small> <!-- Data do comentário -->
+
+                      <div class="flex flex-col w-full">
+                        <div id="comment-btn" class="text-sm text-gray-100 break-words p-2 rounded-md  w-full">
+                          <p id="text-comment" class="whitespace-pre-line text-left">{{ comment.comment }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
       {% endfor %}
 
-
-      
       <div class="flex flex-col items-center bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl min-h-screen md:hidden">
         <div class="w-full ">
           
@@ -423,12 +422,6 @@
 }
 
 
-
-  
-
-   
-
-
   
     /* Media query para dispositivos móveis */
     @media (max-width: 768px) {
@@ -480,26 +473,6 @@
           opacity: 1;
           transform: translateY(0);
   }
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s ease-in-out forwards;
-}
-    }
-
-    @keyframes fadeInSlideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fadeInSlideUp {
-  animation: fadeInSlideUp 0.5s ease-out forwards;
 }
 
   </style>

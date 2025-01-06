@@ -4,6 +4,8 @@ from application.src.services.api_service import dataRequests
 from application.src.services.user_service import get_user_info, UserData
 from application.src.models.recommendations import recommendationsUser
 from application.src.__main__ import cache
+import requests
+import logging 
 
 # Configuração do Blueprint
 home_ = Blueprint('home', __name__, template_folder='templates')
@@ -23,6 +25,7 @@ def home_page():
     Mostra todos os posts dos usuários, incluindo informações de quem postou,
     data, contagem de likes, e serve como rota principal do feed.
     """
+    logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
     try:
         # Solicita os dados de postagens
         data = dataRequests()
@@ -73,3 +76,6 @@ def home_page():
         # Loga o erro e redireciona para uma página de erro
         print(f"Erro ao carregar a página inicial: {e} : {e.__class__.__name__} : {e.__cause__}")
         return redirect(url_for('errorHttp.page_erro'))
+    
+    except requests.exceptions.InvalidURL as e:
+        pass
