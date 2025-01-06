@@ -4,9 +4,11 @@ import sqlite3
 from datetime import datetime
 from dotenv import load_dotenv
 import os
-import json
 import requests
 from flask_login import current_user
+
+import logging 
+logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
 
 load_dotenv()
 
@@ -47,9 +49,11 @@ def fetch_database_data() -> Dict:
         cursor.execute("SELECT name, username, occupation FROM user_information")
         user_usernames = {name: {'username': username, 'occupation': occupation} 
                           for name, username, occupation in cursor.fetchall()}
+        logging.debug("fetching user data")
+        
         return {"user_photos": user_photos, "user_usernames": user_usernames}
     except sqlite3.Error as e:
-        print(f"Erro no banco de dados: {e}")
+        logging.error(f"Erro no banco de dados: {e.__class__.__name__}: line 56")
         return {"user_photos": {}, "user_usernames": {}}
     finally:
         conn.close()
@@ -74,9 +78,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
             } for comment in comments
 
         ]
-        #comments_users = formatted_comments[0]['comment']
        
-        #print(comments_users)
 
         best_post_list.append({
             'id': post.get('id', 0),
@@ -91,7 +93,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
           'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
         })
 
-    featured_posts = [post for post in best_post_list if post['likes'] >= 30]
+    featured_posts = [post for post in best_post_list if post['likes'] >= 1]
     banner = {
         'post_titulo': os.getenv('MENSAGEN', "Fala Dev!"),
         'post': os.getenv('MENSAGEN_POST', "Os melhores posts vão aparecer aqui! 🌟 Não deixe de comentar e compartilhar suas ideias. Vamos juntos criar uma comunidade incrível!"),
@@ -115,7 +117,16 @@ def dataRequests() -> Dict:
     try:
         posts = fetch_api_data()
         db_data = fetch_database_data()
+        logging.info(f"all data has been loaded")
         return format_posts(posts, db_data)
+    
     except Exception as e:
+        logging.error(f"Error processing API data: {e.__class__.__name__}: line 125")
+        logging.critical(f"processing error: {e.__class__.__name__}: line 126")
+        log_error(e)
+        return fetch_api_data()
+        
+    except requests.exceptions.ConnectionError as e:
+        logging.error(f"failed to connect to the server: {e.__class__.__name__}: line 125")
         log_error(e)
         return {}

@@ -128,3 +128,23 @@ function handleImageClick(element) {
     modal.appendChild(closeButton);
     document.body.appendChild(modal);
 }
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const viewMoreButton = document.getElementById('view-more');
+  
+  if (viewMoreButton) {
+    viewMoreButton.addEventListener('click', function(event) {
+      event.preventDefault(); // Impede qualquer ação de navegação
+      const fullComment = document.getElementById('full-comment');
+      const commentBtn = document.getElementById('comment-btn');
+      
+      fullComment.style.display = 'block'; // Exibe o comentário completo
+      commentBtn.style.display = 'none';   // Remove o botão "Ver mais"
+    });
+  }
+});
+
+

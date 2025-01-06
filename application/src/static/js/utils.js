@@ -163,3 +163,6 @@ function confirmDeletion() {
 document.getElementById('saveBioBtn').addEventListener('click', toggleDeleteForm);
 document.getElementById('cancelDeleteBtn').addEventListener('click', toggleDeleteForm);
 document.getElementById('confirmDeleteBtn').addEventListener('click', confirmDeletion);
+
+
+

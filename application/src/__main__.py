@@ -12,7 +12,6 @@ from application.src.database.configure_post import banco_post, criar_tabela_pos
 import os
 import sqlite3
 from dotenv import load_dotenv
-
 import logging 
 
 cache = Cache()
@@ -44,6 +43,7 @@ class User(UserMixin):
 
 
 def create_app():
+    logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
     # Criando a aplicação Flask
     
     app = Flask(__name__,  static_url_path='/static')
