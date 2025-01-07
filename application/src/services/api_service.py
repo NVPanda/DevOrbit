@@ -1,5 +1,4 @@
 from typing import Dict
-from flask import redirect, url_for
 import sqlite3
 from datetime import datetime
 from dotenv import load_dotenv
@@ -26,7 +25,7 @@ def fetch_api_data() -> list:
             posts = response.json()
             if not isinstance(posts, list):
                 print("A resposta da API não é uma lista.")
-                return []
+                return list(posts)
             return posts
         except ValueError:
             print("Erro ao converter a resposta para JSON")

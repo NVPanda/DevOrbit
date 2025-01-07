@@ -59,6 +59,7 @@ function handleImageClick(element) {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center;
     align-items: center; z-index: 1000;
+    borrde-radius: 50% ;
   `;
 
   // Criar a imagem para o modal
@@ -101,33 +102,35 @@ function handleImageClick(element) {
     sidebarToggle.addEventListener('click', mybar);
   }
 
-// função para abri foto de perfil 
+  
+// função para abrir foto de perfil 
 function handleImageClick(element) {
-    const imageUrl = element.getAttribute('data-image-url');
-    
-    const modal = document.createElement('div');
-    modal.style.cssText = `
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center;
-      align-items: center; z-index: 1000;
-    `;
+  const imageUrl = element.getAttribute('data-image-url');
+  
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center;
+    align-items: center; z-index: 1000;
+  `;
 
-    const img = document.createElement('img');
-    img.src = imageUrl;
-    img.style.cssText = 'max-width: 93%; max-height: 93%; border-radius: 8px;';
+  const img = document.createElement('img');
+  img.src = imageUrl;
+  img.style.cssText = 'max-width: 93%; max-height: 93%; border-radius: 50%;'; // Tornando a imagem redonda
 
-    const closeButton = document.createElement('span');
-    closeButton.textContent = 'X';
-    closeButton.style.cssText = `
-      position: absolute; top: 20px; right: 20px; color: white;
-      font-size: 24px; cursor: pointer;
-    `;
-    closeButton.onclick = () => document.body.removeChild(modal);
-    
-    modal.appendChild(img);
-    modal.appendChild(closeButton);
-    document.body.appendChild(modal);
+  const closeButton = document.createElement('span');
+  closeButton.textContent = 'X';
+  closeButton.style.cssText = `
+    position: absolute; top: 20px; right: 20px; color: white;
+    font-size: 24px; cursor: pointer;
+  `;
+  closeButton.onclick = () => document.body.removeChild(modal);
+  
+  modal.appendChild(img);
+  modal.appendChild(closeButton);
+  document.body.appendChild(modal);
 }
+
 
 
 

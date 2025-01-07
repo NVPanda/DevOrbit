@@ -16,10 +16,10 @@ def make_cache_key():
     Gera uma chave única de cache para cada usuário logado.
     Combina o ID do usuário e o caminho da requisição.
     """
-    return f"{current_user.id}:{request.path}"
+    return f"{current_user.id}:{request.path}: {request.endpoint}"      
 
 @home_.route('/devorbit/feed/', methods=['POST', 'GET'])
-@cache.cached(timeout=20, key_prefix=make_cache_key)
+@cache.cached(timeout=100, key_prefix=make_cache_key)
 def home_page():
     """
     Mostra todos os posts dos usuários, incluindo informações de quem postou,
