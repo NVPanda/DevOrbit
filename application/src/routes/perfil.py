@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, send_from_directory, url_for, request
+from flask import Blueprint, render_template,   send_from_directory, request
 from flask_login import current_user, login_required
 from application.src.__main__ import cache
 from application.src.services.api_service import dataRequests
@@ -18,11 +18,11 @@ def make_cache_key():
     Gera uma chave única de cache para cada usuário logado.
     Combina o ID do usuário e o caminho da requisição.
     """
-    return f"{current_user.id}:{request.path}"
+    return f"{current_user.id}:{request.path}: {request.endpoint}"
 
 @profile.route('/devorbit/perfil/<usuario>/')
 @login_required
-@cache.cached(timeout=20, key_prefix=make_cache_key)
+@cache.cached(timeout=100, key_prefix=make_cache_key)
 def profile_page(usuario):
    
     
@@ -37,12 +37,8 @@ def measure_performance(usuario):
 
     searching_account_data = UserData(current_user.id)
     username = searching_account_data[0]['username']
-
-
-
     
 
-    
     if get_user[0]['bio'] is None:
             get_user[0]['bio'] = '''Olá! A comunidade DevOrbit está pronta para te receber.
                 Compartilhe seus pensamentos e conecte-se com desenvolvedores apaixonados por inovação.'''
@@ -67,7 +63,7 @@ def measure_performance(usuario):
     
 
 
-    # Certifique-se de passar todas as variáveis necessárias para o template (Usuario autenticados)
+   # Make sure to pass all necessary variables to the template (Authenticated users)
     if current_user.is_authenticated:
          return render_template('profile.html', 
              username=username, 
@@ -77,7 +73,7 @@ def measure_performance(usuario):
             seguir=seguir, followers=get_user[0]['followers'], following=get_user[0]['following'], banner=get_user[0]['banner'],
              )
     
-    # Certifique-se de passar todas as variáveis necessárias para o template (Usuario não autenticados)
+   # Make sure to pass all necessary variables to the template (Non-authenticated user)
     else:
         return render_template('profile.html',   
                            posts=posts_account_user, 

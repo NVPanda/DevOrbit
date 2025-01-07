@@ -123,27 +123,30 @@
                 alt="Default profile picture">
                 {% endif %}
 
-        {% if posts and posts|length > 0 %}
-        <h2 class="user-name text-center text-2xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
-          {{ posts[0].nome }}
-          <img class="w-5 h-5 ml-2" src="{{ url_for('static', filename='icon/verificado.png') }}" alt="Verificado">
-        </h2>
-        {% endif %}
-        {% for post in posts %}
-        <p class="text-center text-gray-100 mt-1">{{ post.occupation }}</p> <br>
-        <p class="text-center text-lg font-medium text-gray-100 mt-4">
-          Seguindo: <span class="followes text-gray-100">{{ following }}</span> &nbsp; • &nbsp; Seguidores: <span class="text-gray-100">{{ followers }}</span>
-        </p>
-        {% endfor %}
-      
-        {% if seguir %}
-        <div class="flex justify-center items-center h-full w-full">
-          <button class="px-6 py-2 bg-blue-600 text-gray-100 p-10 flex m-1 w-full items-center justify-center text-sm font-medium rounded-full shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
-            {{ seguir }}
-          </button>
-        </div>
-        {% endif %}
-    </div>
+                {% if posts and posts|length > 0 %}
+                <!-- Exibe o nome e o ícone de verificação para o primeiro post -->
+                <h2 class="user-name text-center text-2xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
+                    {{ usuario }}
+                    <img class="w-5 h-5 ml-2" src="{{ url_for('static', filename='icon/verificado.png') }}" alt="Verificado">
+                </h2>
+                <p class="text-center text-lg font-medium text-gray-100 mt-4">
+                    Seguindo: <span class="followes text-gray-100">{{ following }}</span> &nbsp; • &nbsp; Seguidores: <span class="text-gray-100">{{ followers }}</span>
+                </p>
+            {% endif %}
+            
+            <!-- Laço para os posts, exibindo informações específicas de cada post -->
+            {% for post in posts %}
+                <p class="text-center text-gray-100 mt-1">{{ post.occupation }}</p> <br>
+            
+                {% if seguir %}
+                    <div class="flex justify-center items-center h-full w-full">
+                        <button class="px-6 py-2 bg-blue-600 text-gray-100 p-10 flex m-1 w-full items-center justify-center text-sm font-medium rounded-full shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
+                            {{ seguir }}
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
 
 
           
@@ -161,7 +164,7 @@
             <h3 class="text-xl font-semibold text-gray-100 text-center">Bio</h3>
           
             {% if bio %}
-            <p class="bio-user text-gray-100 mt-2 text-center whitespace-pre-line">{{ bio }}</p>
+            <p class="bio-user text-gray-100 mt-2 text-center whitespace-pre-line font-bold">{{ bio }}</p>
             {% else %}
             <p class="bio-user text-gray-100 mt-2 text-center"> ... </p>
             {% endif %}
@@ -183,7 +186,7 @@
           <img class="w-32 h-32 rounded-full mx-auto border-4  border-gray-300  shadow-lg" 
                src="{{ url_for('static', filename=post.user_photo) }}" 
                onclick="handleImageClick(this)"
-               alt="Profile picture">
+               alt="foto de usuario de{{post.nome}}:">
           {% else %}
           <img class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-lg" 
                src="{{ url_for('static', filename='icon/default.svg') }}" 
@@ -222,7 +225,7 @@
           </p>
         </div>
         
-        <!-- Ações do Post -->
+      
          <!-- Ações do Post -->
          <div class="post-container flex flex-col space-y-5 p-4 border-t border-gray-200">
           <!-- Container dos Botões -->
@@ -234,12 +237,7 @@
               <span class="ml-2 text-sm" id="like-count-{{ post.id }}">{{ post.likes }}</span>
             </button>
         
-            <!-- Botão 2 -->
-            <button class="flex items-center text-gray-600 hover:text-gray-800 bg-transparent">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"/>
-              </svg>
-              onclick="handleImageClick(this)" 
-            </button>
+            
         
             <!-- Botão 3 -->
             <button class="flex items-center text-gray-600 hover:text-gray-800 bg-transparent">
@@ -248,9 +246,46 @@
             </button>
           </div>
         </div>
-        
+
+        <div  class="overflow-y-auto max-h-64 flex flex-col space-y-4 space-x-4"> <!-- Contêiner com rolagem e espaçamento entre os itens -->
+          <ul class="text-gray-100 space-y-4"> <!-- Adicionando espaçamento entre os comentários -->
+            {% for comment in post.comments %}
+              <li class="flex items-center space-x-4 p-5 rounded-lg shadow-md  "> <!-- Ajuste do item da lista -->
+                <div class="flex items-start space-x-4 p-3 "> <!-- Espaçamento maior entre os itens -->
+                  <!-- Foto do usuário (fica no canto) -->
+                  <div class="flex-shrink-0">
+                    {% if photo_user_profile %}
+                      <img class="w-14 h-14 rounded-full border-2 border-gray-400 shadow-md hover:scale-105 transition-all duration-300" 
+                           src="{{ url_for('static', filename=photo_user_profile) }}" 
+                           alt="Profile picture">
+                    {% else %}
+                      <img class="w-14 h-14 rounded-full border-4 border-gray-500 shadow-md hover:scale-105 transition-all duration-300" 
+                           src="{{ url_for('static', filename='icon/default.svg') }}" 
+                           alt="Default profile picture">
+                    {% endif %}
+                  </div>
+                
+                  <!-- Nome do usuário -->
+                  <div " class="flex flex-col">
+                    <h4 class="text-lg  font-semibold text-gray-100">{{ post.nome }}</h4> <!-- Título maior e em negrito -->
+                    <small class="text-xs text-gray-400 dark:text-gray-400 text-center">{{ comment.date_creation }}</small> <!-- Data do comentário -->
+
+                    <div class="flex flex-col w-full">
+                      <div id="comment-btn" class="text-sm text-gray-100 break-words p-2 rounded-md  w-full">
+                        <p id="text-comment" class="whitespace-pre-line text-left">{{ comment.comment }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      {% endfor %}
+    </div>
+    {% endfor %}
+      </div>
+      
 
 <div class="flex flex-wrap justify-end space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl aling-items:center min-h-screen">
   {% with messages = get_flashed_messages(with_categories=true) %}
@@ -263,16 +298,17 @@
       {% endif %}
   {% endwith %}
 </div>
-<div class="fixed flex bottom-6 end-6 group desktop-only">
-  <!-- Botão de Ação Único -->
-  <a href="{{ url_for('page_posts.create_post_route') }}" class="flex items-center justify-center w-14 h-14 text-white bg-blue-700 rounded-full hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-      <!-- Ícone de Avião -->
-      <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M2.5 19.83l6.72-2.69 2.68 6.72c.14.37.66.36.77-.01l9-21c.14-.32-.23-.68-.56-.54l-21 9c-.37.14-.38.63-.01.77l6.72 2.68L2.5 19.83Z"/>
-      </svg>
-      <span class="sr-only">Create New Post</span>
-  </a>
-</div>
+
+    <div class="fixed flex bottom-6 end-6 group desktop-only">
+      <!-- Botão de Ação Único -->
+      <a href="{{ url_for('page_posts.create_post_route') }}" class="flex items-center justify-center w-14 h-14 text-white bg-blue-700 rounded-full hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
+          <!-- Ícone de Avião -->
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2.5 19.83l6.72-2.69 2.68 6.72c.14.37.66.36.77-.01l9-21c.14-.32-.23-.68-.56-.54l-21 9c-.37.14-.38.63-.01.77l6.72 2.68L2.5 19.83Z"/>
+          </svg>
+          <span class="sr-only">Create New Post</span>
+      </a>
+    </div>
 
 
 <div class="space-y-6  font-medium">

@@ -49,51 +49,51 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
-  
   // Função para lidar com o clique na imagem
-  function handleImageClick(imageUrl) {
-    // Cria um elemento para o modal
-    const modal = document.createElement('div');
-    modal.style.position = 'fixed';
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.width = '100%';
-    modal.style.height = '100%';
-    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-    modal.style.display = 'flex';
-    modal.style.justifyContent = 'center';
-    modal.style.alignItems = 'center';
-    modal.style.zIndex = '1000';
-  
-    // Cria a imagem no modal
-    const img = document.createElement('img');
-    img.src = imageUrl;
-    img.style.maxWidth = '93%';
-    img.style.maxHeight = '93%';
-    img.style.borderRadius = '8px';
-  
-    // Botão para fechar o modal
-    const closeButton = document.createElement('span');
-    closeButton.textContent = 'X';
-    closeButton.style.position = 'absolute';
-    closeButton.style.top = '20px';
-    closeButton.style.right = '20px';
-    closeButton.style.color = 'white';
-    closeButton.style.fontSize = '24px';
-    closeButton.style.cursor = 'pointer';
-  
-    // Remove o modal ao clicar no botão de fechar
-    closeButton.onclick = () => {
-      document.body.removeChild(modal);
-    };
-  
-    // Adiciona os elementos ao modal
-    modal.appendChild(img);
-    modal.appendChild(closeButton);
-  
-    // Adiciona o modal ao corpo do documento
-    document.body.appendChild(modal);
-  }
+function handleImageClick(imageUrl) {
+  // Cria um elemento para o modal
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '0';
+  modal.style.left = '0';
+  modal.style.width = '100%';
+  modal.style.height = '100%';
+  modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+  modal.style.display = 'flex';
+  modal.style.justifyContent = 'center';
+  modal.style.alignItems = 'center';
+  modal.style.zIndex = '1000';
+
+  // Cria a imagem no modal
+  const img = document.createElement('img');
+  img.src = imageUrl;
+  img.style.maxWidth = '93%';
+  img.style.maxHeight = '93%';
+  img.style.borderRadius = '50%';  // Tornando a imagem redonda
+
+  // Botão para fechar o modal
+  const closeButton = document.createElement('span');
+  closeButton.textContent = 'X';
+  closeButton.style.position = 'absolute';
+  closeButton.style.top = '20px';
+  closeButton.style.right = '20px';
+  closeButton.style.color = 'white';
+  closeButton.style.fontSize = '24px';
+  closeButton.style.cursor = 'pointer';
+
+  // Remove o modal ao clicar no botão de fechar
+  closeButton.onclick = () => {
+    document.body.removeChild(modal);
+  };
+
+  // Adiciona os elementos ao modal
+  modal.appendChild(img);
+  modal.appendChild(closeButton);
+
+  // Adiciona o modal ao corpo do documento
+  document.body.appendChild(modal);
+}
+
   
   // Função para exibir a barra lateral (não modificada)
 function mybar() {
