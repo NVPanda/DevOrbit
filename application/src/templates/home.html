@@ -168,7 +168,7 @@
                alt="Foto de perfil">
           {% endif %}
           <div class="ml-3 text-center">
-            <a href="{{ url_for('perfil.profile_page', usuario=username) }}">
+            <a href="{{ url_for('perfil.profile_page', usuario=usuario) }}">
               <h2 class="user-name text-center text-1xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
                 {{post.nome}}
                 <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
@@ -224,6 +224,8 @@
           <div  class="overflow-y-auto max-h-64 flex flex-col space-y-4 space-x-4"> <!-- Contêiner com rolagem e espaçamento entre os itens -->
             <ul class="text-gray-100 space-y-4"> <!-- Adicionando espaçamento entre os comentários -->
               {% for comment in post.comments %}
+              {% if comment.comment %}
+              
                 <li class="flex items-center space-x-4 p-5 rounded-lg shadow-md  "> <!-- Ajuste do item da lista -->
                   <div class="flex items-start space-x-4 p-3 "> <!-- Espaçamento maior entre os itens -->
                     <!-- Foto do usuário (fica no canto) -->
@@ -238,17 +240,17 @@
                              alt="Default profile picture">
                       {% endif %}
                     </div>
-                  
                     <!-- Nome do usuário -->
                     <div " class="flex flex-col">
                       <h4 class="text-lg  font-semibold text-gray-100">{{ post.nome }}</h4> <!-- Título maior e em negrito -->
                       <small class="text-xs text-gray-400 dark:text-gray-400 text-center">{{ comment.date_creation }}</small> <!-- Data do comentário -->
-
                       <div class="flex flex-col w-full">
                         <div id="comment-btn" class="text-sm text-gray-100 break-words p-2 rounded-md  w-full">
                           <p id="text-comment" class="whitespace-pre-line text-left">{{ comment.comment }}</p>
                         </div>
+                        {%else%}
                       </div>
+                        {%endif%}
                     </div>
                   </div>
                 </li>
