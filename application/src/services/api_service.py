@@ -34,6 +34,7 @@ def fetch_api_data() -> list:
         log_error(e)
         return []
 
+
 def fetch_database_data() -> Dict:
     """Busca informações complementares do banco de dados SQLite."""
     try:
@@ -56,6 +57,7 @@ def fetch_database_data() -> Dict:
         return {"user_photos": {}, "user_usernames": {}}
     finally:
         conn.close()
+
 
 def format_posts(posts: list, db_data: Dict) -> Dict:
     """Formata os dados dos posts com informações do banco de dados."""

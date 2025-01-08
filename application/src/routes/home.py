@@ -29,6 +29,10 @@ def home_page():
     try:
         
         data = dataRequests() # Request post data
+        print()
+        print(current_user.id)
+        print(current_user.username)
+
         if not isinstance(data, (dict)):
             try:
                 data = dict(data)

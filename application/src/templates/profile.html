@@ -125,7 +125,7 @@
 
                 {% if posts and posts|length > 0 %}
                 <!-- Exibe o nome e o ícone de verificação para o primeiro post -->
-                <h2 class="user-name text-center text-2xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
+                <h2 class="text-center text-2xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
                     {{ usuario }}
                     <img class="w-5 h-5 ml-2" src="{{ url_for('static', filename='icon/verificado.png') }}" alt="Verificado">
                 </h2>
@@ -160,7 +160,7 @@
           
 
 
-          <div class="mt-5">
+          <div class="mt-5 space-x-2">
             <h3 class="text-xl font-semibold text-gray-100 text-center">Bio</h3>
           
             {% if bio %}
