@@ -7,7 +7,7 @@ from datetime import datetime
 from flask_login import current_user, login_required
 from application.src.database.users.configure_users import my_db, Links, link_of_user
 from application.src.models.link_validators import is_valid_link, is_linkedin_link, personal_link
-
+from application.src.services.user_service import get_user_info, UserData
 import os
 from dotenv import load_dotenv
 
@@ -75,6 +75,13 @@ def config_account(usuario):
         usuario = current_user.username
         id_usuario = current_user.id
         banner = user[5]
+
+        searching_account_data = UserData(current_user.id)
+        if not searching_account_data:
+            return redirect(url_for('errorHttp.page_erro'))
+        
+        username = searching_account_data[0]['username']
+        user_id = searching_account_data[0]['id']
        
 
         status = "Conta Saudável" if usuario else "Sua conta está sendo verificada."
@@ -92,4 +99,4 @@ def config_account(usuario):
 
     return render_template('configuracao.html',  user_photo=user_photo, usuario=usuario, 
                            email_usuario=email_usuario, status=status, id_usuario=id_usuario,
-                            bio=bio, date_create=date_create, banner=banner)
+                            bio=bio, date_create=date_create, banner=banner, username=username)

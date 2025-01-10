@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,   send_from_directory, request
+from flask import Blueprint, render_template,   send_from_directory, request, redirect, url_for
 from flask_login import current_user, login_required
 from application.src.__main__ import cache
 from application.src.services.api_service import dataRequests
@@ -18,7 +18,7 @@ def make_cache_key():
     Gera uma chave única de cache para cada usuário logado.
     Combina o ID do usuário e o caminho da requisição.
     """
-    return f"{current_user.id}:{request.path}: {request.endpoint}"
+    return f"{current_user.id}:{request.path}"
 
 @profile.route('/devorbit/perfil/<usuario>/')
 @login_required
@@ -33,6 +33,12 @@ def profile_page(usuario):
 def measure_performance(usuario):
     
     get_user = get_user_info(current_user.username)
+    if not get_user:
+        return redirect(url_for('errorHttp.page_erro'))
+
+    user_info = get_user[0]  # Usar o primeiro (e único) dicionário retornado
+    photo_user_profile = user_info.get('user_photo', None)
+        
     user_photo = get_user[0]['user_photo']
 
     searching_account_data = UserData(current_user.id)
@@ -69,7 +75,7 @@ def measure_performance(usuario):
              username=username, 
              usuario=current_user.username,
             id=current_user.id, posts=posts_account_user, user_photo=user_photo,
-            photo_user_profile=get_user[0].get('user_photo', None), bio=get_user[0]['bio'], github=get_user[0]['github'], site=get_user[0]['site'], likedin=get_user[0]['linkedin'],
+            photo_user_profile=photo_user_profile, bio=get_user[0]['bio'], github=get_user[0]['github'], site=get_user[0]['site'], likedin=get_user[0]['linkedin'],
             seguir=seguir, followers=get_user[0]['followers'], following=get_user[0]['following'], banner=get_user[0]['banner'],
              )
     

@@ -136,10 +136,16 @@ function setupProfileRedirect(selector, url) {
 
 document.addEventListener('DOMContentLoaded', () => {
   // Configura o redirecionamento para o perfil
-  setupProfileRedirect("a[data-url='{{ url_for('perfil.profile_page', usuario=username) }}']", '{{ url_for('perfil.profile_page', usuario=username) }}');
+  setupProfileRedirect(
+    "a[data-url='{{ url_for(\"perfil.profile_page\", usuario=username) }}']",
+    "{{ url_for(\"perfil.profile_page\", usuario=username) }}"
+  );
   
   // Configura o redirecionamento para a home
-  setupProfileRedirect("a[data-url='{{ url_for('home.home_page', usuario=username) }}']", '{{ url_for('home.home_page', usuario=username) }}');
+  setupProfileRedirect(
+    "a[data-url='{{ url_for(\"home.home_page\", usuario=username) }}']",
+    "{{ url_for(\"home.home_page\", usuario=username) }}"
+  );
 });
 
 // Exibir ou esconder o formulário de exclusão
@@ -158,6 +164,7 @@ function confirmDeletion() {
     alert('Exclusão cancelada.');
   }
 }
+
 
 // Eventos dos botões
 document.getElementById('saveBioBtn').addEventListener('click', toggleDeleteForm);
