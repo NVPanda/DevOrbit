@@ -6,10 +6,13 @@ import os
 import requests
 from flask_login import current_user
 
+
 import logging 
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
 
 load_dotenv()
+
+
 
 def fetch_api_data() -> list:
     """Faz requisição à API e retorna os dados formatados como lista."""
@@ -44,6 +47,7 @@ def fetch_database_data() -> Dict:
         # Buscar fotos dos usuários
         cursor.execute("SELECT name, photo FROM usuarios")
         user_photos = dict(cursor.fetchall())
+        
 
         # Buscar nomes de usuário e ocupações
         cursor.execute("SELECT name, username, occupation FROM user_information")
@@ -65,10 +69,13 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
     user_usernames = db_data.get("user_usernames", {})
     best_post_list = []
 
+   
+
     for post in posts:
         real_name = post.get('nome', 'Desconhecido')
         user_info = user_usernames.get(real_name, {"username": "Desconhecido", "occupation": "Desconhecido"})
         comments = post.get('comments', [{'comment': 'Ainda não há comentários'}])
+
 
 
         formatted_comments = [
@@ -79,7 +86,11 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
             } for comment in comments
 
         ]
+
+    
        
+
+        # user_photos.get(real_name, None),
 
         best_post_list.append({
             'id': post.get('id', 0),
@@ -89,7 +100,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
             'post': post.get('post', '').capitalize(),
             'likes': int(post.get('likes', 0)),
             'img_url': post.get('img_url', None),
-            'user_photo': user_photos.get(real_name, None),
+            'user_photo':  user_photos.get(real_name, None),
             'occupation': user_info['occupation'],
           'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
         })
