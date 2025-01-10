@@ -16,7 +16,7 @@ def make_cache_key():
     Gera uma chave única de cache para cada usuário logado.
     Combina o ID do usuário e o caminho da requisição.
     """
-    return f"{current_user.id}:{request.path}: {request.endpoint}"      
+    return f"{current_user.id}:{request.path}"      
 
 @home_.route('/devorbit/feed/', methods=['POST', 'GET'])
 @cache.cached(timeout=100, key_prefix=make_cache_key)
@@ -49,7 +49,14 @@ def home_page():
 
        
         recommendations = recommendationsUser()  # Obtaining user recommendations and information
-        get_user = get_user_info(current_user.username) # Retrieves the logged-in user's information based on their current username.
+        get_user = get_user_info(current_user.username)
+        if not get_user:
+            return redirect(url_for('errorHttp.page_erro'))
+
+        user_info = get_user[0]  # Usar o primeiro (e único) dicionário retornado
+        photo_user_profile = user_info.get('user_photo', None)
+        
+
         searching_account_data = UserData(current_user.id)
         if not searching_account_data:
             return redirect(url_for('errorHttp.page_erro'))
@@ -67,7 +74,7 @@ def home_page():
                 'home.html',
                 username=username,
                 usuario=current_user.username,
-                photo_user_profile=get_user[0].get('user_photo', None),
+                photo_user_profile=photo_user_profile,
                 id=current_user.id,
                 posts=posts,
                 post_banner=post_banner,
