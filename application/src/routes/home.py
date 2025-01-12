@@ -90,7 +90,7 @@ def home_page():
                 likes=likes
             )
        
-    except Exception as e:  # Loga o erro e redireciona para uma página de erro
+    except Exception as e:  # capturing error and saving to a log file
         print(f"Erro ao carregar a página inicial: {e} : {e.__class__.__name__} : {e.__cause__}")
         return redirect(url_for('errorHttp.page_erro'))
        
