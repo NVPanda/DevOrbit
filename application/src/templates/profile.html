@@ -48,7 +48,7 @@
                  class="text-blue-400 dark:text-white hover:underline"
                  data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
                  onclick="showLoading()">
-                  {{ usuario }}
+                  {{ username }}
               </a>
           </div>
      
@@ -181,7 +181,7 @@
     <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center 
         hover:shadow-2xl hover:border-gray-300">
         <!-- Cabeçalho do Post -->
-        <div class="flex items-center p-4  border-gray-200 justify-center m-2  ">
+        <div class="flex items-center p-4  border-gray-200 justify-center   ">
           {% if post.user_photo %}
           <img class="w-32 h-32 rounded-full mx-auto border-4  border-gray-300  shadow-lg" 
                src="{{ url_for('static', filename=post.user_photo) }}" 

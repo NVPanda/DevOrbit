@@ -7,3 +7,13 @@ function showLoading() {
     }, 2000); // Redireciona após 2 segundos
   }
   
+
+function chekSubmission(){
+  if(!submissionflag){
+    submissionflag = true;
+    return true;
+
+  } else{
+    return false
+  }
+}

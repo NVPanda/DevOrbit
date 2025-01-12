@@ -81,11 +81,13 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
         formatted_comments = [
             {
                 'comentario_id': comment.get('comment_id', 0),
-                'comment': comment.get('comment', ''),
+                'comment': comment.get('comment'),
                 'date_creation': comment.get('creation_date', '')
             } for comment in comments
 
         ]
+    
+
 
     
        
@@ -105,7 +107,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
           'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
         })
 
-    featured_posts = [post for post in best_post_list if post['likes'] >= 30]
+    featured_posts = [post for post in best_post_list if post['likes'] >= 1]
     banner = {
         'post_titulo': os.getenv('MENSAGEN', "Fala Dev!"),
         'post': os.getenv('MENSAGEN_POST', "Os melhores posts vão aparecer aqui! 🌟 Não deixe de comentar e compartilhar suas ideias. Vamos juntos criar uma comunidade incrível!"),

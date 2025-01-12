@@ -34,23 +34,31 @@ def recommendationsUser():
         banco = sqlite3.connect(db_path)
         cursor = banco.cursor()
 
-        limit = random.randint(2,4)
-        
+        # Define um limite aleatório
+        limit = random.randint(2, 4)
 
-      
-        # Busca os primeiros 10 usuários da tabela
-        cursor.execute(f"SELECT * FROM usuarios LIMIT {limit}")
-        users = cursor.fetchall()
+        # Busca os dados das tabelas
+        query = f"""
+        SELECT usuarios.id, usuarios.name, usuarios.photo, user_information.occupation
+        FROM usuarios
+        INNER JOIN user_information ON usuarios.id = user_information.id
+        LIMIT {limit}
+        """
+        cursor.execute(query)
+        get_information_user = cursor.fetchall()
 
         # Formata os dados para exibição
         recommendations = []
-        for user in users:
+        for user in get_information_user:
             recommendations.append({
-                "id": user[0],       
-                "name": format_user_name(user[2]),  
-                "user_photo": user[7] if user[7] else None
-                
-            })
+        "id": user[0],  # ID do usuário
+        "name": user[1],  # Nome do usuário
+        "user_photo": user[2],  # Foto do usuário
+        "occupation": user[3]  # Ocupação do usuário
+        })
+
+        print(recommendations)
+
 
     
 
