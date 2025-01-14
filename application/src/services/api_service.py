@@ -34,7 +34,7 @@ def fetch_api_data() -> list:
             print("Erro ao converter a resposta para JSON")
             return []
     except requests.RequestException as e:
-        log_error(e)
+        #log_error(e)
         return []
 
 
@@ -76,8 +76,8 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
         user_info = user_usernames.get(real_name, {"username": "Desconhecido", "occupation": "Desconhecido"})
         comments = post.get('comments', [{'comment': 'Ainda não há comentários'}])
 
-
-
+        print(post['id'] )
+        
         formatted_comments = [
             {
                 'comentario_id': comment.get('comment_id', 0),
@@ -95,7 +95,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
         # user_photos.get(real_name, None),
 
         best_post_list.append({
-            'id': post.get('id', 0),
+            'id': post['id'],
             'nome': user_info['username'],
             'titulo': post.get('titulo', 'Sem título'),
             'data': post.get('data', '00:00')[11:16],
@@ -106,6 +106,12 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
             'occupation': user_info['occupation'],
           'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
         })
+       
+
+
+       
+        
+
 
     featured_posts = [post for post in best_post_list if post['likes'] >= 1]
     banner = {
@@ -119,12 +125,12 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
 
     return {"todos_os_posts": best_post_list, "post_banner": banner}
 
-def log_error(error: Exception):
-    """Registra erros em um arquivo de log."""
-    log_file = os.getenv('LOGS', 'logs.txt')
-    with open(log_file, 'a') as f:
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f'[{timestamp}] {error.__class__.__name__}: {str(error)}\n')
+#def log_error(error: Exception):
+#    """Registra erros em um arquivo de log."""
+#    log_file = os.getenv('LOGS', 'logs.txt')
+#    with open(log_file, 'a') as f:
+#        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+#        f.write(f'[{timestamp}] {error.__class__.__name__}: {str(error)}\n')
 
 def dataRequests() -> Dict:
     """Processa dados da API e do banco de dados, retornando um dicionário formatado."""
@@ -137,10 +143,10 @@ def dataRequests() -> Dict:
     except Exception as e:
         logging.error(f"Error processing API data: {e.__class__.__name__}: line 125")
         logging.critical(f"processing error: {e.__class__.__name__}: line 126")
-        log_error(e)
+        #log_error(e)
         return fetch_api_data()
         
     except requests.exceptions.ConnectionError as e:
         logging.error(f"failed to connect to the server: {e.__class__.__name__}: line 125")
-        log_error(e)
+        #log_error(e)
         return {}

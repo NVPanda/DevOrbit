@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from application.src.services.api_service import dataRequests
 from application.src.services.user_service import get_user_info, UserData
 from application.src.models.recommendations import recommendationsUser
+from application.src.services.api_nooticias import get_top_stories, get_exact_count
 from application.src.__main__ import cache
 import requests
 import logging 
@@ -29,9 +30,8 @@ def home_page():
     try:
         
         data = dataRequests() # Request post data
-        print()
-        print(current_user.id)
-        print(current_user.username)
+        data_noticias = get_top_stories(num_noticias=get_exact_count())
+        
 
         if not isinstance(data, (dict)):
             try:
@@ -79,7 +79,8 @@ def home_page():
                 posts=posts,
                 post_banner=post_banner,
                 recommendations=recommendations,
-                likes=likes
+                likes=likes,
+                data_noticias=data_noticias
             )
         else: # visitor users
             return render_template(
