@@ -847,6 +847,11 @@ video {
   margin-bottom: 4rem;
 }
 
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -876,6 +881,10 @@ video {
 
 .-ml-20 {
   margin-left: -5rem;
+}
+
+.-ml-24 {
+  margin-left: -6rem;
 }
 
 .-ml-36 {
@@ -974,6 +983,10 @@ video {
   margin-left: 0px;
 }
 
+.ml-10 {
+  margin-left: 2.5rem;
+}
+
 .ml-12 {
   margin-left: 3rem;
 }
@@ -1022,6 +1035,10 @@ video {
   margin-left: 24rem;
 }
 
+.ml-\[-35px\] {
+  margin-left: -35px;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -1054,6 +1071,10 @@ video {
   margin-top: 2.5rem;
 }
 
+.mt-11 {
+  margin-top: 2.75rem;
+}
+
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -1064,6 +1085,10 @@ video {
 
 .mt-3 {
   margin-top: 0.75rem;
+}
+
+.mt-32 {
+  margin-top: 8rem;
 }
 
 .mt-4 {
@@ -1088,6 +1113,10 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mt-9 {
+  margin-top: 2.25rem;
 }
 
 .block {
@@ -1218,6 +1247,14 @@ video {
   max-height: 24rem;
 }
 
+.max-h-full {
+  max-height: 100%;
+}
+
+.min-h-\[400px\] {
+  min-height: 400px;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1322,6 +1359,10 @@ video {
   width: 24rem;
 }
 
+.w-\[300px\] {
+  width: 300px;
+}
+
 .w-auto {
   width: auto;
 }
@@ -1388,11 +1429,6 @@ video {
 
 .-translate-x-1 {
   --tw-translate-x: -0.25rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.-translate-x-1\/2 {
-  --tw-translate-x: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1478,6 +1514,10 @@ video {
   list-style-type: disc;
 }
 
+.list-none {
+  list-style-type: none;
+}
+
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -1556,6 +1596,10 @@ video {
 
 .gap-4 {
   gap: 1rem;
+}
+
+.gap-5 {
+  gap: 1.25rem;
 }
 
 .space-x-10 > :not([hidden]) ~ :not([hidden]) {
@@ -2502,9 +2546,46 @@ video {
 
 .noticia{
   position: absolute;
-  left: 100%;
-  margin: 1px;
-  padding: 1px;
+  left: 79%;
+  margin: 0;
+  padding: 15px;
+}
+
+.noticia ul {
+  display: flex;
+  /* Ativa o Flexbox */
+  flex-direction: column;
+  /* Organiza os itens em uma coluna */
+  gap: 16px;
+  /* Espaçamento entre os itens */
+  justify-content: flex-start;
+  /* Alinha os itens no topo */
+}
+
+.noticia-item {
+  display: block;
+  /* Garante que os itens ocupem toda a largura disponível */
+  width: 245px;
+  /* Cada item ocupa 100% da largura disponível */
+  min-height: 320px;
+  /* Altura mínima para cada item */
+  padding: 16px;
+  /* Espaçamento interno */
+  box-sizing: border-box;
+  /* Inclui padding no cálculo do tamanho */
+}
+
+.noticia-item img {
+  max-height: 160px;
+  /* Limita a altura da imagem */
+  -o-object-fit: cover;
+     object-fit: cover;
+  /* Corta ou ajusta a imagem para caber no espaço */
+  border-radius: 8px;
+}
+
+#data{
+  margin-right: 30px;
 }
 
 /* Estilo geral para o container da recomendação */
@@ -2589,6 +2670,21 @@ video {
   font-size: 1rem;
   color: #cbd5e0;
 }
+
+/* 
+.show-comentario {
+  width: 250px;
+  height: auto;
+  position: absolute;
+  left: 58%;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+
+/* padding: 16px; */
+
+/* } */
+
+*/
 
 .vertical-line {
   border: none;

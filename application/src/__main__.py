@@ -9,6 +9,7 @@ from application.src.database.users.configure_users import create_database,add_c
 from application.src.api.upload_file import register_file_routes, caminho_img, send_from_directory
 from application.src.database.configure_post import banco_post, criar_tabela_post
 
+
 import os
 import sqlite3
 from dotenv import load_dotenv
@@ -62,6 +63,7 @@ def create_app():
 
     # Registrar blueprints
     from application.src.routes.home import home_
+    
     app.register_blueprint(home_)
    
 
