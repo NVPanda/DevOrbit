@@ -77,7 +77,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
         comments = post.get('comments', [{'comment': 'Ainda não há comentários'}])
 
         print(post['id'] )
-        
+        user_photo = user_photos.get(real_name, 'default_photo.png')
         formatted_comments = [
             {
                 'comentario_id': comment.get('comment_id', 0),
@@ -88,14 +88,9 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
         ]
     
 
-
-    
-       
-
-        # user_photos.get(real_name, None),
-
         best_post_list.append({
             'id': post['id'],
+            "user_id": post['user_id'],
             'nome': user_info['username'],
             'titulo': post.get('titulo', 'Sem título'),
             'data': post.get('data', '00:00')[11:16],
@@ -106,6 +101,8 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
             'occupation': user_info['occupation'],
           'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
         })
+       
+        
        
 
 

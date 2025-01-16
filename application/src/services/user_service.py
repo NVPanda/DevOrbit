@@ -1,24 +1,24 @@
 from flask import flash, redirect, url_for
 from application.src.database.users.configure_users import my_db
 
-def get_user_info(usuario):  # Recebe current_user.username
+def get_user_info(user_id):  # Busca por ID
     banco, cursor = my_db()
 
     # Buscar informações completas do usuário no banco
     cursor.execute(
-        'SELECT id, photo, bio, github, likedin, site, followers, following, banner, name FROM usuarios WHERE name = ?',
-        (usuario,)
+        'SELECT id, photo, bio, github, likedin, site, followers, following, banner, name FROM usuarios WHERE id = ?',
+        (user_id,)
     )
     user = cursor.fetchone()
+   
 
     if not user:
         flash('Usuário não encontrado.', 'error')
-        return None  # Caso o usuário não seja encontrado
+        return None
 
-    # Retornar dicionário com as informações
     return [{
         'id': user[0],
-        'user_photo': user[1],  # Foto do perfil
+        'user_photo': user[1],
         'bio': user[2],
         'github': user[3],
         'linkedin': user[4],
@@ -30,6 +30,7 @@ def get_user_info(usuario):  # Recebe current_user.username
     }]
 
 
+
     
 
 def UserData(usuario): # This function receives current_user.id:
@@ -37,7 +38,7 @@ def UserData(usuario): # This function receives current_user.id:
     
     # Fetch the logged-in user's information:
     cursor.execute(
-        'SELECT id, username,  occupation FROM user_information WHERE id = ?',
+        'SELECT id, name,  occupation FROM user_information WHERE id = ?',
         (usuario,)
     )
     user = cursor.fetchone()
