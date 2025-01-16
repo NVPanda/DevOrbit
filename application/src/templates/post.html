@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
+
 
 </head>
 <body class="bg-gray-800 flex items-center justify-center h-screen">
@@ -104,9 +106,9 @@
      </aside>
     
 
-    <form class="w-80" id="post-form" enctype="multipart/form-data">
-        <input type="hidden" name="user_id" value="{{ current_user.id }}">
-        <input type="hidden" name="nome" value="{{ current_user.username }}">
+    <form onsubmit="creatnewPOst(event)" class="w-80"  id="post-form" enctype="multipart/form-data"  >
+        <input type="hidden" name="user_id" id="id_user" value="{{ id }}">
+        <input type="hidden" name="nome" id="nome" value="{{ current_user.username }}">
     
         <div class="mb-4">
             <label for="titulo" class="block  text-gray-100 font-semibold mb-2">Titulo</label>
@@ -115,7 +117,7 @@
         
         <div class="mb-4">
             <label for="post" class="block text-gray-100 font-semibold mb-2">O que você está pensando?:</label>
-            <textarea id="post" name="post" rows="4" class="bg-gray-800 text-white-800 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required maxlength="500"></textarea>
+            <textarea id="post" name="post"  rows="4" class="bg-gray-800 text-white-800 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required maxlength="500"></textarea>
         </div>
         
         <div class="mb-4">
@@ -133,6 +135,57 @@
         </button>
     </form>
     
+
+    <script>
+      
+     
+      function creatnewPOst(event) {
+    event.preventDefault();
+    const user_id = document.getElementById("id_user").value;
+    const nome = document.getElementById("nome").value;
+    const titulo = document.getElementById("titulo").value;
+    const post = document.getElementById("post").value;
+    const fileInput = document.getElementById("file");
+
+    let url = 'https://api-devorbirt.onrender.com/post';
+
+    const formData = new FormData();
+    formData.append("user_id", user_id);
+    formData.append("nome", nome);
+    formData.append("titulo", titulo);
+    formData.append("post", post);
+
+    // Adicionando o arquivo, se presente
+    if (fileInput.files[0]) {
+        formData.append("file", fileInput.files[0]);
+    }
+
+    // Enviando os dados com Fetch API
+    fetch(url, {
+        method: "POST",
+        body: formData,
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.json().then(err => {
+                    throw new Error(`Erro: ${response.status}, ${JSON.stringify(err)}`);
+                });
+            }
+        })
+        .then(data => {
+            console.log("Post criado com sucesso", data);
+            document.getElementById("post-form").reset(); // Limpa o formulário
+        })
+        .catch(error => {
+            console.error("Erro ao criar o post:", error);
+        });
+} // <--- Corrigido o fechamento da função
+
+    </script>
+
+
 
    
 <style>

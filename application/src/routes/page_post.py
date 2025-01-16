@@ -50,7 +50,7 @@ def create_post_route():
                 'titulo': titulo,
                 'post': post_content,
             }
-
+            print(data)
             # Adicionar arquivo, se existir
             files = None
             if post_image:
@@ -59,6 +59,7 @@ def create_post_route():
                 }
 
             headers = {'Authorization': f'Bearer {current_user.token}'}
+            print(headers)
 
             # Enviar requisição para a API externa com o tipo de conteúdo 'multipart/form-data'
             response = requests.post("https://api-devorbirt.onrender.com/post/", data=data, files=files, headers=headers)
@@ -82,4 +83,4 @@ def create_post_route():
                 f.write('{}\n'.format(e.__class__.__name__))
             return redirect(request.url)
 
-    return render_template('post.html', username=current_user.username)
+    return render_template('post.html', username=current_user.username, id=current_user.id)
