@@ -92,7 +92,7 @@ class UploadBanner(Resource):
             return {"error": "Usuário não encontrado"}, 404
 
         # Define o nome e caminho relativo do arquivo
-        ext = os.path.splitext(uploaded_file.filename)[1]
+        ext = os.path.splitext(uploaded_file.filename)[1] 
         banner_filename = f"banner_{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}{ext}"
         relative_file_path = os.path.join('fotos', banner_filename)  # Exemplo: fotos/banner_userid_timestamp.png
 

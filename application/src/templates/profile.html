@@ -50,7 +50,7 @@
                  class="text-blue-400 dark:text-white hover:underline"
                  data-url="{{ url_for('perfil.profile_page', usuario=username) }}"
                  onclick="showLoading()">
-                  {{ username }}
+                  {{ usuario }}
               </a>
           </div>
      
@@ -114,10 +114,11 @@
 </div>
 
 <div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
+  {% for post in posts %}
   <img class="foto w-32 h-32 rounded-full mx-auto" 
-          {% if user_photo %}
-          src="{{ url_for('static', filename=user_photo) }}" 
-          data-image-url="{{ url_for('static', filename=user_photo) }}" 
+          {% if  post.photo_user_profile %}
+          src="{{ url_for('static', filename=photo_user_profile) }}" 
+          data-image-url="{{ url_for('static', filename=photo_user_profile) }}" 
           onclick="handleImageClick(this)">
           {% else %}
           <img class="w-32 h-32 rounded-full mx-auto" 
@@ -135,6 +136,7 @@
                     Seguindo: <span class="followes text-gray-100">{{ following }}</span> &nbsp; • &nbsp; Seguidores: <span class="text-gray-100">{{ followers }}</span>
                 </p>
             {% endif %}
+            {%endfor%}
             
             <!-- Laço para os posts, exibindo informações específicas de cada post -->
             {% for post in posts %}
@@ -176,34 +178,26 @@
          </div>
          <hr class="bg-gray-100">
 
-
-         
-<div class="flex flex-wrap justify-end m-2 space-x-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl align-items:center min-h-screen">
-  {% for post in posts %}
-    <div class="bg-white shadow-lg rounded-lg w-80 overflow-hidden p-4 m-4 align-items:center dark:bg-gray-800 items-center 
-        hover:shadow-2xl hover:border-gray-300">
-        <!-- Cabeçalho do Post -->
-        <div class="flex items-center p-4  border-gray-200 justify-center   ">
-          {% if post.user_photo %}
-          <img class="w-32 h-32 rounded-full mx-auto border-4  border-gray-300  shadow-lg" 
-               src="{{ url_for('static', filename=post.user_photo) }}" 
-               onclick="handleImageClick(this)"
-               alt="foto de usuario de{{post.nome}}:">
-          {% else %}
-          <img class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-lg" 
-               src="{{ url_for('static', filename='icon/default.svg') }}" 
-               alt="Default profile picture">
-          {% endif %}
-          <div class="ml-3 text-center">
-            <a href="{{ url_for('perfil.profile_page', usuario=post.nome) }}">
-              <h2 class="user-name text-center text-1xl font-semibold mt-3 text-gray-100 flex items-center justify-center">
-                {{post.nome}}
-                <img class="w-5 h-5 ml-2" src="{{url_for('static', filename='icon/verificado.png')}}" alt="Verificado">
-              </h2><br>
-            </a>
-            <span class="data text-xs text-gray-100">{{ post.data }}</span>
-          </div>
-        </div>
+         <div class="flex flex-wrap justify-center m-4 bg-white shadow-lg rounded-lg overflow-hidden mx-auto max-w-screen-xl min-h-screen">
+          {% for post in posts %}
+              <div class="bg-white shadow-lg rounded-lg w-full md:w-80 overflow-hidden p-6 m-4 dark:bg-gray-800 hover:shadow-2xl">
+                  <div class="flex items-center justify-center p-4 border-gray-200">
+                      <img class="w-24 h-24 rounded-full border-4 border-gray-300 shadow-lg" 
+                           src="{{ url_for('static', filename=user_photo) }}" 
+                           alt="Foto de {{ username }}">
+                  </div>
+                  <h2 class="text-center text-lg font-semibold text-gray-800 mt-2">
+                      {{ username }}
+                      {% if user_info.get('verificado') %}
+                      <img class="w-5 h-5 inline" src="{{ url_for('static', filename='icon/verificado.png') }}" alt="Verificado">
+                      {% endif %}
+                  </h2>
+                  <p class="text-center text-sm text-gray-100">{{ post.nome }}</p>
+                  <span class="block text-center text-xs text-gray-400">{{ post.data }}</span>
+              </div>
+          
+      </div>
+      
 
         <!-- Conteúdo do Post -->
         <div class="m-3 flex justify-center">

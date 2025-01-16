@@ -1,43 +1,49 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const formElement = document.getElementById('post-form');
+// document.addEventListener('DOMContentLoaded', () => {
+//   const formElement = document.getElementById('post-form');
 
-  if (formElement) {
-    formElement.addEventListener('submit', (event) => {
-      event.preventDefault();
+//   if (formElement) {
+//     formElement.addEventListener('submit', (event) => {
+//       event.preventDefault();
 
-      const formData = new FormData(formElement);
+//       const formData = new FormData(formElement);
 
-      // Verificar se todos os campos necessários estão presentes
-      if (!formData.has('user_id') || !formData.has('nome') || !formData.has('titulo') || !formData.has('post')) {
-        alert('Por favor, preencha todos os campos obrigatórios!');
-        return;
-      }
+//       // Verificar se todos os campos necessários estão presentes
+//       if (!formData.has('user_id') || !formData.has('nome') || !formData.has('titulo') || !formData.has('post')) {
+//         alert('Por favor, preencha todos os campos obrigatórios!');
+//         return;
+//       }
 
-      fetch('https://api-devorbirt.onrender.com/post/', { 
-        method: 'POST',
-        body: formData, // Envia o FormData diretamente
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.status}`);
-          }
+//       // Log para verificar os dados do formulário
+//       for (let [key, value] of formData.entries()) {
+//         console.log(`${key}: ${value}`);
+//       }
 
-          return response.json();
-        })
-        .then(data => {
-          if (data.id) {  // Supondo que um "id" seja retornado como sucesso
-            alert('Post criado com sucesso!');
-            window.location.href = '/devorbit/feed/'; // Redireciona para a página de feed
-          } else {
-            alert('Falha ao criar o post.');
-          }
-        })
-        .catch(error => {
-          alert('Erro ao enviar o formulário. Tente novamente!');
-        });
-    });
-  }
-});
+//       fetch('https://api-devorbirt.onrender.com/post/', {
+//         method: 'POST',
+//         body: formData,
+//         mode: 'cors', // Adicionando 'cors' no fetch
+//       })
+//       .then(response => {
+//         if (!response.ok) {
+//           throw new Error(`Erro na requisição: ${response.status}`);
+//         }
+//         return response.json();
+//       })
+//       .then(data => {
+//         console.log(data);  // Logando os dados da resposta da API
+//         if (data.id) {
+//           alert('Post criado com sucesso!');
+//           window.location.href = '/devorbit/feed/';
+//         } else {
+//           alert('Falha ao criar o post.');
+//         }
+//       })
+//       .catch(error => {
+//         console.error('Erro ao enviar o formulário:', error);
+//         alert('Erro ao enviar o formulário. Tente novamente!');
+//       });
+
+  
 
 
 
@@ -105,6 +111,7 @@ function handleImageClick(element) {
   
 // função para abrir foto de perfil 
 function handleImageClick(element) {
+  Event.preventDefault();
   const imageUrl = element.getAttribute('data-image-url');
   
   const modal = document.createElement('div');
@@ -151,3 +158,62 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('comment-form');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Pegando os valores do formulário
+    const postId = document.getElementById('post-id').value.trim();
+    const userId = document.getElementById('user-id').value.trim();
+    const comment = document.getElementById('comment').value.trim();
+
+    if (!comment) {
+      alert('O comentário não pode estar vazio.');
+      return;
+    }
+
+    try {
+      // Construindo a URL da requisição sem o comentário na URL
+      const url = `https://api-devorbirt.onrender.com/post/${postId}/${userId}/comment/`;
+
+      // Adicionando feedback visual
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.textContent = 'Enviando...';
+      submitButton.disabled = true;
+
+      // Fazendo a requisição com método POST, enviando o comentário no corpo da requisição
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          comment: comment,
+        }),
+      });
+
+      if (response.ok) {
+        submitButton.textContent = 'Comentar';
+        submitButton.disabled = false;
+
+        // Limpa o campo de texto após sucesso
+        document.getElementById('comment').value = '';
+        alert('Comentário enviado com sucesso!');
+      } else {
+        submitButton.textContent = 'Comentar';
+        submitButton.disabled = false;
+        const errorMessage = `Erro ao enviar o comentário. Código: ${response.status}, Mensagem: ${response.statusText}`;
+        console.error(errorMessage);
+        alert(errorMessage);
+      }
+    } catch (error) {
+      console.error('Erro ao processar o pedido:', error);
+      alert('Erro ao processar o comentário. Verifique sua conexão.');
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.textContent = 'Comentar';
+      submitButton.disabled = false;
+    }
+  });
+});
