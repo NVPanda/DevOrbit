@@ -1,4 +1,4 @@
-from flask import Flask, url_for
+from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_caching import Cache
 from flask_login import LoginManager, UserMixin
@@ -56,7 +56,7 @@ def create_app():
     app.add_url_rule('/files/<filename>', endpoint='files', view_func=send_from_directory, defaults={'directory': caminho_img})
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    CORS(app, resources={r"/*": {"origins": "*"}})
+    CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
     logging.debug("CORS configurado com sucesso.")
     hashing = Bcrypt(app)
     
@@ -137,4 +137,5 @@ def create_app():
 
     return app
 
-app = create_app()
+
+
