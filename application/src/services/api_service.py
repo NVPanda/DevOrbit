@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import requests
 from flask_login import current_user
+# from application.src.services.user_service import  get_infor_comment
 
 
 import logging 
@@ -27,7 +28,8 @@ def fetch_api_data() -> list:
         try:
             posts = response.json()
             if not isinstance(posts, list):
-                print("A resposta da API não é uma lista.")
+               
+
                 return list(posts)
             return posts
         except ValueError:
@@ -57,58 +59,66 @@ def fetch_database_data() -> Dict:
         
         return {"user_photos": user_photos, "user_usernames": user_usernames}
     except sqlite3.Error as e:
-        logging.error(f"Erro no banco de dados: {e.__class__.__name__}: line 56")
+        logging.critical(f"Erro no banco de dados: {e.__class__.__name__}: line 63")
         return {"user_photos": {}, "user_usernames": {}}
     finally:
         conn.close()
 
 
 def format_posts(posts: list, db_data: Dict) -> Dict:
-    """Formata os dados dos posts com informações do banco de dados."""
-    user_photos = db_data.get("user_photos", {})
-    user_usernames = db_data.get("user_usernames", {})
-    best_post_list = []
+    try:
+        """Formata os dados dos posts com informações do banco de dados."""
+        user_photos = db_data.get("user_photos", {})
+        user_usernames = db_data.get("user_usernames", {})
+        best_post_list = []
 
    
 
-    for post in posts:
-        real_name = post.get('nome', 'Desconhecido')
-        user_info = user_usernames.get(real_name, {"username": "Desconhecido", "occupation": "Desconhecido"})
-        comments = post.get('comments', [{'comment': 'Ainda não há comentários'}])
+        for post in posts:
+            real_name = post.get('nome', 'Desconhecido')
+            user_info = user_usernames.get(real_name, {"username": "Desconhecido", "occupation": "Desconhecido"})
+            comments = post.get('comments', [{'comment': 'Ainda não há comentários'}])
 
-        print(post['id'] )
-        user_photo = user_photos.get(real_name, 'default_photo.png')
-        formatted_comments = [
-            {
-                'comentario_id': comment.get('comment_id', 0),
-                'comment': comment.get('comment'),
-                'date_creation': comment.get('creation_date', '')
-            } for comment in comments
-
-        ]
+        
+        
+            formatted_comments = [
+                {
+                    'comentario_id': comment.get('comment_id', 0),
+                    'comment': comment.get('comment'),
+                    'date_creation': comment.get('creation_date', ''),
+                    'user_id': comment.get('user_id', None)
+                } for comment in comments
+                ]
+        
     
-
-        best_post_list.append({
-            'id': post['id'],
-            "user_id": post['user_id'],
-            'nome': user_info['username'],
-            'titulo': post.get('titulo', 'Sem título'),
-            'data': post.get('data', '00:00')[11:16],
-            'post': post.get('post', '').capitalize(),
-            'likes': int(post.get('likes', 0)),
-            'img_url': post.get('img_url', None),
-            'user_photo':  user_photos.get(real_name, None),
-            'occupation': user_info['occupation'],
-          'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
-        })
-       
+            best_post_list.append({
+                'id': post['id'],
+                'nome': user_info['username'],
+                'titulo': post.get('titulo', 'Sem título'),
+                'data': post.get('data', '00:00')[11:16],
+                'post': post.get('post', '').capitalize(),
+                'likes': int(post.get('likes', 0)),
+                'img_url': post.get('img_url', None),
+                'user_photo':  user_photos.get(real_name, None),
+                'occupation': user_info['occupation'],
+            'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
+            })
         
-       
-
-
-       
         
-
+    except KeyError as erro:
+        print(erro)
+        return [{
+            'id': 0,
+            'nome': 'Desconhecido',
+            'titulo': 'Erro ao carregar post',
+            'data': '00:00',
+            'post': 'Não foi possível carregar o conteúdo.',
+            'likes': 0,
+            'img_url': None,
+            'user_photo': None,
+            'occupation': 'Desconhecido',
+            'comments': [{'comentario_id': 0, 'comment': 'Erro ao carregar comentários', 'date_creation': '', 'user_id': None}]
+        }]
 
     featured_posts = [post for post in best_post_list if post['likes'] >= 1]
     banner = {
@@ -121,13 +131,12 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
         banner = featured_posts[0]
 
     return {"todos_os_posts": best_post_list, "post_banner": banner}
-
-#def log_error(error: Exception):
-#    """Registra erros em um arquivo de log."""
-#    log_file = os.getenv('LOGS', 'logs.txt')
-#    with open(log_file, 'a') as f:
-#        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-#        f.write(f'[{timestamp}] {error.__class__.__name__}: {str(error)}\n')
+def log_error(error: Exception):
+    """Registra erros em um arquivo de log."""
+    log_file = os.getenv('LOGS', 'logs.txt')
+    with open(log_file, 'a') as f:
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        f.write(f'[{timestamp}] {error.__class__.__name__}: {str(error)}\n')
 
 def dataRequests() -> Dict:
     """Processa dados da API e do banco de dados, retornando um dicionário formatado."""
