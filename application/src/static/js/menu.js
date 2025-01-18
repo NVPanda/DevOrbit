@@ -157,63 +157,46 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('comment-form');
+  document.querySelectorAll('form[id^="comment-form-"]').forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      
+      const postId = form.querySelector('input[name="post_id"]').value.trim();
+      const userId = form.querySelector('input[name="user_id"]').value.trim();
+      const comment = form.querySelector('textarea[name="comment"]').value.trim();
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+      if (!comment) {
+        alert('O comentário não pode estar vazio.');
+        return;
+      }
 
-    // Pegando os valores do formulário
-    const postId = document.getElementById('post-id').value.trim();
-    const userId = document.getElementById('user-id').value.trim();
-    const comment = document.getElementById('comment').value.trim();
-
-    if (!comment) {
-      alert('O comentário não pode estar vazio.');
-      return;
-    }
-
-    try {
-      // Construindo a URL da requisição sem o comentário na URL
       const url = `https://api-devorbirt.onrender.com/post/${postId}/${userId}/comment/`;
 
-      // Adicionando feedback visual
-      const submitButton = form.querySelector('button[type="submit"]');
-      submitButton.textContent = 'Enviando...';
-      submitButton.disabled = true;
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ comment }),
+        });
 
-      // Fazendo a requisição com método POST, enviando o comentário no corpo da requisição
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          comment: comment,
-        }),
-      });
-
-      if (response.ok) {
-        submitButton.textContent = 'Comentar';
-        submitButton.disabled = false;
-
-        // Limpa o campo de texto após sucesso
-        document.getElementById('comment').value = '';
-        alert('Comentário enviado com sucesso!');
-      } else {
-        submitButton.textContent = 'Comentar';
-        submitButton.disabled = false;
-        const errorMessage = `Erro ao enviar o comentário. Código: ${response.status}, Mensagem: ${response.statusText}`;
-        console.error(errorMessage);
-        alert(errorMessage);
+        if (response.ok) {
+          form.querySelector('textarea[name="comment"]').value = '';
+         
+        } else {
+          alert(`Erro ao enviar o comentário: ${response.status}`);
+          const commentSection = document.querySelector(`#comments-post-${postId}`);
+          const newComment = document.createElement('div');
+          newComment.textContent = comment; // Adapte para renderizar o HTML completo
+          commentSection.appendChild(newComment);
+          alert('Comentário enviado com sucesso!');
+        }
+      } catch (error) {
+        alert('Erro ao processar o comentário. Verifique sua conexão.');
       }
-    } catch (error) {
-      console.error('Erro ao processar o pedido:', error);
-      alert('Erro ao processar o comentário. Verifique sua conexão.');
-      const submitButton = form.querySelector('button[type="submit"]');
-      submitButton.textContent = 'Comentar';
-      submitButton.disabled = false;
-    }
+    });
   });
 });
+
+
+
