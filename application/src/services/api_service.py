@@ -1,18 +1,59 @@
 from typing import Dict
-import sqlite3
 from datetime import datetime
 from dotenv import load_dotenv
-import os
-import requests
 from flask_login import current_user
-# from application.src.services.user_service import  get_infor_comment
+from application.src.database.users.configure_users import my_db
+from application.src.__main__ import cache
 
 
 import logging 
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
+import requests
+import sqlite3
+import os
 
+logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
 load_dotenv()
 
+def make_cache_key():
+    """
+    Gera uma chave única de cache para cada usuário logado.
+    Combina o ID do usuário e o caminho da requisição.
+    """
+    return f"{current_user.id}" 
+
+
+@cache.cached(timeout=5000, key_prefix=make_cache_key)
+def get_user_info(user_id): 
+    '''
+    Esta função serve para busca dados padrão caso algum tipo de dado do usuario não esteja em 
+    (user_information) Podemos resgata os dados aqui
+    '''
+    banco, cursor = my_db()
+
+    # Buscar informações completas do usuário no banco
+    cursor.execute(
+        'SELECT id, photo, bio, github, likedin, site, followers, following, banner, name FROM usuarios WHERE name = ?',
+        (user_id,)
+    )
+    user = cursor.fetchone()
+   
+
+    if not user:
+        
+        return None
+
+    return [{
+        'id': user[0],
+        'user_photo': user[1],
+        'bio': user[2],
+        'github': user[3],
+        'linkedin': user[4],
+        'site': user[5],
+        'followers': user[6],
+        'following': user[7],
+        'banner': user[8],
+        'username': user[9]
+    }]
 
 
 def fetch_api_data() -> list:
@@ -38,6 +79,8 @@ def fetch_api_data() -> list:
     except requests.RequestException as e:
         #log_error(e)
         return []
+    except Exception as e:
+        print(e.__class__.__name__)
 
 
 def fetch_database_data() -> Dict:
@@ -64,22 +107,30 @@ def fetch_database_data() -> Dict:
     finally:
         conn.close()
 
-
+@cache.cached(timeout=5000, key_prefix=make_cache_key)
 def format_posts(posts: list, db_data: Dict) -> Dict:
     try:
         """Formata os dados dos posts com informações do banco de dados."""
+       
         user_photos = db_data.get("user_photos", {})
         user_usernames = db_data.get("user_usernames", {})
         best_post_list = []
 
-   
-
+        
         for post in posts:
+           
             real_name = post.get('nome', 'Desconhecido')
-            user_info = user_usernames.get(real_name, {"username": "Desconhecido", "occupation": "Desconhecido"})
+            
+            # Esta variavel pegar o nome do usuario caso não seja encontrado o
+            # username || nome de usuario em (user_info)
+            Users_default_name = post.get('nome', 'Desconhecido')
+            variavel = get_user_info(Users_default_name)  # Nome padrão do usuario 
+
+            user_info = user_usernames.get(real_name, {"username": variavel[0]['username'], "occupation": "Desconhecido"})
             comments = post.get('comments', [{'comment': 'Ainda não há comentários'}])
 
-        
+            if "username" not in user_info:
+                logging.warning(f"Usuário {real_name} não tem 'username'. Dados: {user_info}")
         
             formatted_comments = [
                 {
@@ -100,13 +151,14 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
                 'likes': int(post.get('likes', 0)),
                 'img_url': post.get('img_url', None),
                 'user_photo':  user_photos.get(real_name, None),
+                'user_id': post['user_id'],
                 'occupation': user_info['occupation'],
             'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
             })
         
         
     except KeyError as erro:
-        print(erro)
+        logging.critical(f"Erro: {erro.__class__.__name__}: keyerro (best_post_list)")
         return [{
             'id': 0,
             'nome': 'Desconhecido',
@@ -116,9 +168,25 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
             'likes': 0,
             'img_url': None,
             'user_photo': None,
+            'user_id': 0,
             'occupation': 'Desconhecido',
             'comments': [{'comentario_id': 0, 'comment': 'Erro ao carregar comentários', 'date_creation': '', 'user_id': None}]
         }]
+    except TypeError as erro:
+        logging.error(f"Errp: {erro.__class__.__name__} Erro de tipo em (best_post_list)")
+        return best_post_list.append({
+                'id': post['id'],
+                'nome': user_info['username'],
+                'titulo': 'Erro ao carregar conteúdo.',
+                'data': post.get('data', '00:00')[11:16],
+                'post': 'Erro ao carregar conteúdo.',
+                'likes': int(post.get('likes', 0)),
+                'img_url': None,
+                'user_photo':  user_photos.get(real_name, None),
+                'user_id': post['user_id'],
+                'occupation': user_info['occupation'],
+            'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
+            })
 
     featured_posts = [post for post in best_post_list if post['likes'] >= 1]
     banner = {

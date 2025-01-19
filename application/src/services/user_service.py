@@ -4,7 +4,9 @@ from application.src.services.api_service import dataRequests
 
 
 
-def get_user_info(user_id):  # Busca por ID
+
+
+def get_user_info(user_id):  # Busca por ID | usuario logado | Dono da conta
     banco, cursor = my_db()
 
     # Buscar informações completas do usuário no banco
@@ -37,12 +39,8 @@ def get_user_info(user_id):  # Busca por ID
     
 
 def UserData(usuario): # This function receives current_user.id:
-    banco, cursor = my_db()
+    banco, cursor = my_db()  # Devemos usar essa função para mostra recomendaçoes no celular
     
-
-
-
-
 
 
     # Fetch the logged-in user's information:
@@ -64,7 +62,6 @@ def UserData(usuario): # This function receives current_user.id:
         
     }]
 
-
 def get_infor_comment(user_id):  
     """Busca as informações do usuário pelo seu ID."""
     banco, cursor = my_db()  # Conecta ao banco de dados
@@ -76,13 +73,13 @@ def get_infor_comment(user_id):
     )
     user = cursor.fetchone()
     
-    print("Dados do usuário:", user)
+   
 
     if not user:
         print(f"Usuário com ID {user_id} não encontrado.")
         return None
 
-    print(f"Usuário encontrado: {user}")  # Log para ver os dados
+    
     return {
         'id': user[0],
         'username': user[1],
@@ -124,3 +121,10 @@ def enrich_posts_with_user_info(posts):
         enriched_posts.append(post)
 
     return enriched_posts
+
+
+def limpar_teminal():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')

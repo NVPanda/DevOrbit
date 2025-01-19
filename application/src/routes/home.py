@@ -64,7 +64,7 @@ def home_page():
                 'home.html',
                 username=username,
                 usuario=current_user.username,
-                photo_user_profile=photo_user_profile,
+                photo_user_profile=photo_user_profile, # foto do usuario logado | dono da conta
                 id=current_user.id,
                 posts=posts,
                 post_banner=post_banner,

@@ -24,6 +24,8 @@ def profile_page(usuario):
     try:
         # Obtendo informações do usuário
         usuario_id = int(usuario)
+       
+
         user_metadata = get_user_info(usuario_id)
         if not user_metadata:
             return redirect(url_for('home.home_page'))

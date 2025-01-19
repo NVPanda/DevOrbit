@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Carrega variáveis do arquivo .env
 
 # Caminho onde as imagens serão salvas
-caminho_img = 'application/src/static/fotos'
+caminho_img = 'application/src/static/fotos'  # Diretorio fixo para fotos
 os.makedirs(caminho_img, exist_ok=True)
 
 # Namespace para as rotas

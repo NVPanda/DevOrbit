@@ -9,8 +9,17 @@ import os
 
 load_dotenv()
 
+
+@login_required
+def make_cache_key():
+    """
+    Gera uma chave única de cache para cada usuário logado.
+    Combina o ID do usuário e o caminho da requisição.
+    """
+    return f"{current_user.id}:{request.path}" 
+
 posts = Blueprint('page_posts', __name__, template_folder='templates')
-@cache.cached(timeout=5)
+@cache.cached(timeout=60)
 @posts.route('/devorbit/feed/posts/', methods=['POST', 'GET'])
 @login_required
 def create_post_route():
