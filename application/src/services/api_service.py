@@ -107,7 +107,7 @@ def fetch_database_data() -> Dict:
     finally:
         conn.close()
 
-@cache.cached(timeout=5000, key_prefix=make_cache_key)
+
 def format_posts(posts: list, db_data: Dict) -> Dict:
     try:
         """Formata os dados dos posts com informações do banco de dados."""
@@ -155,7 +155,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
                 'occupation': user_info['occupation'],
             'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
             })
-        
+            print(best_post_list)
         
     except KeyError as erro:
         logging.critical(f"Erro: {erro.__class__.__name__}: keyerro (best_post_list)")

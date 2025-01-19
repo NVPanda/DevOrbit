@@ -102,84 +102,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Função para mostrar o overlay de carregamento
-  function showLoading() {
-    const loadingOverlay = document.getElementById('loadingOverlay');
-    loadingOverlay.style.display = 'flex'; // Exibe o overlay
-  }
+  
 
-  // Função para ocultar o overlay de carregamento
-  function hideLoading() {
-    const loadingOverlay = document.getElementById('loadingOverlay');
-    loadingOverlay.style.display = 'none'; // Esconde o overlay
-  }
+  // // Configura o redirecionamento para o perfil
+  // setupProfileRedirect(
+  //   "a[data-url='{{ url_for(\"perfil.profile_page\", usuario=username) }}']",
+  //   "{{ url_for(\"perfil.profile_page\", usuario=username) }}"
+  // );
 
-  // Função genérica para tratar o redirecionamento com efeito de carregamento
-  function setupProfileRedirect(selector, url) {
-    const profileLink = document.querySelector(selector);
+  // // Configura o redirecionamento para a home
+  // setupProfileRedirect(
+  //   "a[data-url='{{ url_for(\"home.home_page\", usuario=username) }}']",
+  //   "{{ url_for(\"home.home_page\", usuario=username) }}"
+  // );
 
-    if (profileLink) {
-      profileLink.addEventListener('click', function(e) {
-        e.preventDefault(); // Previne a navegação imediata
-        showLoading(); // Mostra o overlay de carregamento
 
-        // Navega para o link após 2 segundos
-        setTimeout(() => {
-          window.location.href = url; // Redireciona para o link
-        }, 2000); // Tempo do efeito de carregamento
-      });
-    }
-  }
-
-  // Configura o redirecionamento para o perfil
-  setupProfileRedirect(
-    "a[data-url='{{ url_for(\"perfil.profile_page\", usuario=username) }}']",
-    "{{ url_for(\"perfil.profile_page\", usuario=username) }}"
-  );
-
-  // Configura o redirecionamento para a home
-  setupProfileRedirect(
-    "a[data-url='{{ url_for(\"home.home_page\", usuario=username) }}']",
-    "{{ url_for(\"home.home_page\", usuario=username) }}"
-  );
-
-  // Exibir ou esconder o formulário de exclusão
-  function toggleDeleteForm() {
-    const deleteForm = document.getElementById('deleteForm');
-    deleteForm.style.display = deleteForm.style.display === 'none' || deleteForm.style.display === '' ? 'block' : 'none';
-  }
-
-  // Confirmar exclusão
-  function confirmDeletion() {
-    const reason = document.getElementById('deleteReason').value;
-    if (confirm('Tem certeza de que deseja excluir sua conta?')) {
-      alert(`Conta excluída.\nMotivo: ${reason || 'Nenhum motivo fornecido'}`);
-      // Exemplo de requisição de exclusão
-      fetch('/api/delete_account', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reason: reason })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert('Conta excluída com sucesso!');
-          window.location.href = '/'; // Redirecionar para a página inicial após a exclusão
-        } else {
-          alert('Erro ao excluir a conta.');
-        }
-      })
-      .catch(error => {
-        console.error('Erro ao excluir a conta:', error);
-        alert('Erro ao processar a exclusão.');
-      });
-    } else {
-      alert('Exclusão cancelada.');
-    }
-  }
-
-  // Eventos dos botões
  
-  document.getElementById('cancelDeleteBtn').addEventListener('click', toggleDeleteForm);
-  document.getElementById('confirmDeleteBtn').addEventListener('click', confirmDeletion);
+  
 });
