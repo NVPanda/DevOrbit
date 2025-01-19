@@ -4,7 +4,7 @@ from email_validator import validate_email, EmailNotValidError
 from application.src.models.modelsUser import Cadastro
 from application.src.database.users.configure_users import User  
 from flask_login import login_user
-
+import logging
 
 register_ = Blueprint('register', __name__, template_folder='templates')
 
@@ -70,7 +70,8 @@ def page_register():
         return render_template('register.html')
         
     except ValueError as error:
-        print(f'PAGE_REGISTE: {error.__class__.__name__}')
+        logging.critical(f'PAGE_REGISTE: {error.__class__.__name__}')
+        
 
     except EmailNotValidError:
         flash("O -mail fornecido não é válido.", "error")

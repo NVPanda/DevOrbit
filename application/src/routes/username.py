@@ -21,9 +21,7 @@ def register_username():
         username = request.form['username']
         profession = request.form['profession']
 
-        print(username)
-        print('----------------')
-        print(profession)
+       
 
 
 
@@ -43,7 +41,7 @@ def register_username():
         if account_information:
             # Salva as informações no banco de dados
             add_user_information(account_information)
-            print('salvo')
+            
 
 
       

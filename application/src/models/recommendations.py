@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import sqlite3
 import random
-
+import logging
 
 # Carregar variáveis de ambiente
 load_dotenv()
@@ -57,20 +57,13 @@ def recommendationsUser():
         "occupation": user[3]  # Ocupação do usuário
         })
 
-        print(recommendations)
-
-
-    
-
         
         random.shuffle(recommendations)
-            
-
         # Retorna os dados formatados
         return recommendations
 
     except Exception as e:
-        print(f"Erro ao buscar os usuários: {e}")
+        logging("Error when searching for users ", e.__class__.__class__)
         return []
     finally:
         banco.close()  # Sempre feche a conexão ao terminar

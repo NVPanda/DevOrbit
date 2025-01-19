@@ -19,33 +19,56 @@ function creatnewPOst(event) {
       formData.append("file", fileInput.files[0]);
   }
 
-    // Enviando os dados com Fetch API
-    fetch(url, {
-      method: "POST",
-      body: formData,
-    })
-      .then(response => {
-          if (response.ok) {
-              return response.json();
-          } else {
-              return response.json().then(err => {
-                  throw new Error(`Erro: ${response.status}, ${JSON.stringify(err)}`);
-              });
-          }
-      })
-      .then(data => {
-          console.log("Post criado com sucesso", data);
-          document.getElementById("post-form").reset(); // Limpa o formulário
-          window.location.href = "http://127.0.0.1:5000/devorbit/feed/" // Troca Pelo link real depois do deploy
-      })
-      .catch(error => {
-          console.error("Erro ao criar o post:", error);
-      });
-} // <--- Corrigido o fechamento da função
+  // Desativa o botão ao iniciar o processo de criação do post
+  disableButtonOnce();
 
-  
+  // Enviando os dados com Fetch API
+  fetch(url, {
+    method: "POST",
+    body: formData,
+  })
+  .then(response => {
+      if (response.ok) {
+          return response.json();
+      } else {
+          return response.json().then(err => {
+              throw new Error(`Erro: ${response.status}, ${JSON.stringify(err)}`);
+          });
+      }
+  })
+  .then(data => {
+      console.log("Post criado com sucesso", data);
+      document.getElementById("post-form").reset(); // Limpa o formulário
+  })
+  .catch(error => {
+      console.error("Erro ao criar o post:", error);
+      // Reativa o botão caso ocorra um erro
+      const button = document.getElementById('postBtn');
+      button.disabled = false;
+      button.classList.remove('opacity-50');
+      button.classList.remove('cursor-not-allowed');
+      button.innerHTML = 'Tentar novamente';
+  });
+}
 
+// Função para desativar o botão após o clique
+function disableButtonOnce() {
+  const button = document.getElementById('postBtn');
 
+  // Desativa o botão
+  button.disabled = true;
+
+  // Adiciona uma classe para indicar que o botão foi desativado
+  button.classList.add('opacity-50');
+  button.classList.add('cursor-not-allowed');
+
+  // Opcional: Altera o texto ou outras propriedades do botão
+  button.innerHTML = 'Processando...';
+  window.location.href = "http://127.0.0.1:5000/devorbit/feed/" // Troca pelo link real depois do deploy
+}
+
+// Adiciona o evento de clique ao botão
+document.getElementById('postBtn').addEventListener('click', creatnewPOst);
 
 
 
