@@ -146,7 +146,7 @@ class UploadFile(Resource):
         """
         Realiza o upload de um arquivo e associa ao usuário pelo ID.
         """
-        print(f"Recebendo upload para o usuário com ID: {user_id}")  # Verifique no console se o ID chega corretamente
+        
         
         uploaded_file = request.files.get('file')
         
@@ -179,7 +179,7 @@ class UploadFile(Resource):
  
 
         conn.close()
-
+        print('200')
         return {
             "filename": uploaded_file.filename,
             "content_type": uploaded_file.content_type,

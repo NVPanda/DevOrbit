@@ -11,6 +11,7 @@ from application.src.database.configure_post import banco_post, criar_tabela_pos
 
 
 import os
+import time
 import sqlite3
 from dotenv import load_dotenv
 import logging 
@@ -134,6 +135,33 @@ def create_app():
 
     # Logs iniciais para monitoramento
     logging.info("Inicializando aplicação Flask...")
+    time.sleep(1)
+    logging.info("Realizando verificações iniciais...")
+    time.sleep(1)   
+    if os.system == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+    logging.info("Tela limpa com sucesso. A aplicação está pronta para iniciar!")
+    time.sleep(1)
+    # Continue com a inicialização do seu aplicativo Flask
+    logging.info("Iniciando servidor Flask...")
+    if os.system == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+    logging.info("Iniciando servidor Flask ( 200 )...")
+
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return "Página não encontrada", 404
+
+    @app.errorhandler(500)
+    def special_exception_handler(error):
+        return "Erro interno do servidor", 500
+
 
     return app
 

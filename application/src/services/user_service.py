@@ -1,7 +1,7 @@
 from flask import flash, redirect, url_for
 from application.src.database.users.configure_users import my_db
 from application.src.services.api_service import dataRequests
-
+import logging
 
 
 
@@ -51,7 +51,7 @@ def UserData(usuario): # This function receives current_user.id:
     user = cursor.fetchone()
    
     if not user:
-        flash('Usuário não encontrado.', 'error')
+        logging.info('user not found')
         return redirect(url_for('home.home_page'))  # Redireciona caso o usuário não seja encontrado
 
      # Directly return a dictionary list with the information
@@ -76,7 +76,7 @@ def get_infor_comment(user_id):
    
 
     if not user:
-        print(f"Usuário com ID {user_id} não encontrado.")
+        logging.info('user not found')
         return None
 
     
@@ -122,9 +122,3 @@ def enrich_posts_with_user_info(posts):
 
     return enriched_posts
 
-
-def limpar_teminal():
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')

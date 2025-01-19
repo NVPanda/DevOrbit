@@ -81,21 +81,14 @@ def home_page():
                 post_banner=post_banner,
                 likes=likes
             )
-    except Exception as e:
-        logging.error(f"Erro ao carregar a página inicial: {e}")
-        return redirect(url_for('errorHttp.page_erro'))
+   
 
        
     except Exception as e:  # capturing error and saving to a log file
-        print(f"Erro ao carregar a página inicial: {e} : {e.__class__.__name__} : {e.__cause__}")
-        
+        logging.critical(f"Error loading homepage {e.__class__.__name__}")
         return redirect(url_for('errorHttp.page_erro'))
        
     except requests.exceptions.InvalidURL as e:
         return redirect(url_for('home_home_page'))
     
-    except Exception as e:
-        logging.error(
-        f"Erro ao carregar a página inicial: {e}, Tipo: {e.__class__.__name__}, Causa: {e.__cause__}"
-    )
-        return redirect(url_for('errorHttp.page_erro'))
+   

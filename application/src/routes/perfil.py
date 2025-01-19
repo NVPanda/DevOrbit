@@ -4,6 +4,8 @@ from application.src.__main__ import cache
 from application.src.services.api_service import dataRequests
 from application.src.services.user_service import get_user_info, UserData
 
+
+import logging
 import sqlite3
 import os
 from dotenv import load_dotenv
@@ -65,8 +67,8 @@ def profile_page(usuario):
             banner=user_metadata.get('banner', '')
         )
     except Exception as e:
-        print('Erro:', e.__class__.__name__)
-        return redirect(url_for('errorHttp.page_erro'))
+        logging.critical("Error on profile page", e.__class__.__name__)
+        return redirect(url_for('home.home_page'))
 
 @viws_img.route('/files/<path:filename>')
 def serve_files(filename):
