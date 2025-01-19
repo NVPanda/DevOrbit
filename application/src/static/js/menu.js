@@ -1,47 +1,47 @@
-// document.addEventListener('DOMContentLoaded', () => {
-//   const formElement = document.getElementById('post-form');
+function creatnewPOst(event) {
+  event.preventDefault();
+  const user_id = document.getElementById("id_user").value;
+  const nome = document.getElementById("nome").value;
+  const titulo = document.getElementById("titulo").value;
+  const post = document.getElementById("post").value;
+  const fileInput = document.getElementById("file");
 
-//   if (formElement) {
-//     formElement.addEventListener('submit', (event) => {
-//       event.preventDefault();
+  let url = 'https://api-devorbirt.onrender.com/post';
 
-//       const formData = new FormData(formElement);
+  const formData = new FormData();
+  formData.append("user_id", user_id);
+  formData.append("nome", nome);
+  formData.append("titulo", titulo);
+  formData.append("post", post);
 
-//       // Verificar se todos os campos necessários estão presentes
-//       if (!formData.has('user_id') || !formData.has('nome') || !formData.has('titulo') || !formData.has('post')) {
-//         alert('Por favor, preencha todos os campos obrigatórios!');
-//         return;
-//       }
+  // Adicionando o arquivo, se presente
+  if (fileInput.files[0]) {
+      formData.append("file", fileInput.files[0]);
+  }
 
-//       // Log para verificar os dados do formulário
-//       for (let [key, value] of formData.entries()) {
-//         console.log(`${key}: ${value}`);
-//       }
-
-//       fetch('https://api-devorbirt.onrender.com/post/', {
-//         method: 'POST',
-//         body: formData,
-//         mode: 'cors', // Adicionando 'cors' no fetch
-//       })
-//       .then(response => {
-//         if (!response.ok) {
-//           throw new Error(`Erro na requisição: ${response.status}`);
-//         }
-//         return response.json();
-//       })
-//       .then(data => {
-//         console.log(data);  // Logando os dados da resposta da API
-//         if (data.id) {
-//           alert('Post criado com sucesso!');
-//           window.location.href = '/devorbit/feed/';
-//         } else {
-//           alert('Falha ao criar o post.');
-//         }
-//       })
-//       .catch(error => {
-//         console.error('Erro ao enviar o formulário:', error);
-//         alert('Erro ao enviar o formulário. Tente novamente!');
-//       });
+    // Enviando os dados com Fetch API
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          } else {
+              return response.json().then(err => {
+                  throw new Error(`Erro: ${response.status}, ${JSON.stringify(err)}`);
+              });
+          }
+      })
+      .then(data => {
+          console.log("Post criado com sucesso", data);
+          document.getElementById("post-form").reset(); // Limpa o formulário
+          window.location.href = "http://127.0.0.1:5000/devorbit/feed/" // Troca Pelo link real depois do deploy
+      })
+      .catch(error => {
+          console.error("Erro ao criar o post:", error);
+      });
+} // <--- Corrigido o fechamento da função
 
   
 

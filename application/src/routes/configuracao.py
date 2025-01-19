@@ -74,9 +74,12 @@ def config_account(usuario):
         date_create = user[4][0:10]
         usuario = current_user.username
         id_usuario = current_user.id
+        print(usuario)
+        print(id_usuario)
+
         banner = user[5]
 
-        searching_account_data = UserData(current_user.id)
+        searching_account_data = get_user_info(current_user.id)
         if not searching_account_data:
             return redirect(url_for('errorHttp.page_erro'))
         

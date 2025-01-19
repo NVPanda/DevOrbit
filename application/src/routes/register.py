@@ -52,18 +52,20 @@ def page_register():
             banco.close()
 
             if register_in_db and add_user and Cadastro:
+            # Adiciona informações à sessão
                 session['user'] = {
-                'id': user_id,  # Obtenha o ID do banco de dados após o registro
-                'name': name,
-                'email': email
+            'id': user_id,  # Obtém o ID do banco de dados após o registro
+            'name': name,
+            'email': email
             }
-            info = session['user']
-            # autenticando usuarios antes de envia-lo para registra um nome de usuario
-            user = User(user_id, name, email)  # Cria o objeto User para autenticação
+
+            # Cria o objeto de usuário
+            user = User(user_id, name, email)
+
+            # Autentica o usuário
             login_user(user)
 
-            
-
+             # Redireciona para a próxima etapa do cadastro (nome de usuário)
             return redirect(url_for('username_page.register_username'))
         return render_template('register.html')
         

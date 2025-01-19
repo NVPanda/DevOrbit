@@ -21,10 +21,14 @@ def register_username():
         username = request.form['username']
         profession = request.form['profession']
 
+        print(username)
+        print('----------------')
+        print(profession)
+
 
 
         # Recupera os dados da sessão
-        user_id = current_user.id
+       
         user_name = current_user.username
         user_email = session['user']['email']
 
@@ -36,16 +40,20 @@ def register_username():
             occupation=profession
         )
 
-        # Salva as informações no banco de dados
-        add_user_information(account_information)
+        if account_information:
+            # Salva as informações no banco de dados
+            add_user_information(account_information)
+            print('salvo')
 
+
+      
         current_user.username = username
         current_user.email = user_email
 
         # Autentica o usuário novamente após o cadastro
         login_user(current_user)
 
-        del session['user']
+        
         flash("Usuário cadastrado com sucesso!", "success")
         
         # Redireciona para a página inicial

@@ -138,7 +138,7 @@
     </form>
     
 
-    <script>
+    <!-- <script>
       
      
       function creatnewPOst(event) {
@@ -166,6 +166,7 @@
     fetch(url, {
         method: "POST",
         body: formData,
+       
     })
         .then(response => {
             if (response.ok) {
@@ -178,14 +179,16 @@
         })
         .then(data => {
             console.log("Post criado com sucesso", data);
+            console.log(body)
             document.getElementById("post-form").reset(); // Limpa o formulário
+            window.location.href = "http://127.0.0.1:5000/devorbit/feed/" // Troca Pelo link real depois do deploy
         })
         .catch(error => {
             console.error("Erro ao criar o post:", error);
         });
 } // <--- Corrigido o fechamento da função
 
-    </script>
+    </script> -->
 
 
 

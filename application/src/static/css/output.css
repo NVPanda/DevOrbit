@@ -2763,6 +2763,15 @@ video {
   /* Impede distorção do layout */
 }
 
+/* area de curtir um post */
+
+.like-in-post{
+  display: flex;
+  position: absolute;
+  top: 125%;
+  right: 22%;
+}
+
 /* BTN de posts apenas em computadores sem o nav bar */
 
 /* Ocultar o botão em telas menores que 768px (dispositivos móveis e tablets) */
