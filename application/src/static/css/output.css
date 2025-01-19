@@ -1502,6 +1502,10 @@ video {
   animation: spin 1s linear infinite;
 }
 
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -2361,6 +2365,10 @@ video {
   opacity: 0;
 }
 
+.opacity-50 {
+  opacity: 0.5;
+}
+
 .opacity-75 {
   opacity: 0.75;
 }
@@ -2761,15 +2769,6 @@ video {
 .recommendation-card > * {
   flex-shrink: 0;
   /* Impede distorção do layout */
-}
-
-/* area de curtir um post */
-
-.like-in-post{
-  display: flex;
-  position: absolute;
-  top: 125%;
-  right: 22%;
 }
 
 /* BTN de posts apenas em computadores sem o nav bar */
