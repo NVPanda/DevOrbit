@@ -83,8 +83,8 @@ def config_account(usuario):
         if not searching_account_data:
             return redirect(url_for('errorHttp.page_erro'))
         
-        username = searching_account_data[0]['username']
-        user_id = searching_account_data[0]['id']
+        username = searching_account_data.get('username')
+        user_id = searching_account_data.get('id')
        
 
         status = "Conta Saudável" if usuario else "Sua conta está sendo verificada."

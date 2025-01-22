@@ -81,6 +81,7 @@ def create_app():
     app.register_blueprint(profile)
     app.register_blueprint(viws_img)
 
+
     from application.src.routes.page_post import posts
     app.register_blueprint(posts)
 
