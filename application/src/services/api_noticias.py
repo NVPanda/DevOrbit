@@ -51,9 +51,9 @@ def get_top_stories(num_noticias):  # Define dinamicamente a quantidade de notí
 
                 # Tenta pegar a imagem
                 image_url = None
-                if 'multimedia' in article:
+                if 'multimedia' in article and article['multimedia'] is not None:
                     for multimedia in article['multimedia']:
-                        if multimedia['format'] == 'Super Jumbo':
+                         if multimedia.get('format') == 'Super Jumbo':  # Usando .get() para evitar KeyError
                             image_url = multimedia['url']
                             break
                 

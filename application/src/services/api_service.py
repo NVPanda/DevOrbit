@@ -143,7 +143,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
         
     
             best_post_list.append({
-                'id': post['id'],
+                'id': int(post['id']),
                 'nome': user_info['username'],
                 'titulo': post.get('titulo', 'Sem título'),
                 'data': post.get('data', '00:00')[11:16],
@@ -151,11 +151,11 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
                 'likes': int(post.get('likes', 0)),
                 'img_url': post.get('img_url', None),
                 'user_photo':  user_photos.get(real_name, None),
-                'user_id': post['user_id'],
+                'user_id': int(post['user_id']),
                 'occupation': user_info['occupation'],
             'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
             })
-            print(best_post_list)
+            
         
     except KeyError as erro:
         logging.critical(f"Erro: {erro.__class__.__name__}: keyerro (best_post_list)")
@@ -199,6 +199,8 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
         banner = featured_posts[0]
 
     return {"todos_os_posts": best_post_list, "post_banner": banner}
+
+
 def log_error(error: Exception):
     """Registra erros em um arquivo de log."""
     log_file = os.getenv('LOGS', 'logs.txt')
@@ -224,3 +226,38 @@ def dataRequests() -> Dict:
         logging.error(f"failed to connect to the server: {e.__class__.__name__}: line 125")
         #log_error(e)
         return {}
+
+# def filter_user_posts():
+#     data = dataRequests()
+    
+#     contend_user = []
+
+    
+
+#     # Verifica se 'todos_os_posts' está presente no dicionário
+#     if 'todos_os_posts' in data:
+#         posts = data['todos_os_posts']  # Obtém a lista de posts
+
+#         for post in posts: 
+#              # Itera sobre do usuario logado
+#             if post['user_id'] == current_user.id:
+#                 contend_user.append({
+#                     'post_id': post['id'],
+#                     'id_user': post['user_id'],
+#                     'name': post['nome'],
+#                     'title': post['titulo'],
+#                     'post': post['post'],
+#                     'date': post['data'],
+#                     'likes': post['likes'],
+#                     'user_photo': post['user_photo']
+#                 })
+           
+#     else:
+#         logging.info('Nenhum post encontrado.')
+        
+#     return  contend_user
+
+# print('post do usuario encotrado')
+# print()
+# print(filter_user_posts())
+# print()

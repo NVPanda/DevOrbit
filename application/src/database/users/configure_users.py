@@ -29,14 +29,15 @@ def create_database():
     )
    
 
+     # Criação da tabela `user_information` com relação ao `usuarios`
     cursor.execute(
         '''CREATE TABLE IF NOT EXISTS user_information(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,  -- Mesmo ID da tabela `usuarios`
         name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         username TEXT UNIQUE NOT NULL,
-        occupation TEXT UNIQUE NOT NULL
-
+        occupation TEXT NULL,
+        FOREIGN KEY (id) REFERENCES usuarios (id) ON DELETE CASCADE
         )'''
     )
     banco.commit()

@@ -137,17 +137,12 @@
           <!-- Texto fixo -->
           <span class="ml-2 text-gray-100 font-medium">Melhor CodePost</span>
           <!-- Botão de denúncia -->
-           {% if post_banner['post'] %}
-          <a class="ml-auto px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-200 hover:text-gray-800 transition"
-             href="{{ url_for('denucia.page_denucia') }}">
+           
+          <h4 class="ml-auto px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-200 hover:text-gray-800 transition"
+             href="{{ url_for('denucia.page_denucia')  }}">
              DevOrbit
-            </a>
-            {%else%}
-            <a class="ml-auto px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-200 hover:text-gray-800 transition"
-            href="{{ url_for('home.home_page') }}">
-           Denúcia
-          </a>
-          {%endif%}
+        </h4>
+            
 
         </div>
       </div>

@@ -7,6 +7,7 @@ from application.src.services.api_noticias import get_top_stories, get_exact_cou
 from application.src.__main__ import cache
 import requests
 import logging 
+import traceback
 
 # Configuração do Blueprint
 home_ = Blueprint('home', __name__, template_folder='templates')
@@ -40,9 +41,9 @@ def home_page():
         if not user_data:
             return redirect(url_for('home.home_page'))
 
-        username = user_data[0]['username']
-        user_id = user_data[0]['id']
-        photo_user_profile = user_data[0].get('user_photo', None)
+        username = user_data.get('username')
+        user_id = user_data.get('id')
+        photo_user_profile = user_data.get('user_photo', None)
         
         # 1. Chama a função `dataRequests()` para obter os dados da API ou banco de dados,
         # que geralmente retorna um dicionário contendo várias informações, incluindo os posts.
@@ -85,7 +86,18 @@ def home_page():
 
        
     except Exception as e:  # capturing error and saving to a log file
-        logging.critical(f"Error loading homepage {e.__class__.__name__}")
+    # Capture traceback for deeper debugging
+        error_message = f"Error loading homepage: {e.__class__.__name__} - {str(e)}"
+        stack_trace = traceback.format_exc()
+    
+        # Log critical error with traceback
+        logging.critical(f"{error_message}\n{stack_trace}")
+    
+        # Optionally log more details, such as the request URL or user info
+        logging.critical(f"Request URL: {request.url}")
+        logging.critical(f"User ID: {current_user.id if current_user.is_authenticated else 'Not authenticated'}")
+    
+        # Return to error page or render a custom message
         return redirect(url_for('errorHttp.page_erro'))
        
     except requests.exceptions.InvalidURL as e:

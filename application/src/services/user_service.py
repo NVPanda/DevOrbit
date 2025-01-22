@@ -15,24 +15,25 @@ def get_user_info(user_id):  # Busca por ID | usuario logado | Dono da conta
         (user_id,)
     )
     user = cursor.fetchone()
+    print(user)
    
 
     if not user:
-        flash('Usuário não encontrado.', 'error')
-        return None
+        logging.warning(f"User with ID {user_id} not found.")
+        return None  # Ou uma lista vazia, dependendo do contexto
 
-    return [{
-        'id': user[0],
-        'user_photo': user[1],
-        'bio': user[2],
-        'github': user[3],
-        'linkedin': user[4],
-        'site': user[5],
-        'followers': user[6],
-        'following': user[7],
-        'banner': user[8],
-        'username': user[9]
-    }]
+    return {
+    'id': user[0],
+    'user_photo': user[1],
+    'bio': user[2],
+    'github': user[3],
+    'linkedin': user[4],
+    'site': user[5],
+    'followers': user[6],
+    'following': user[7],
+    'banner': user[8],
+    'username': user[9]
+}
 
 
 
@@ -40,7 +41,12 @@ def get_user_info(user_id):  # Busca por ID | usuario logado | Dono da conta
 
 def UserData(usuario): # This function receives current_user.id:
     banco, cursor = my_db()  # Devemos usar essa função para mostra recomendaçoes no celular
-    
+    print(usuario)
+    print(usuario)
+    print(usuario)
+    print(usuario)
+    print(usuario)
+
 
 
     # Fetch the logged-in user's information:
@@ -52,19 +58,17 @@ def UserData(usuario): # This function receives current_user.id:
    
     if not user:
         logging.info('user not found')
-        return redirect(url_for('home.home_page'))  # Redireciona caso o usuário não seja encontrado
+        return None
 
      # Directly return a dictionary list with the information
-    return [{
-        'id': user[0],
-        'username': user[1],
-        'occupation': user[2]
-        
-    }]
+    return {
+    'id': user[0],
+    'username': user[1],
+    'occupation': user[2].capitalize()
+}
 
-def get_infor_comment(user_id):  
-    """Busca as informações do usuário pelo seu ID."""
-    banco, cursor = my_db()  # Conecta ao banco de dados
+def get_infor_comment(user_id):
+    banco, cursor = my_db()
 
     # Consulta as informações do usuário
     cursor.execute(
@@ -72,14 +76,11 @@ def get_infor_comment(user_id):
         (user_id,)
     )
     user = cursor.fetchone()
-    
-   
 
     if not user:
         logging.info('user not found')
         return None
 
-    
     return {
         'id': user[0],
         'username': user[1],
