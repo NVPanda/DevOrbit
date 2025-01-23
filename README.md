@@ -58,7 +58,7 @@ npm run dev
 
 # Inicie o servidor Flask
 flask run
-O projeto estará disponível em: [http://localhost:5000](http://127.0.0.1:5000/devorbit/feed/)
+O projeto estará disponível em: [http://127.0.0.1:5000/devorbit/feed/]
 
 🤝 Contribuindo
 Adoraríamos a sua ajuda! Siga estes passos para contribuir com o projeto:
