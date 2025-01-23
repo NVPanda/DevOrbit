@@ -7,6 +7,7 @@ usuarios.db
 .usuarios.db
 .evn
 .db
+.env
 
 # Python / Virtual Environment
 __pycache__/
