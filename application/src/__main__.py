@@ -77,7 +77,7 @@ def create_app():
     from application.src.routes.register import register_
     app.register_blueprint(register_)
 
-    from application.src.routes.perfil import profile, viws_img
+    from application.src.services.perfil import profile, viws_img
     app.register_blueprint(profile)
     app.register_blueprint(viws_img)
 
