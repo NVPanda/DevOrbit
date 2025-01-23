@@ -1,0 +1,40 @@
+name: DevOrbit CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout o código do repositório
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Configura o Python (3.8 ou superior)
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'  # Mínimo Python 3.8
+          # Ou use um intervalo para múltiplas versões:
+          # python-version: ['3.8', '3.9', '3.10', '3.11']
+
+      # Instala as dependências do Python
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Executa os testes
+      - name: Run tests
+        run: |
+          source venv/bin/activate
+          pytest  # Substitua por seu framework de testes, se necessário
