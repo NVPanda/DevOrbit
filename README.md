@@ -23,7 +23,7 @@ Sistema de Erros: Exibição dinâmica de erros HTTP com redirecionamento autom�
 bash
 Copiar
 Editar
-git clone https://github.com/Gilderlan0101/DevOrbit.git
+git clone [https://github.com/Gilderlan0101/CodeChamber]
 cd DevOrbit
 2. Instale as dependências
 Certifique-se de ter Python e Node.js instalados. Então, execute:
