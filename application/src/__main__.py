@@ -14,6 +14,7 @@ import os
 import time
 import sqlite3
 from dotenv import load_dotenv
+# Não devemos usar ( print ) devemos usar logging se usar print pfv remova depois
 import logging 
 
 cache = Cache()
@@ -25,7 +26,7 @@ def get_db_connection():
     return sqlite3.connect('usuarios.db')
 
 
-# Classe User com suporte ao Flask-Login
+# Classe User com suporte ao Flask-Login | Podemos add novos paramentros ex: email etc... Talves
 class User(UserMixin):
     def __init__(self, id, username):
         self.id = id
@@ -57,12 +58,13 @@ def create_app():
     app.add_url_rule('/files/<filename>', endpoint='files', view_func=send_from_directory, defaults={'directory': caminho_img})
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+    # CORS para API interna e externa
     CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
     logging.debug("CORS configurado com sucesso.")
     hashing = Bcrypt(app)
     
 
-    # Registrar blueprints
+    # Registrar blueprints | Devem sergui desta forma, sempre que for add novas Blueprints
     from application.src.routes.home import home_
     
     app.register_blueprint(home_)
@@ -134,7 +136,7 @@ def create_app():
     }
     app.config.update(CONFIG)
 
-    # Logs iniciais para monitoramento
+    # Logs iniciais para monitoramento | Limpando o teminal | para visualizar erros
     logging.info("Inicializando aplicação Flask...")
     time.sleep(1)
     logging.info("Realizando verificações iniciais...")
@@ -154,11 +156,12 @@ def create_app():
         os.system('clear')
     logging.info("Iniciando servidor Flask ( 200 )...")
 
-
+     # Podemos melhorar 
     @app.errorhandler(404)
     def page_not_found(e):
-        return "Página não encontrada", 404
+        return "Página não encontrada", 404  # talves uma pagina de erro html 404
 
+    # Podemos melhorar 
     @app.errorhandler(500)
     def special_exception_handler(error):
         return "Erro interno do servidor", 500

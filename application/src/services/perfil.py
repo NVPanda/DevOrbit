@@ -13,11 +13,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 profile = Blueprint('perfil', __name__, template_folder='templates')
-viws_img = Blueprint('img', __name__, template_folder='templates')
+viws_img = Blueprint('img', __name__, template_folder='templates') # Não esta Sendo usada
 
 # Função para gerar uma chave de cache específica para cada usuário
 
-@profile.route('/devorbit/perfil/<usuario>/')
+@profile.route('/devorbit/perfil/<usuario>/') # usuario é o ID que passamos em home.html como link para o perfil
 @login_required
 def profile_page(usuario):
     
@@ -35,13 +35,14 @@ def profile_page(usuario):
         
         
         if not unformacao_usuario:
+          # Casso não ache o usuario
           return redirect(url_for('home.home_page'))
 
         #user_metadata = user_metadata[0]
         
  
 
-        # Preenchendo campos opcionais com valores padrão
+        # Preenchendo campos opcionais com valores padrão  | Verificar o banco de dados
         biography = user_metadata.get('bio', None)
         banner = user_metadata.get('banner', None)
         photo_user_profile = user_metadata.get('user_photo', None)
@@ -49,7 +50,7 @@ def profile_page(usuario):
         
 
         occupation = unformacao_usuario.get('occupation')
-        name = user_metadata.get('username', 'sem info')
+        name = user_metadata.get('username', None)
         followers = user_metadata.get('followers', 0)
         following = user_metadata.get('following', 0)
 
@@ -58,7 +59,7 @@ def profile_page(usuario):
        
        
 
-        # Verificar se é o perfil do próprio usuário logado
+        # Verificar se é o perfil do próprio usuário logado | caso não for mostre o btn de seguir
         seguir = 'Networking' if usuario != current_user.username else None
 
         # Filtrar os posts do usuário
@@ -67,10 +68,10 @@ def profile_page(usuario):
             return redirect(url_for('errorHttp.page_erro'))
         
         
-          # Vamos pergar os posts do usuario desta função
+          
         
         
-
+        # Vamos pergar os posts do usuario desta variavel | AQUI MOSTRA APENAS OS POSTS DO USUARIO | PERFIL
         filtered_user_posts = [post for post in data['todos_os_posts'] if post['user_id'] == current_user.id]
        
         # 1. Chama a função `dataRequests()` para obter os dados da API ou banco de dados,
@@ -105,12 +106,14 @@ def profile_page(usuario):
            
            
         )
+    # Vamos melhora os except pfv (tratem os erros)
     except Exception as e:
         logging.critical("Error on profile page", exc_info=True)
         print(e.__class__.__name__)
 
        
 
+# None / off
 @viws_img.route('/files/<path:filename>')
 def serve_files(filename):
     return send_from_directory('application/src/static/fotos', filename)

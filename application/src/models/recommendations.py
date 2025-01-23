@@ -8,6 +8,8 @@ import logging
 load_dotenv()
 
 
+# Esta def so deve ser exibida no celular 
+
 
 # Função para formatar nomes de usuários
 def format_user_name(full_name):

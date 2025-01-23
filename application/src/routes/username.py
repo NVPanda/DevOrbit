@@ -20,13 +20,11 @@ def register_username():
         # Obtém os dados do formulário
         username = request.form['username']
         profession = request.form['profession']
+        # Falta 2 campos
 
        
-
-
 
         # Recupera os dados da sessão
-       
         user_name = current_user.username
         user_email = session['user']['email']
 
@@ -56,7 +54,7 @@ def register_username():
         
         # Redireciona para a página inicial
         return redirect(url_for('home.home_page'))
-        # Remove o usuário da sessão
+       
        
 
     # Renderiza o formulário
