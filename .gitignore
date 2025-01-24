@@ -69,3 +69,6 @@ local_settings.py
 
 .logs
 *.log
+
+.venv
+poetry.lock
