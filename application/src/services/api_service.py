@@ -65,7 +65,8 @@ def fetch_api_data() -> list:
         if response.status_code != 200 or not response.ok:
             print(f"Erro na API: {response.status_code}")
             return []
-
+        
+       
         try:
             posts = response.json()
             if not isinstance(posts, list):
@@ -200,13 +201,6 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
 
     return {"todos_os_posts": best_post_list, "post_banner": banner}
 
-
-def log_error(error: Exception):
-    """Registra erros em um arquivo de log."""
-    log_file = os.getenv('LOGS', 'logs.txt')
-    with open(log_file, 'a') as f:
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f'[{timestamp}] {error.__class__.__name__}: {str(error)}\n')
 
 def dataRequests() -> Dict:
     """Processa dados da API e do banco de dados, retornando um dicionário formatado."""

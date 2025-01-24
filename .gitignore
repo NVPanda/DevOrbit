@@ -7,7 +7,7 @@ usuarios.db
 .usuarios.db
 .evn
 .db
-.env
+.env.local
 
 # Python / Virtual Environment
 __pycache__/
@@ -67,5 +67,5 @@ mypy/
 # Local development
 local_settings.py
 
-# Logs
+.logs
 *.log

@@ -1,3 +1,4 @@
+import os.path
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_caching import Cache
@@ -18,7 +19,6 @@ from dotenv import load_dotenv
 import logging 
 
 cache = Cache()
-load_dotenv()
 
 
 # Função para obter a conexão com o banco de dados
@@ -50,6 +50,19 @@ def create_app():
     # Criando a aplicação Flask
     
     app = Flask(__name__,  static_url_path='/static')
+    root_project_path = app.root_path + '/../../'
+    print(root_project_path)
+    
+
+
+    load_dotenv(dotenv_path=root_project_path + '.env')
+    if os.path.exists(root_project_path + '.env.local'):
+        print(os.getenv('API_NOTICIA'))
+        print(os.getenv('API'))
+        load_dotenv(root_project_path + '.env.local', override=True)
+
+
+
     app.config['DEBUG'] = os.getenv('DEBUG')
     app.config['SECRET_KEY'] = os.getenv('KEY')
     app.config['CACHE_TYPE'] = os.getenv('CACHE')
@@ -64,6 +77,7 @@ def create_app():
     hashing = Bcrypt(app)
     
 
+    
     # Registrar blueprints | Devem sergui desta forma, sempre que for add novas Blueprints
     from application.src.routes.home import home_
     

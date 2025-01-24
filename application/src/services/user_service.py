@@ -41,13 +41,7 @@ def get_user_info(user_id):  # Busca por ID | usuario logado | Dono da conta
 
 def UserData(usuario): # This function receives current_user.id:
     banco, cursor = my_db()  # Devemos usar essa função para mostra recomendaçoes no celular
-    print(usuario)
-    print(usuario)
-    print(usuario)
-    print(usuario)
-    print(usuario)
-
-
+    
 
     # Fetch the logged-in user's information:
     cursor.execute(
@@ -57,6 +51,7 @@ def UserData(usuario): # This function receives current_user.id:
     user = cursor.fetchone()
    
     if not user:
+        # caso o usuario / user_id não for encontrado
         logging.info('user not found')
         return None
 
@@ -91,6 +86,8 @@ def get_infor_comment(user_id):
 def enrich_posts_with_user_info(posts):
     """
     Enriquecimento dos posts com id e nome dos usuários nos comentários.
+    Essa função buscar pegar o id do usuario que comentou em um post, com o id do usuario buscamos informaçoes sobre 
+    ele. como (foto e nome).
     """
     enriched_posts = []
     

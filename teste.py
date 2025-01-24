@@ -1,2 +1,4 @@
-name = str(input('Name: ')).isnumeric()
-print(name)
+import os
+
+var =  os.path
+print(var)

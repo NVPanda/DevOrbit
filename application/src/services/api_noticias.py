@@ -6,7 +6,7 @@ import os
 
 
 # Carregar as variáveis de ambiente
-load_dotenv('/home/lansvx/criativacao/.env')
+load_dotenv()
 
 
 
@@ -33,8 +33,12 @@ get_exact_count()
 
 
 def get_top_stories(num_noticias):  # Define dinamicamente a quantidade de notícia
-    api_url = 'https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=SYgWM0oAWuzF323j6yy79vlwdeMSKTS1'
+    api_url = os.getenv('API_NOTICIA') #  API 
     response = requests.get(api_url)
+
+    if not api_url:
+        print("⚠️ Por favor, configure a chave da API de notícias! Acesse https://developer.nytimes.com/ para obter sua chave.")
+
 
     if response.status_code == 200:
         news_data = response.json()

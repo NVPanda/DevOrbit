@@ -45,10 +45,43 @@ Crie um arquivo .env na raiz do projeto e adicione as variáveis de ambiente nec
 env
 Copiar
 Editar
-FLASK_APP=run.py
-FLASK_ENV=development
-SECRET_KEY=sua_chave_secreta_aqui
-DATABASE_URL=sqlite:///usuarios.db
+
+API = 'https://api-devorbirt.onrender.com/posts/'
+SECRET_KEY = 'sua_chave_secreta_aqui'
+API_NOTICIA = 'sua_chave_da_api_de_noticias_aqui'  # Obtenha sua chave em: https://developer.nytimes.com/
+
+CODECHAMBER = 'DEV ORBIT'
+MENSAGEN = 'Fala dev!'
+MENSAGEN_POST = 'Os melhores posts vão aparecer aqui! 🌟 Não deixe de comentar e compartilhar suas ideias. Vamos juntos criar uma comunidade incrível!'
+
+## Configuração da Chave de API de Notícias
+
+Para usar a integração com a API de notícias no DevOrbit, você precisa obter uma chave de acesso no site do New York Times:
+
+1. Acesse o site oficial do New York Times para desenvolvedores:  
+   [https://developer.nytimes.com/](https://developer.nytimes.com/)
+
+2. Crie uma conta ou faça login.
+
+3. Gere uma chave de API no painel do desenvolvedor.
+
+4. No arquivo `.env ou .env.local`, adicione a chave no campo `API_NOTICIA`:
+   ```env
+   API_NOTICIA=https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=_chave_da_api_de_noticias
+
+Resultado:
+
+    API = 'https://api-devorbirt.onrender.com/posts/'
+    SECRET_KEY = 'sua_chave_secreta_aqui'
+    API_NOTICIA = 'sua_chave_da_api_de_noticias_aqui'  # Obtenha sua chave em: https://developer.nytimes.com/
+    
+    CODECHAMBER = 'DEV ORBIT'
+    MENSAGEN = 'Fala dev!'
+    MENSAGEN_POST = 'Os melhores posts vão aparecer aqui! 🌟 Não deixe de comentar e compartilhar suas ideias. Vamos juntos criar uma comunidade incrível!'
+
+
+
+BANCO_DB='usuarios.db'
 4. Rode o projeto
 bash
 Copiar
@@ -57,11 +90,12 @@ Editar
 npm run dev
 
 # Inicie o servidor Flask
-flask run
+python3 run.py
 O projeto estará disponível em: [http://127.0.0.1:5000/devorbit/feed/]
 
 🤝 Contribuindo
 Adoraríamos a sua ajuda! Siga estes passos para contribuir com o projeto:
+
 
 Faça um fork do repositório.
 Crie uma nova branch para sua funcionalidade ou correção.
@@ -80,6 +114,10 @@ Copiar
 Editar
 git push origin minha-nova-funcionalidade
 Abra um Pull Request e descreva sua contribuição. 🎉
+
+# Novos contribuintes devem acessar o arquivo CONTRIBUTORS.md e adicionar seu nome e e-mail na lista de contribuições.
+
+
 📜 Licença
 Este projeto está licenciado sob a GNU AGPLv3.
 Consulte o arquivo LICENSE para mais informações.
