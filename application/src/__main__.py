@@ -80,7 +80,6 @@ def create_app():
     
     # Registrar blueprints | Devem sergui desta forma, sempre que for add novas Blueprints
     from application.src.routes.home import home_
-    
     app.register_blueprint(home_)
    
 
@@ -93,7 +92,7 @@ def create_app():
     from application.src.routes.register import register_
     app.register_blueprint(register_)
 
-    from application.src.services.perfil import profile, viws_img
+    from application.src.routes.perfil import profile, viws_img
     app.register_blueprint(profile)
     app.register_blueprint(viws_img)
 

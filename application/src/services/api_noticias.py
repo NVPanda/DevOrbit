@@ -32,7 +32,7 @@ def get_exact_count():
 
 def get_top_stories(num_noticias=get_exact_count()):  # Define dinamicamente a quantidade de notícia
 
-    api_url = os.getenv('API_NOTICIA') #  API 
+    api_url = os.getenv("API_NOTICIA") #  API 
     
     if not api_url:
         print("⚠️ Por favor, configure a chave da API de notícias! Acesse https://developer.nytimes.com/ para obter sua chave.")
@@ -49,23 +49,23 @@ def get_top_stories(num_noticias=get_exact_count()):  # Define dinamicamente a q
             content = []
             
             for article in articles:
-                title = article['title']
-                url = article['url']
-                summary = article.get('abstract', 'Sem resumo disponível.')
+                title = article["title"]
+                url = article["url"]
+                summary = article.get("abstract", "Sem resumo disponível.")
 
                 # Tenta pegar a imagem
                 image_url = None
-                if 'multimedia' in article and article['multimedia'] is not None:
-                    for multimedia in article['multimedia']:
-                         if multimedia.get('format') == 'Super Jumbo':  # Usando .get() para evitar KeyError
-                            image_url = multimedia['url']
+                if "multimedia" in article and article["multimedia"] is not None:
+                    for multimedia in article["multimedia"]:
+                        if multimedia.get("format") == 'Super Jumbo':  # Usando .get() para evitar KeyError
+                            image_url = multimedia["url"]
                             break
                 
                 content.append({
-                    'titulo': title,
-                    'url': url,
-                    'resumo': summary,
-                    'imagem': image_url
+                    "titulo": title,
+                    "url": url,
+                    "resumo": summary,
+                    "imagem": image_url
                 })
             
             return content  # Retorna a lista de notícias
