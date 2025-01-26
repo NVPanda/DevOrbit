@@ -19,7 +19,7 @@ __pycache__/
 .Python
 .tox/
 .nox/
-env/
+
 venv/
 *.wsgi
 *.webtest

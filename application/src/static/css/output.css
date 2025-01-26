@@ -1626,6 +1626,12 @@ video {
   gap: 1.25rem;
 }
 
+.-space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(-0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(-0.5rem * var(--tw-space-y-reverse));
+}
+
 .space-x-10 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(2.5rem * var(--tw-space-x-reverse));
@@ -2254,6 +2260,19 @@ video {
   text-transform: uppercase;
 }
 
+.italic {
+  font-style: italic;
+}
+
+.leading-relaxed {
+  line-height: 1.625;
+}
+
+.text-black-500 {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .text-blue-300 {
   --tw-text-opacity: 1;
   color: rgb(147 197 253 / var(--tw-text-opacity));
@@ -2481,6 +2500,10 @@ video {
 
 .duration-100 {
   transition-duration: 100ms;
+}
+
+.duration-200 {
+  transition-duration: 200ms;
 }
 
 .duration-300 {
@@ -2794,6 +2817,88 @@ video {
 @media (max-width: 768px) {
   .desktop-only {
     display: none;
+  }
+}
+
+/* Container do modal */
+
+.modal-container {
+  display: none;
+  /* Inicialmente escondido */
+  justify-content: center;
+  /* Centraliza horizontalmente */
+  align-items: center;
+  /* Centraliza verticalmente */
+  position: fixed;
+  top: -15%;
+  left: 25%;
+  /* Mantém o modal deslocado 25% da esquerda */
+  height: 100vh;
+  width: 75vw;
+  /* Ajusta a largura do container para corresponder ao left */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Fundo escurecido, mais opaco */
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  /* Suaviza a exibição */
+}
+
+/* Modal em si */
+
+.modal {
+  margin-top: 15px;
+  background-color: rgb(255, 255, 255);
+  /* Fundo branco, mais limpo */
+  width: 90%;
+  /* Responsivo: ocupa até 90% da largura */
+  max-width: 600px;
+  /* Largura máxima */
+  height: auto;
+  /* Altura automática */
+  max-height: 500px;
+  /* Altura máxima */
+  padding: 20px;
+  /* Espaçamento interno */
+  border-radius: 12px;
+  /* Bordas suavemente arredondadas */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  /* Sombra mais elegante */
+  overflow-y: auto;
+  /* Scroll se o conteúdo exceder a altura */
+  transform: scale(0.95);
+  /* Levemente encolhido no início */
+  transition: all 0.3s ease;
+  /* Suaviza animações */
+  top: 25%;
+}
+
+/* Ativar o modal */
+
+.modal-container.active {
+  display: flex;
+  /* Mostra o modal */
+}
+
+.modal-container.active .modal {
+  transform: scale(1);
+  /* Anima o crescimento */
+}
+
+/* Ajustes para dispositivos menores */
+
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    /* Maior largura em telas pequenas */
+    max-height: 80%;
+    /* Limita a altura para telas pequenas */
+  }
+
+  .modal-container {
+    left: 0;
+    /* Alinha ao centro em telas menores */
+    width: 100vw;
+    /* Ocupa toda a largura */
   }
 }
 
@@ -3206,6 +3311,3 @@ video {
     --tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity));
   }
 }
-
-
-

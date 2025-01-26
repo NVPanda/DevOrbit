@@ -17,6 +17,7 @@ from application.src.services.user_service import (
     get_user_info,
 )
 
+
 # Configuração do Blueprint
 home_ = Blueprint("home", __name__, template_folder="templates")
 
@@ -73,6 +74,10 @@ def home_page():
         #  do autor.
         # O resultado enriquecido é armazenado em `enriched_posts`.
         enriched_posts = enrich_posts_with_user_info(posts)
+
+
+       
+
 
         recommendations = recommendationsUser()  # Prepare recomendações
         likes = [

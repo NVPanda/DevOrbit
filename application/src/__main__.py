@@ -139,6 +139,10 @@ def create_app():
 
     app.register_blueprint(termosEcondicao)
 
+    from application.src.routes.get_search import query
+
+    app.register_blueprint(query)
+
     create_database()  # Banco de dados
     add_column()  # add coluna no banco
     banco_post()  # banco de dados para posts | Null
