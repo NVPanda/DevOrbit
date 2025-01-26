@@ -106,7 +106,7 @@ Consulte o arquivo `LICENSE` para mais informações.
 
 ## 🌐 **Participe da Comunidade!**  
 
-Entre no **Discord da DevOrbit** e faça parte de discussões e projetos incríveis:  
+Entre no **WhatsApp da DevOrbit** e faça parte de discussões e projetos incríveis:  
 🌍 *[Link para o WhatsApp](https://chat.whatsapp.com/D7kKaLokwHwAyHLTBJO5Qq)*  
 
 ---
