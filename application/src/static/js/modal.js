@@ -40,3 +40,7 @@ function handleImageClick(element) {
     document.body.appendChild(modal);
   }
   
+
+
+// Modal na lupa de pesquisar 
+
