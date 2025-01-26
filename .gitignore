@@ -32,14 +32,13 @@ instance/
 # TailwindCSS
 tailwind.config.js
 postcss.config.js
-node_modules/
+/node_modules/
 
 # Database
 *.sqlite3
 *.db
 
 # Secrets
-
 .env.local
 .secret_key
 secret/
