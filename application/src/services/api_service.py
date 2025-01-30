@@ -1,13 +1,16 @@
+'UTF-8'
 from typing import Dict
 from datetime import datetime
 from dotenv import load_dotenv
 from flask_login import current_user
 from application.src.database.users.configure_users import my_db
+from application.src.utils.terminal import clear_terminal
 from application.src.__main__ import cache
 
 
 import logging 
 import requests
+import httpx
 import sqlite3
 import os
 
@@ -59,10 +62,11 @@ def get_user_info(user_id):
 def fetch_api_data() -> list:
     """Faz requisição à API e retorna os dados formatados como lista."""
     try:
-        response = requests.get(os.getenv('API'), timeout=10)
+        response = httpx.get(os.getenv('API'), timeout=10)
+        print(response)
         print(f"Resposta da API: {response.status_code}")  # Para debugging, remova antes de produção
 
-        if response.status_code != 200 or not response.ok:
+        if response.status_code != 200 or not response.is_success: # bool
             print(f"Erro na API: {response.status_code}")
             return []
         
@@ -77,7 +81,7 @@ def fetch_api_data() -> list:
         except ValueError:
             print("Erro ao converter a resposta para JSON")
             return []
-    except requests.RequestException as e:
+    except httpx.HTTPStatusError as e:
         #log_error(e)
         return []
     except Exception as e:
@@ -159,6 +163,7 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
             
         
     except KeyError as erro:
+        clear_terminal()
         logging.critical(f"Erro: {erro.__class__.__name__}: keyerro (best_post_list)")
         return [{
             'id': 0,
@@ -173,7 +178,9 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
             'occupation': 'Desconhecido',
             'comments': [{'comentario_id': 0, 'comment': 'Erro ao carregar comentários', 'date_creation': '', 'user_id': None}]
         }]
+
     except TypeError as erro:
+        clear_terminal()
         logging.error(f"Errp: {erro.__class__.__name__} Erro de tipo em (best_post_list)")
         return best_post_list.append({
                 'id': post['id'],
@@ -188,6 +195,9 @@ def format_posts(posts: list, db_data: Dict) -> Dict:
                 'occupation': user_info['occupation'],
             'comments': formatted_comments if formatted_comments else [{'Ainda não há comentários'}]
             })
+    except AttributeError as erro:
+        logging.critical(erro)
+        
 
     featured_posts = [post for post in best_post_list if post['likes'] >= 1]
     banner = {
@@ -216,42 +226,8 @@ def dataRequests() -> Dict:
         #log_error(e)
         return fetch_api_data()
         
-    except requests.exceptions.ConnectionError as e:
-        logging.error(f"failed to connect to the server: {e.__class__.__name__}: line 125")
+    except httpx.exceptions.ConnectionError as e:
+        clear_terminal()
+        logging.error(f"failed to connect to the server: {e.__class__.__name__}: line 231")
         #log_error(e)
         return {}
-
-# def filter_user_posts():
-#     data = dataRequests()
-    
-#     contend_user = []
-
-    
-
-#     # Verifica se 'todos_os_posts' está presente no dicionário
-#     if 'todos_os_posts' in data:
-#         posts = data['todos_os_posts']  # Obtém a lista de posts
-
-#         for post in posts: 
-#              # Itera sobre do usuario logado
-#             if post['user_id'] == current_user.id:
-#                 contend_user.append({
-#                     'post_id': post['id'],
-#                     'id_user': post['user_id'],
-#                     'name': post['nome'],
-#                     'title': post['titulo'],
-#                     'post': post['post'],
-#                     'date': post['data'],
-#                     'likes': post['likes'],
-#                     'user_photo': post['user_photo']
-#                 })
-           
-#     else:
-#         logging.info('Nenhum post encontrado.')
-        
-#     return  contend_user
-
-# print('post do usuario encotrado')
-# print()
-# print(filter_user_posts())
-# print()
