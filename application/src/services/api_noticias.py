@@ -2,6 +2,7 @@ from application.src.services.api_service import dataRequests, fetch_api_data
 
 import requests
 import logging
+import httpx
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -21,13 +22,21 @@ def get_exact_count():
     
     post_count =0
     var = fetch_api_data() 
-   
+
+    if var is None:
+        return 0
+    
+    
+    
     for key in var: 
         
-        post_count += 1  # Incrementar o contador se necessário
-        continue
+            post_count += 1  # Incrementar o contador se necessário
+            continue
 
     return post_count
+
+   
+
 
 
 def get_top_stories(num_noticias=get_exact_count()):  # Define dinamicamente a quantidade de notícia

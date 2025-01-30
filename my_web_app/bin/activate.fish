@@ -29,10 +29,10 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/lansvx/criativacao/my_web_app"
+set -gx VIRTUAL_ENV /home/lansvx/criativacao/my_web_app
 
 set -gx _OLD_VIRTUAL_PATH $PATH
-set -gx PATH "$VIRTUAL_ENV/bin" $PATH
+set -gx PATH "$VIRTUAL_ENV/"bin $PATH
 
 # unset PYTHONHOME if set
 if set -q PYTHONHOME
@@ -52,8 +52,8 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
         set -l old_status $status
 
         # Prompt override?
-        if test -n "(my_web_app) "
-            printf "%s%s" "(my_web_app) " (set_color normal)
+        if test -n "'(my_web_app) '"
+            printf "%s%s" '(my_web_app) ' (set_color normal)
         else
             # ...Otherwise, prepend env
             set -l _checkbase (basename "$VIRTUAL_ENV")

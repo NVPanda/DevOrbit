@@ -1,12 +1,14 @@
 import logging
 import traceback
+import httpx
 
-import requests
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 from application.src.__main__ import cache
 from application.src.models.recommendations import recommendationsUser
+from application.src.utils.terminal import clear_terminal
+
 from application.src.services.api_noticias import (
     get_exact_count,
     get_top_stories,
@@ -52,6 +54,8 @@ def home_page():
         # Buscando informações do usuário logado
         user_data = get_user_info(current_user.id)
         if not user_data:
+            clear_terminal()
+            logging.info("usuario não encotrado.")
             return redirect(url_for("home.home_page"))
 
         username = user_data.get("username")
@@ -109,10 +113,12 @@ def home_page():
 
     except Exception as e:  # capturing error and saving to a log file
         # Capture traceback for deeper debugging
+        clear_terminal()
         error_message = (
             f"Error loading homepage: {e.__class__.__name__} - {str(e)}"
         )
         stack_trace = traceback.format_exc()
+        
 
         # Log critical error with traceback
         logging.critical(f"{error_message}\n{stack_trace}")
@@ -131,5 +137,8 @@ def home_page():
         # Return to error page or render a custom message
         return redirect(url_for("errorHttp.page_erro"))
 
-    except requests.exceptions.InvalidURL:
+    except httpx.exceptions.InvalidURL as erro:
+        clear_terminal()
+        logging.info(erro)
+        logging.info(erro.__name__.__class__)
         return redirect(url_for("home_home_page"))
