@@ -9,7 +9,7 @@ from application.src.__main__ import cache
 
 
 import logging 
-import requests
+
 import httpx
 import sqlite3
 import os
