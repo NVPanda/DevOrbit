@@ -1,5 +1,4 @@
 import logging
-
 from email_validator import EmailNotValidError, validate_email
 from flask import (
     Blueprint,

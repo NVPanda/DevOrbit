@@ -6,7 +6,8 @@ import requests
 from datetime import datetime
 from flask_login import current_user, login_required
 from application.src.database.users.configure_users import my_db, Links, link_of_user
-from application.src.models.link_validators import ValidatesLinks
+
+from application.src.models.link_validators import validate_links
 from application.src.services.user_service import get_user_info, UserData
 import os
 from dotenv import load_dotenv
@@ -33,7 +34,7 @@ def config_account(usuario):
 
           
         # Validação dos links
-        validateslinks = ValidatesLinks(github=github, linkedin=linkedin, site=site)
+        validateslinks = validate_links(github=github, linkedin=linkedin, site=site)
         
        
         # Validar os links
