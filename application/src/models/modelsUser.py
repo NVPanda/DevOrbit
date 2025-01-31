@@ -89,7 +89,7 @@ class Links:
         site (str, optional): Link para o site pessoal ou portfólio do usuário.
     """
 
-    def __init__(self, github=None, likedin=None, site=None):
+    def __init__(self, github=None, linkedin=None, site=None):
         self.github = github
-        self.likedin = likedin
+        self.linkedin = linkedin
         self.site = site
